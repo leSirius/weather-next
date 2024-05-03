@@ -70,9 +70,7 @@ function Batten({hour, revenue}){
       >
       </div>
       <p>{`${temp}°`}</p>
-
     </div>
-
   )
 }
 /*
