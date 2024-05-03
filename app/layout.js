@@ -9,12 +9,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="flex h-screen flex-col md:flex-row md:overflow-hidden bg-ground">
-      <div className="w-full flex-none md:w-64">
-        < SideNav/>
-      </div>
-      <div>
-        {children}
-      </div>
+        <div className="w-full  flex-none md:w-1/5 ">
+          < SideNav/>
+        </div>
+        <div className='flex justify-center flex-grow p-6 md:overflow-y-auto md:p-12'>
+          {children}
+        </div>
       </body>
     </html>
   );
