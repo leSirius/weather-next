@@ -10,7 +10,7 @@ const links = [
 ]
 
 export default function SideNav(){
-  return <div className="flex h-20 md:h-full md:pt-36 md:px-2 text-card bg-side max-sm: md:flex-col ">
+  return <div className="flex h-12 md:h-full md:pt-36 md:px-2 text-card bg-side max-sm: md:flex-col ">
 
     {links.map(link=>{
       const LinkIcon = link.icon;

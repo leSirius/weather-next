@@ -18,20 +18,20 @@ export default function HeadBoard({cityName, cityId}){
   const littleList = [
     [nowData.windDir, nowData.windSpeed],
     ["humidity", nowData.humidity],
-    ["Precipitation", nowData.precip],
-    ["Feels like", nowData.feelsLike],
+    ["Precip", nowData.precip],
+    ["Feels", nowData.feelsLike],
     ["Visibility", nowData.vis],
   ];
 
   return (
     <div className='w-full p-4 bg-blue-600 rounded-lg text-white'>
       <div className="flex justify-center py-3 relative">
-        <p className="absolute left-0 top-0 text-lg">{cityName}</p>
+        <p className="absolute left-0 top-0 md:text-lg">{cityName}</p>
         <p className="absolute right-0 top-0 text-sm opacity-40">{nowData.obsTime}</p>
 
-        <Image width={60} height={60} src={iconPath} alt="falied"></Image>
-        <div className="px-3">
-          <p className="text-3xl ">{nowData.temp}</p>
+        <Image width={60} height={60} src={iconPath} className='w-9 max-sm:pt-1.5 md:w-16' alt="falied"></Image>
+        <div className="md:px-3 max-sm:pt-4">
+          <p className="md:text-3xl ">{nowData.temp}</p>
           <p className="px-1">{nowData.text}</p>
         </div>
       </div>
@@ -39,7 +39,7 @@ export default function HeadBoard({cityName, cityId}){
       <div className="flex justify-between">
         {littleList.map(([att, value]) => {
           return (
-            <div  key={`${att}now`} className='flex-col text-center'>
+            <div  key={`${att}now`} className='flex-col text-center max-sm: max-sm:text-sm max-sm:w-10 max-sm:flex-wrap'>
               <p>{att}</p>
               <p>{value}</p>
             </div>

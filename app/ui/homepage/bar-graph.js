@@ -61,7 +61,7 @@ export default function  BarGraph({forecast}){
       >
         {typeList.map(({type, text}) => <option key={`select${type}`} value={type}>{text} </option>)}
       </select>
-      <p className='absolute top-1 left-28 opacity-50'>{`Unit: ${unit}`}</p>
+      <p className='absolute top-7 left-2 md:top-1 md:left-28 opacity-50'>{`Unit: ${unit}`}</p>
 
       <div className={clsx('absolute top-1.5 right-1.5', {hidden:!colorSetter})} >
         <ColorSetter
@@ -128,7 +128,7 @@ export default function  BarGraph({forecast}){
 function Batten({time, value, h, c, iconPath}){
   return (
     <div className='flex flex-col-reverse w-1/12 shrink-0 items-center text-sm text-white h-44 mx-2 pb-1'>
-      <p>{new Date(time).getHours()+':00'}</p>
+      <p>{new Date(time).getHours()}<span className='max-sm:hidden'>:00</span></p>
       <Image width={30} height={30} src={iconPath} alt={"Whoops"}></Image>
       <div
         style={{height:`${h}px`, backgroundColor: `${c}`}}
