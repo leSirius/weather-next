@@ -212,7 +212,7 @@ const cached = [
   },
   {
     "fxTime": "2024-05-04T11:00+08:00",
-    "temp": "26",
+    "temp": "27",
     "icon": "302",
     "text": "Thundershower",
     "wind360": "300",
