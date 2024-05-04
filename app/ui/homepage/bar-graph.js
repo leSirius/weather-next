@@ -1,24 +1,38 @@
-import {ArrowPathIcon, PlusIcon} from "@heroicons/react/24/outline";
+import {ArrowPathIcon, PencilSquareIcon} from "@heroicons/react/24/outline";
 import Image from "next/image";
 import {useRef, useState} from "react";
+import ColorSetter from "@/app/ui/homepage/color-setter";
+import clsx from "clsx";
 
 // try to make it easier to add a new data type,
 // only need to change typeList, unit, colors.
 export default function  BarGraph({forecast}){
   const typeList = [
-    {type:'temp',text:'Temperature'},
-    {type:'humidity', text:'Humidity'},
-    {type:'windSpeed', text:"WindSpeed"}
+    {type: "temp", text: 'Temperature', unit: '°C'},
+    {type: "windSpeed", text: 'WindSpeed', unit: 'km/h'},
+    {type: "humidity", text: "Humidity", unit: "%"},
+    {type: "pop", text: 'ProbOfPrecip', unit: "%"},
+    {type: "precip", text: "Precipitation", unit: "mm"},
+    {type: "pressure", text: "Pressure", unit: "hPa"},
+    {type: "cloud", text: "Cloud", unit:"%"},
+    {type: "dew", text: "DewPoint", unit:"°C"}
   ]
-  const colorList = [
+
+  const [colorList, setColorList] = useState([
     ['#fff49a', '#ffba54', '#ff9d44', '#ff6600'],
     ['#91f4ff', '#54baff', '#449dff', '#0066ff'],
-    ['#01ffff', '#00ecfa', '#00cef1', '#00b8ea']
-  ];
-  const unitList = ['°', '%', ''];
+    ['#01ffff', '#00ecfa', '#00cef1', '#00b8ea'],
+    ['#bef264', '#84cc16', '#65a30d', '#4d7c0f'],
+    ['#c4b5fd', '#a78bfa', '#8b5cf6', '#5b21b6'],
+    ['#fca5a5', '#f87171', '#ef4444', '#b91c1c'],
+    ['#e4e4e7', '#a1a1aa', '#71717a', '#52525b'],
+    ['#fef08a', '#facc15', '#ca8a04', '#a15207'],
+  ]);
 
   const [dataType, setDataType] = useState(typeList[0].type);
+  const [colorSetter, setColorSetter] = useState(false);
   const selector = useRef(null);
+  const inputForm = useRef(null);
 
   function selectHandler(e) {
     const value = e.target.value;
@@ -33,46 +47,61 @@ export default function  BarGraph({forecast}){
     selectHandler({'target':selector.current});
   }
 
-  function addShowData() {
-
+  function clickToColorSetter() {
+    setColorSetter(!colorSetter);
   }
 
   function ControlTools(){
     return (<>
+      <select
+        ref={selector}
+        onChange={selectHandler}
+        value={dataType}
+        className='absolute top-1.5 left-1.5 rounded border-none text-sm bg-cyan-700 opacity-30 hover:opacity-60 '
+      >
+        {typeList.map(({type, text}) => <option key={`select${type}`} value={type}>{text} </option>)}
+      </select>
+      <p className='absolute top-1 left-28 opacity-50'>{`Unit: ${unit}`}</p>
+
+      <div className={clsx('absolute top-1.5 right-1.5', {hidden:!colorSetter})} >
+        <ColorSetter
+          initialIndex={index}
+          setDataType={setDataType}
+          typeList={typeList}
+          setColorList={setColorList}
+          colorList={colorList}
+          closeHandler={clickToColorSetter}
+        >
+
+        </ColorSetter>
+      </div>
+
       <button
-        className="flex justify-center items-center w-6 h-6 rounded-2xl bg-cyan-700 opacity-30 hover:opacity-70 absolute right-8 top-1"
+        className="flex absolute right-10 top-1.5 w-6 h-6 justify-center items-center rounded-2xl bg-cyan-700 opacity-30 hover:scale-105 hover:rotate-90 hover:opacity-60 "
         onClick={clickToNext}
       >
         <ArrowPathIcon className='w-5 '></ArrowPathIcon>
       </button>
 
       <button
-        className='flex justify-center items-center w-6 h-6 rounded-2xl bg-cyan-700 opacity-30 hover:opacity-70 absolute right-1 top-1'
-        onClick={addShowData}
+        className='flex absolute right-1.5 top-1.5 justify-center items-center w-6 h-6 rounded-2xl bg-cyan-700 opacity-30 hover:scale-105 hover:opacity-60 '
+        onClick={clickToColorSetter}
       >
-        <PlusIcon className='w-5'></PlusIcon>
+        <PencilSquareIcon className='w-5'></PencilSquareIcon>
       </button>
 
-      <select
-        ref={selector}
-        onChange={selectHandler}
-        value={dataType}
-        className='absolute top-1 left-1 rounded border-none text-sm bg-cyan-700 opacity-30 hover:opacity-70'
-      >
-        {typeList.map(({type, text}) => <option key={`select${type}`} value={type}>{text}</option>)}
-      </select>
     </>)
   }
 
   const index = typeList.findIndex(ob => ob.type === dataType);
   const colors = colorList[index];
-  const unit = unitList[index];
+  const unit = typeList[index].unit//unitList[index];
   const values = forecast.map(o=>Number(o[`${dataType}`]));
   const lowest = Math.min(...values);
   const range = Math.max(...values)-lowest;
 
   return (
-    <div className='w-9/12 p-1 pb-0.5 bg-blue-900 rounded-lg mt-4 relative text-white'>
+    <div className=' flex h-48 w-7/12 p-1 pb-0.5 mt-4 bg-blue-900 rounded-lg  relative text-card shadow-lg shadow-blue-900'>
       <ControlTools></ControlTools>
 
       <div className="flex scroll-smooth md:scroll-auto overflow-x-scroll scrollbar" >
@@ -83,7 +112,7 @@ export default function  BarGraph({forecast}){
             const color = colors[Math.floor(((value-lowest)/range/3 + 0.33)*10)-3];
             return (<Batten
               time={hour.fxTime}
-              value={`${value}${unit}`}  // with unit
+              value={`${value}`}  // with unit
               h={height}
               c={color}
               iconPath={`/icons/${hour.icon}.svg`}
@@ -110,28 +139,3 @@ function Batten({time, value, h, c, iconPath}){
     </div>
   )
 }
-
-/*
-const typeList = [
-  {type:'temp',text:'Temperature'},
-  {type:'humidity', text:'Humidity'},
-  {type:'windSpeed', text:"WindSpeed"}
-]
-const colorList = [
-  ['#fff49a', '#ffba54', '#ff9d44', '#ff6600'],
-  ['#91f4ff', '#54baff', '#449dff', '#0066ff'],
-  ['#01ffff', '#00ecfa', '#00cef1', '#00b8ea']
-];
-const unitList = ['°', '%', ''];
-  const [typeList, setTypeList] = useState([
-    {type:'temp',text:'Temperature'},
-    {type:'humidity', text:'Humidity'},
-    {type:'windSpeed', text:"WindSpeed"}
-  ])
-  const [colorList, setColorList] = useState([
-    ['#fff49a', '#ffba54', '#ff9d44', '#ff6600'],
-    ['#91f4ff', '#54baff', '#449dff', '#0066ff'],
-    ['#01ffff', '#00ecfa', '#00cef1', '#00b8ea']
-  ]);
-  const [unitList, setUnitList] = useState(['°', '%', '']);
-*/
