@@ -1,16 +1,18 @@
 import { useState} from "react";
+import clsx from "clsx";
 
 // hints on little boxes, try store
-export default function ColorSetter({initialIndex, setDataType, typeList, setColorList,closeHandler, colorList}){
+// An issue in line 38 (hopefully still here), noted by !!!.
+// Shallow copy can be used to update state, but risky, not knowing why.
+// pattern and onInvalid doesn't work well with input tags, not knowing why
+export default function ColorSetter({initialIndex, setDataType, typeList, setColorList, closeMyself, colorList}){
   const [inputColors, setInputColors] = useState(colorList[initialIndex]);
   const tempList = ['', '', '', ''];
 
   function selectType(e){
     const type = e.target.value;
     const index = typeList.findIndex((ob)=>{return ob.type===type;});
-    if (inputColors.every((c, ind)=>c===colorList[ind][ind])) {
-      setInputColors(colorList[index]);
-    }
+    setInputColors(colorList[index]);
     setDataType(type);
   }
 
@@ -23,7 +25,7 @@ export default function ColorSetter({initialIndex, setDataType, typeList, setCol
     }
   }
 
-  function debounce(callback, ind, timeNumber= 800) {
+  function debounce(callback, ind, timeNumber= 400) {
     let timer;
     return function (e){
       clearTimeout(timer);
@@ -34,10 +36,13 @@ export default function ColorSetter({initialIndex, setDataType, typeList, setCol
   const submitInputColors = function (formData){
     const type = formData.get('type');
     const index = typeList.findIndex((ob)=>{return ob.type===type;});
-    const newColorList = colorList;
-    newColorList[index] = inputColors;
-    setColorList(newColorList)
-    closeHandler();
+    if (inputColors.some((c,ind)=>c!==colorList[index][ind])){
+      const newColorList = [...colorList];                                 //!!!
+      newColorList[index] = inputColors;
+      setColorList(newColorList);
+      sessionStorage.setItem('storedColorList', JSON.stringify(newColorList));
+      closeMyself();
+    }
   }
 
   // not good about action, just try form and FormData
@@ -63,9 +68,11 @@ export default function ColorSetter({initialIndex, setDataType, typeList, setCol
                 <input
                   type="text"
                   name={ind.toString()}
+                  maxLength='7'
                   defaultValue={inputColors[ind]}
-                  className='w-1/2 rounded bg-cyan-700 pl-0.5'
+                  className={clsx('w-1/2 rounded bg-cyan-700 pl-0.5')}
                   onChange={debounce(setInputColor, ind)}
+                  required
                 />
               </label>
               <div className='shrink-0 w-3 h-3 mt-1 border-none  bg-card' title={inputColors[ind]} style={{backgroundColor:inputColors[ind]}}></div>

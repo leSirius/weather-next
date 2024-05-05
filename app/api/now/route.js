@@ -1,4 +1,4 @@
-import {moveSearchParams, doFetchBack, handleErrBack, useStoredData} from "@/app/api/lib/url-manipulator";
+import {moveSearchParams, doFetchBack, handleErrBack, useStoredData} from "@/app/api/lib/manipulator";
 
 
 const baseUrl = "https://devapi.qweather.com/v7/weather/now"

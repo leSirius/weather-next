@@ -1,8 +1,4 @@
-
 //based on the city id, return temporary weather info of the city.
-
-import {resolveAbsoluteUrlWithPathname} from "next/dist/lib/metadata/resolvers/resolve-url";
-
 export async function fetchNowById(id){
   const url = `/api/now?location=${id}`;
   try{
@@ -32,8 +28,7 @@ export async function fetchForecastById(id) {
   const url =  `/api/forecast?location=${id}`;
 
   try {
-    paramUndefined(location);
-
+    paramUndefined(id);
     const data = await doFetch(url);
     return Array.isArray(data)? data:[];
   }
@@ -42,9 +37,29 @@ export async function fetchForecastById(id) {
   }
 }
 
+export async function fetchAirById(id) {
+  const url = `/api/air?location=${id}`;
+  try {
+    paramUndefined(id);
+    return await doFetch(url);
+  } catch (e){
+    return handleErr(url, e);
+  }
+}
 
-function paramUndefined(param){
-  if (param===void 0){
+export async function fetchIndicesById(id, type=0) {
+  if (Array.isArray(type)) {type = type.join(',')}
+  const url = `/api/indices?location=${id}&type=${type}`;
+  try {
+    paramUndefined(id, type);
+    return await doFetch(url);
+  } catch (e){
+    return handleErr(url, e);
+  }
+}
+
+function paramUndefined(...params){
+  if (params.some(p=>p===void 0)) {
     throw Error("Undefined Parameter")
   }
 }
@@ -58,7 +73,6 @@ function handleErr(url, e){
   console.error(`In data.js, fetch ${url} failed. ${e.message}`);
   return void 0;
 }
-
 
 function addUnit(ob){
   if (ob===void 0||ob===null){return ob;}

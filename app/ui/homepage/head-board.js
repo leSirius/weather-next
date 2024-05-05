@@ -29,7 +29,7 @@ export default function HeadBoard({cityName, cityId}){
         <p className="absolute left-0 top-0 md:text-lg">{cityName}</p>
         <p className="absolute right-0 top-0 text-sm opacity-40">{nowData.obsTime}</p>
 
-        <Image width={60} height={60} src={iconPath} className='w-9 max-sm:pt-1.5 md:w-16' alt="falied"></Image>
+        <Image priority={true} width={60} height={60} src={iconPath}  className='w-9 max-sm:pt-1.5 md:w-16' alt="falied"></Image>
         <div className="md:px-3 max-sm:pt-4">
           <p className="md:text-3xl ">{nowData.temp}</p>
           <p className="px-1">{nowData.text}</p>

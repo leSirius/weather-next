@@ -4,10 +4,10 @@ import { fetchCityByLoc} from "@/app/lib/data";
 import HeadBoard from "@/app/ui/homepage/head-board";
 import LongBoard from "@/app/ui/homepage/long-board";
 export default function Page (){
-  let [[cityName, cityId], setCity] = useState([]);
+  let [[cityName, cityId], setCity] = useState(['','']);
+
   useEffect(() => {
     let ignore = false;
-
     const success = async (pos)=>{
       if (ignore) {
         console.log("home jumped over effect in dev!");
@@ -24,11 +24,12 @@ export default function Page (){
     navigator.geolocation.getCurrentPosition(success, error);
     return ()=>{ ignore = true; }
   }, []);
-  /*
+
+
   if (!cityId) {
     return <div>Overall Loading</div>
   }
-   */
+
   return (
     <div className='w-full md:w-10/12 text-center p-2'>
       {<HeadBoard cityName={cityName} cityId={cityId}></HeadBoard>}
