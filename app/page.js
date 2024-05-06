@@ -2,7 +2,7 @@
 import {useEffect, useState} from "react";
 import { fetchCityByLoc} from "@/app/lib/data";
 import HeadBoard from "@/app/ui/homepage/head-board";
-import LongBoard from "@/app/ui/homepage/long-board";
+import MiddleBoard from "@/app/ui/homepage/middle-board";
 export default function Page (){
   let [[cityName, cityId], setCity] = useState(['','']);
 
@@ -33,7 +33,7 @@ export default function Page (){
   return (
     <div className='w-full md:w-10/12 text-center p-2'>
       {<HeadBoard cityName={cityName} cityId={cityId}></HeadBoard>}
-      {<LongBoard id={cityId}></LongBoard>}
+      {<MiddleBoard id={cityId}></MiddleBoard>}
     </div>
   )
 }
