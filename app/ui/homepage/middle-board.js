@@ -4,7 +4,7 @@ import BarGraphContainer from "@/app/ui/homepage/middle-borad-widges/bar-graph-c
 import {Panel} from "@/app/ui/homepage/middle-borad-widges/panel";
 import {ForecastIcon, IndicesIcon} from "@/app/lib/icons";
 
-const fetchList = [fetchForecastById, fetchIndicesById]
+const fetchList = [fetchForecastById, fetchIndicesById];
 const buttonList = ['dataList', 'indices'];
 const iconList = [ForecastIcon, IndicesIcon];
 // typeList stores more info than merely type names, or it can be calculated by dataList.
@@ -23,19 +23,21 @@ const typeInfoTable = [
   ]
 ]
 
-// 3 states under this component, dataList, dataType and colorList.
-// one to store rows of data, one to control which column of data shown on the graph, another for color setting
-// There is one dependency, whenever dataList updates, dataList needs to follow.
+// 4 states under this component, dataList, dataType, colorList and colorSetter.
+// separately for storing rows of data(Matrix), to control which column of data shown on the graph,
+// to support color change in graph, and to open or close colorSetter.
+// one ref for left select, so button can control it.
+// There is a dependency, whenever dataMatrix updates according fetch, column needs to follow.
 // witchToShow can be calculated by dataList, so it's redundant.
 //
 export default function MiddleBoard({id}){
-  const beginFromFetch = 1;
+  const beginFromFetch = 0;
   const [dataMatrix, setDataMatrix] = useState([]);
-  const [column, setColumn] = useState(typeInfoTable[beginFromFetch][0].type)
+  const [column, setColumn] = useState(typeInfoTable[beginFromFetch][0].type);
 
   async function asyncSetTwoStates(ind=0){
     const data = await fetchList[ind](id);
-    await setDataMatrix(data);                                // async first, then the sync one
+    await setDataMatrix(data);
     await setColumn(typeInfoTable[ind][0].type);
   }
 
@@ -45,10 +47,11 @@ export default function MiddleBoard({id}){
   const typeInfoList = getTypeList(dataMatrix, typeInfoTable);
   return (
     <div className='flex  pt-4 gap-4'>
-      <BarGraphContainer dataMatrix={dataMatrix}
-                         column={column}
-                         setDataType={setColumn}
-                         typeInfoList={typeInfoList}
+      <BarGraphContainer
+        dataMatrix={dataMatrix}
+        column={column}
+        setDataType={setColumn}
+        typeInfoList={typeInfoList}
       > </BarGraphContainer>
       <Panel setter={asyncSetTwoStates} buttonList={buttonList} iconList={iconList}></Panel>
     </div>

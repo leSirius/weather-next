@@ -1,6 +1,6 @@
 import {useState} from "react";
 import ControlTools from "@/app/ui/homepage/middle-borad-widges/control-tools";
-import {MapBattens} from "@/app/ui/homepage/middle-borad-widges/battens";
+import MapBattens from "@/app/ui/homepage/middle-borad-widges/battens";
 const defaultColorList = [
   ['#fff49a', '#ffba54', '#ff9d44', '#ff6600'],
   ['#91f4ff', '#54baff', '#449dff', '#0066ff'],
@@ -24,9 +24,9 @@ export default function  BarGraphContainer({dataMatrix, column, setDataType, typ
   return (
     <div className=' flex h-48 w-8/12 p-1 pb-0.5 bg-blue-900 rounded-lg  relative text-card shadow-lg shadow-blue-900'>
       <ControlTools
-        typeList={typeInfoList}
-        dataType={column}
-        setDataType={setDataType}
+        typeInfoList={typeInfoList}
+        column={column}
+        setColumn={setDataType}
         colorList={colorList}
         setColorList={setColorList}
       ></ControlTools>

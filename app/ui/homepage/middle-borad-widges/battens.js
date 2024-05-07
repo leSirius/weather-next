@@ -1,17 +1,22 @@
 import Image from "next/image";
 
-export function MapBattens({dataMatrix, column, colors}){
+export default function MapBattens({dataMatrix, column, colors}){
   const values = dataMatrix.map(o=>Number(o[`${column}`]));
   const lowest = Math.min(...values);
   const range = Math.max(...values)-lowest;
+  let key = 0;
   return (<>{
-    dataMatrix.map((item) => {
+    dataMatrix.map((item, ind) => {
       const value = item[column];
       const height = calHeight(value, lowest, range);
       const color = colors[calColorInd(value, lowest, range)];
       return (
-        <div style={{width:'9.69%'}} className='flex flex-col-reverse shrink-0 items-center text-sm text-white h-44 mx-2 pb-1'>
-          <CustomisePart item={item} ></CustomisePart>
+        <div
+          style={{width:'9.69%'}}
+          className='flex flex-col-reverse shrink-0 items-center text-sm text-white h-44 mx-2 pb-1'
+          key = {key++}
+        >
+          <CustomisedPart item={item} ></CustomisedPart>
           <ColoredBatten value={value} height={height} color={color}></ColoredBatten>
         </div>
       )
@@ -19,10 +24,10 @@ export function MapBattens({dataMatrix, column, colors}){
   }</>)
 }
 
-function CustomisePart({item}){
+function CustomisedPart({item}){
   const witchFetch = item.fxTime? 0:1;
-  switch (witchFetch){
-    case 0:
+  switch (witchFetch) {
+    case 0: {
       const time = item.fxTime;
       const iconPath = `/icons/${item.icon}.svg`
       return (
@@ -31,12 +36,14 @@ function CustomisePart({item}){
           <Image width={30} height={30} src={iconPath} alt={"Whoops"}></Image>
         </>
       )
-    case 1:
+    }
+    case 1: {
       return (
-        < >
+        <>
           <p title={item.text} className='overflow-hidden h-5 mb-1'>{item.name}</p>
         </>
       )
+    }
   }
 }
 

@@ -2,21 +2,25 @@ import {useRef, useState} from "react";
 import clsx from "clsx";
 import ColorSetter from "@/app/ui/homepage/middle-borad-widges/color-setter";
 import {ArrowPathIcon, PencilSquareIcon} from "@heroicons/react/24/outline";
+import {hidden} from "next/dist/lib/picocolors";
 
-export default function ControlTools({typeList, dataType, setDataType, colorList, setColorList}){
+export default function ControlTools({typeInfoList, column, setColumn, colorList, setColorList}){
   const selector = useRef();
-  const [colorSetter, setColorSetter] = useState(false);
-  const index = typeList.findIndex(ob => ob.type === dataType);
-  const unit = typeList[index].unit;
+  const [showColorSetter, setShowColorSetter] = useState(false);
+  const index = typeInfoList.findIndex(ob => ob.type === column);
+  const unit = typeInfoList[index].unit;
 
   function clickToColorSetter() {
-    setColorSetter(!colorSetter);
+    //const colorPanel = document.getElementById('edit-color');
+    //colorPanel.hidden = !colorPanel.hidden;
+    console.log(showColorSetter)
+    setShowColorSetter(!showColorSetter);
   }
 
   function selectHandler(e) {
     const value = e.target.value;
-    if (value!==dataType){
-      setDataType(value);
+    if (value!==column){
+      setColumn(value);
     }
   }
 
@@ -30,23 +34,22 @@ export default function ControlTools({typeList, dataType, setDataType, colorList
     <select
       ref={selector}
       onChange={selectHandler}
-      value={dataType}
+      value={column}
       className='absolute top-1.5 left-1.5 w-1/5 rounded border-none text-sm bg-cyan-700 opacity-30 hover:opacity-60 '
     >
-      {typeList.map(({type, text}) => <option key={`select${type}`} value={type}>{text} </option>)}
+      {typeInfoList.map(({type, text}) => <option key={`select${type}`} value={type}>{text} </option>)}
     </select>
 
     <p className='absolute top-7 left-2 md:top-1 md:left-1/4 opacity-50'>{`Unit: ${unit}`}</p>
 
-    <div className={clsx('absolute top-1.5 right-1.5', {hidden:!colorSetter})} >
+    <div className={clsx('absolute top-1.5 right-1.5',{hidden: showColorSetter})} /*id='edit-color'*/ >
       <ColorSetter
-        initialIndex={index}
         colorList={colorList}
-        dataType={dataType}
-        setDataType={setDataType}
-        typeList={typeList}
         setColorList={setColorList}
-        closeMyself={clickToColorSetter}
+        column={column}
+        setColumn={setColumn}
+        typeInfoList={typeInfoList}
+        //closeMyself={clickToColorSetter}
       >
       </ColorSetter>
     </div>

@@ -5,25 +5,26 @@ import clsx from "clsx";
 // An issue in line 38 (hopefully still here), noted by !!!.
 // Shallow copy can be used to update state, but risky, not knowing why.
 // pattern and onInvalid doesn't work well with input tags, not knowing why
-export default function ColorSetter({colorList, dataType, setDataType, typeList, setColorList, closeMyself}){
-  const index = calIndex(dataType)
+
+export default function ColorSetter({colorList, setColorList, column, setColumn, typeInfoList, closeMyself}){
+  const index = calIndex(column)
   const [inputColors, setInputColors] = useState(colorList[index]);
   const tempList = ['', '', '', ''];
 
   useEffect(() => {
-    const ind = calIndex(dataType);
-    setInputColors(colorList[ind]);
-  }, [dataType]);
+    //const ind = calIndex(column);
+    setInputColors(colorList[index]);
+  }, [column]);
 
   function calIndex(target){
-    return typeList.findIndex(ob => ob.type === target);
+    return typeInfoList.findIndex(ob => ob.type === target);
   }
 
   function selectType(e){
-    const type = e.target.value;
-    const index = calIndex(type);
-    setInputColors(colorList[index]);
-    setDataType(type);
+    const newType = e.target.value;
+    const newIndex = calIndex(newType);
+    setInputColors(colorList[newIndex]);
+    setColumn(newType);
   }
 
   function inputtingColor(e, ind){
@@ -32,6 +33,7 @@ export default function ColorSetter({colorList, dataType, setDataType, typeList,
     newColors[ind] = str;
     setInputColors(newColors);
   }
+
 
   const submitInputColors = function (formData){
     const type = formData.get('type');
@@ -44,7 +46,7 @@ export default function ColorSetter({colorList, dataType, setDataType, typeList,
       newColorList[index] = inputColors;
       setColorList(newColorList);
       sessionStorage.setItem('storedColorList', JSON.stringify(newColorList));
-      closeMyself();
+      //closeMyself();
     }
   }
 
@@ -54,8 +56,8 @@ export default function ColorSetter({colorList, dataType, setDataType, typeList,
       <form action={submitInputColors}>
         <div className='text-left'>
           <label >
-            <select name="type" value={dataType} onChange={selectType} className='rounded bg-cyan-700 w-7/12 overflow-hidden hover:scale-105'>
-              {typeList.map(ob=> <option
+            <select name="type" value={column} onChange={selectType} className='rounded bg-cyan-700 w-7/12 overflow-hidden hover:scale-105'>
+              {typeInfoList.map(ob=> <option
                 key={`${ob.text}colorSetter`}
                 className='bg-cyan-700'
                 value={ob.type}>{ob.text}
@@ -64,7 +66,7 @@ export default function ColorSetter({colorList, dataType, setDataType, typeList,
           </label>
         </div>
 
-        <div >
+        <div>
           {tempList.map((str, ind)=> { return (
             <div className='flex mt-2' key={`${ind}setColorInput`}>
               <label >{`color ${ind}: `}
@@ -102,5 +104,15 @@ function debounce(callback, ind, timeNumber= 400) {
     timer = setTimeout(()=> {callback(e, ind)}, timeNumber);
   }
 }
+
+  function delegation(e) {
+    const target = e.target;
+    const ind = Number(target.name);
+    const inputting = e.target.value;
+    const newColors = [...inputColors];
+    newColors[ind] = inputting;
+    setInputColors(newColors);
+  }
+
 
  */
