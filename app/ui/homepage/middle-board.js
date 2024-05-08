@@ -38,11 +38,11 @@ export default function MiddleBoard({id}){
   async function asyncSetTwoStates(ind=0){
     const data = await fetchList[ind](id);
     await setDataMatrix(data);
-    await setColumn(typeInfoTable[ind][0].type);
+    setColumn(typeInfoTable[ind][0].type);
   }
 
   if (dataMatrix.length===0 && id!==void 0){ asyncSetTwoStates(beginFromFetch); }
-  if (dataMatrix.length===0) { return <p>Loading in longBoard</p>; }
+  if (dataMatrix?.length===0) { return <p>Loading in longBoard</p>; }
 
   const typeInfoList = getTypeList(dataMatrix, typeInfoTable);
   return (
@@ -58,9 +58,9 @@ export default function MiddleBoard({id}){
   );
 }
 
-function getTypeList(dataList, typeLists){
-  if (dataList.length===0) {return -1;}
-  return typeLists.find((types)=>{return types.every(ob=>dataList[0][ob.type] !== void 0)});
+function getTypeList(dataMatrix, typeLists){
+  if (dataMatrix===void 0||dataMatrix.length===0) {return -1;}
+  return typeLists.find((types)=>{return types.every(ob=>dataMatrix[0][ob.type] !== void 0)});
 }
 
 /*

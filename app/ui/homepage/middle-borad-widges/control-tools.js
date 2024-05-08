@@ -2,10 +2,9 @@ import {useRef, useState} from "react";
 import clsx from "clsx";
 import ColorSetter from "@/app/ui/homepage/middle-borad-widges/color-setter";
 import {ArrowPathIcon, PencilSquareIcon} from "@heroicons/react/24/outline";
-import {hidden} from "next/dist/lib/picocolors";
 
 export default function ControlTools({typeInfoList, column, setColumn, colorList, setColorList}){
-  const selector = useRef();
+  //const selector = useRef();
   const [showColorSetter, setShowColorSetter] = useState(false);
   const index = typeInfoList.findIndex(ob => ob.type === column);
   const unit = typeInfoList[index].unit;
@@ -13,7 +12,6 @@ export default function ControlTools({typeInfoList, column, setColumn, colorList
   function clickToColorSetter() {
     //const colorPanel = document.getElementById('edit-color');
     //colorPanel.hidden = !colorPanel.hidden;
-    console.log(showColorSetter)
     setShowColorSetter(!showColorSetter);
   }
 
@@ -25,14 +23,20 @@ export default function ControlTools({typeInfoList, column, setColumn, colorList
   }
 
   function clickToNext() {
-    const opList = selector.current.options;
-    opList.selectedIndex = (opList.selectedIndex+1)%opList.length;
-    selectHandler({'target':selector.current});
+    const  tempInd = typeInfoList.findIndex(ob => ob.type === column);
+    const newInd = (tempInd+1)%typeInfoList.length;
+    if (tempInd!==newInd){
+      setColumn(typeInfoList[newInd].type)
+    }
+
+    //const opList = selector.current.options;
+    //opList.selectedIndex = (opList.selectedIndex+1)%opList.length;
+    //selectHandler({'target':selector.current});
   }
 
   return (<>
     <select
-      ref={selector}
+      //ref={selector}
       onChange={selectHandler}
       value={column}
       className='absolute top-1.5 left-1.5 w-1/5 rounded border-none text-sm bg-cyan-700 opacity-30 hover:opacity-60 '
@@ -42,7 +46,7 @@ export default function ControlTools({typeInfoList, column, setColumn, colorList
 
     <p className='absolute top-7 left-2 md:top-1 md:left-1/4 opacity-50'>{`Unit: ${unit}`}</p>
 
-    <div className={clsx('absolute top-1.5 right-1.5',{hidden: showColorSetter})} /*id='edit-color'*/ >
+    <div className={clsx('absolute top-1.5 right-1.5',{hidden: !showColorSetter})} /*id='edit-color'*/ >
       <ColorSetter
         colorList={colorList}
         setColorList={setColorList}
@@ -69,7 +73,6 @@ export default function ControlTools({typeInfoList, column, setColumn, colorList
     >
       <PencilSquareIcon className='w-5'></PencilSquareIcon>
     </button>
-
   </>)
 }
 

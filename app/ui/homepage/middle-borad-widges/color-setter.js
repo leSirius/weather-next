@@ -11,10 +11,19 @@ export default function ColorSetter({colorList, setColorList, column, setColumn,
   const [inputColors, setInputColors] = useState(colorList[index]);
   const tempList = ['', '', '', ''];
 
+  const [prevColumn, setPrevColumn] = useState(column);
+  if (column !== prevColumn){
+    setPrevColumn(column);
+    setInputColors(colorList[index]);
+  }
+
+  /* using key for all states update,
+  using above method(another state) for partial states should be better
   useEffect(() => {
     //const ind = calIndex(column);
     setInputColors(colorList[index]);
   }, [column]);
+  */
 
   function calIndex(target){
     return typeInfoList.findIndex(ob => ob.type === target);
@@ -34,26 +43,23 @@ export default function ColorSetter({colorList, setColorList, column, setColumn,
     setInputColors(newColors);
   }
 
-
-  const submitInputColors = function (formData){
-    const type = formData.get('type');
-    const index = calIndex(type);
-    if (
-      inputColors.some((c,ind)=>c!==colorList[index][ind]) &&
-      inputColors.every((c)=>isValidColor(c))
+  function submitInputs(e) {
+    e.preventDefault();
+    if (inputColors.every(c=>isValidColor(c)) &&
+      inputColors.some((c,ind)=>c!==colorList[index][ind])
     ){
-      const newColorList = [...colorList];                                 //!!!
+      const newColorList = [...colorList];
       newColorList[index] = inputColors;
       setColorList(newColorList);
       sessionStorage.setItem('storedColorList', JSON.stringify(newColorList));
-      //closeMyself();
     }
+    //const form = e.currentTarget;
+    //console.log(form.elements.namedItem('0'));
   }
 
-  // not good about action, just try form and FormData
   return (
     <div className=' w-40 h-44  text-sm rounded-lg bg-cyan-800 opacity-90 shadow-lg shadow-blue-900 p-1'>
-      <form action={submitInputColors}>
+      <form onSubmit={submitInputs}>
         <div className='text-left'>
           <label >
             <select name="type" value={column} onChange={selectType} className='rounded bg-cyan-700 w-7/12 overflow-hidden hover:scale-105'>
@@ -66,7 +72,7 @@ export default function ColorSetter({colorList, setColorList, column, setColumn,
           </label>
         </div>
 
-        <div>
+        <div >
           {tempList.map((str, ind)=> { return (
             <div className='flex mt-2' key={`${ind}setColorInput`}>
               <label >{`color ${ind}: `}
@@ -97,7 +103,7 @@ function isValidColor(str){
 }
 
 /*
-function debounce(callback, ind, timeNumber= 400) {
+function debounce(callback, ind, timeNumber=400) {
   let timer;
   return function (e){
     clearTimeout(timer);
@@ -114,5 +120,18 @@ function debounce(callback, ind, timeNumber= 400) {
     setInputColors(newColors);
   }
 
-
+  const submitInputColors = function (formData){
+    const type = formData.get('type');
+    const index = calIndex(type);
+    if (
+      inputColors.some((c,ind)=>c!==colorList[index][ind]) &&
+      inputColors.every((c)=>isValidColor(c))
+    ){
+      const newColorList = [...colorList];
+      newColorList[index] = inputColors;
+      setColorList(newColorList);
+      sessionStorage.setItem('storedColorList', JSON.stringify(newColorList));
+      //closeMyself();
+    }
+  }
  */
