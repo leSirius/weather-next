@@ -10,7 +10,6 @@ export async function GET(request){
   try {
     url = moveSearchParams(request.url, baseUrl);
     const data = await doFetchBack(url);
-    await console.log(data);
     return Response.json(data.hourly);
   }
   catch (e){

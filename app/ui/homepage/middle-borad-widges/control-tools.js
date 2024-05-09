@@ -2,6 +2,7 @@ import {useRef, useState} from "react";
 import clsx from "clsx";
 import ColorSetter from "@/app/ui/homepage/middle-borad-widges/color-setter";
 import {ArrowPathIcon, PencilSquareIcon} from "@heroicons/react/24/outline";
+import Clock from "@/app/ui/Clock";
 
 export default function ControlTools({typeInfoList, column, setColumn, colorList, setColorList}){
   //const selector = useRef();
@@ -21,6 +22,7 @@ export default function ControlTools({typeInfoList, column, setColumn, colorList
     if (tempInd!==newInd){
       setColumn(typeInfoList[newInd].type)
     }
+
     //const opList = selector.current.options;
     //opList.selectedIndex = (opList.selectedIndex+1)%opList.length;
     //selectHandler({'target':selector.current});

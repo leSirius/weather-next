@@ -1,6 +1,7 @@
 import {useState} from "react";
 import ControlTools from "@/app/ui/homepage/middle-borad-widges/control-tools";
 import MapBattens from "@/app/ui/homepage/middle-borad-widges/battens";
+import Clock from "@/app/ui/Clock";
 const defaultColorList = [
   ['#fff49a', '#ffba54', '#ff9d44', '#ff6600'],
   ['#91f4ff', '#54baff', '#449dff', '#0066ff'],

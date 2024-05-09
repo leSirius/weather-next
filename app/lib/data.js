@@ -68,7 +68,7 @@ export async function fetchIndicesById(id, type=0) {
   }
 }
 
-export async function fetchDailyById(id, ) {
+export async function fetchDailyById(id) {
   const url = `/api/daily?location=${id}`;
   try {
     checkUndefined(id);
@@ -129,7 +129,7 @@ function addUnit(ob){
       }
       case "obsTime":{
         const date = new Date(ob[key]);
-        ob[key] = date.toTimeString().split('(')[0];
+        ob[key] = date.toLocaleTimeString([],{ hour12: false });
         break;
       }
     }

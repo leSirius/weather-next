@@ -1,5 +1,5 @@
 'use client'
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import { fetchCityByLoc} from "@/app/lib/data";
 import HeadBoard from "@/app/ui/homepage/head-board";
 import MiddleBoard from "@/app/ui/homepage/middle-board";
@@ -13,8 +13,7 @@ export default function Page (){
     if (lat === void 0) { throw Error("can't get location"); }
     const location = lon.toString() + ',' + lat.toString();
     const cityInfo = await fetchCityByLoc(location);
-    await setCity([cityInfo.name, cityInfo.id]);
-
+    setCity([cityInfo.name, cityInfo.id]);
   }
   const error = (e)=> {throw Error(e);}
 
@@ -24,7 +23,7 @@ export default function Page (){
     }
   }
   catch (e) {
-    console.error('getting location failed, use Beijing', e.message);
+    console.error('getting location failed, use Beijing. Message:', e.message);
     setCity(beijing);
   }
 

@@ -10,8 +10,7 @@ export async function GET(request){
   try {
     url = moveSearchParams(request.url, baseUrl);
     const data = await doFetchBack(url);
-    await console.log(data);
-    return Response.json(data);
+    return Response.json(data.daily);
   }
   catch (e){
     return handleErrBack(request.url, url, e);

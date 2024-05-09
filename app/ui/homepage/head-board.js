@@ -1,7 +1,7 @@
 import Image from "next/image";
 import {useEffect, useState} from "react";
 import {fetchNowById} from "@/app/lib/data";
-
+import Clock from "@/app/ui/Clock";
 export default function HeadBoard({cityName, cityId}){
   const [nowData, setNowData] = useState(null);
 
@@ -27,7 +27,10 @@ export default function HeadBoard({cityName, cityId}){
     <div className='w-full p-4 bg-blue-600 rounded-lg text-white'>
       <div className="flex justify-center py-3 relative">
         <p className="absolute left-0 top-0 md:text-lg">{cityName}</p>
-        <p className="absolute right-0 top-0 text-sm opacity-40">{nowData.obsTime}</p>
+        <div className="absolute right-0 top-0 text-2xl max-sm:text-lg"><Clock ></Clock></div>
+        <p className="absolute right-0 top-7 text-sm opacity-40 text-right max-sm:top-6"   style={{whiteSpace: 'pre-wrap'}}>
+          {`Updated at\n${nowData.obsTime}`}
+        </p>
 
         <Image priority={true} width={60} height={60} src={iconPath}  className='w-9 max-sm:pt-1.5 md:w-16' alt="falied"></Image>
         <div className="md:px-3 max-sm:pt-4">
@@ -51,7 +54,12 @@ export default function HeadBoard({cityName, cityId}){
   )
 }
 
+
+
+
+
 /*
+
 useEffect(()=>{
   if (cityId !== void 0){
     (async ()=>{

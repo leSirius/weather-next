@@ -52,7 +52,7 @@ export default function MiddleBoard({id}){
     setColumn(typeInfoTable[ind][0].type);
   }
 
-  if (dataMatrix.length===0 && id!==void 0){ asyncSetTwoStates(beginFromFetch); }
+  if (dataMatrix.length===0 && id){asyncSetTwoStates(beginFromFetch); }
   if (dataMatrix?.length===0) { return <p>Loading in longBoard</p>; }
 
   const witchFetch = getWitchFetch(dataMatrix, typeInfoTable);
