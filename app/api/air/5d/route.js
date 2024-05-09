@@ -1,20 +1,17 @@
-import {daily} from "@/app/api/lib/cached-data";
 import {doFetchBack, handleErrBack, moveSearchParams, useStoredData} from "@/app/api/lib/manipulator";
+//import {airNow} from "@/app/api/lib/cached-data";
 
-const baseUrl = 'https://devapi.qweather.com/v7/weather/7d?';
-
-export async function GET(request){
-  if (useStoredData()) {return Response.json(daily.daily);}
-
-  let url = "";
+const baseUrl = 'https://devapi.qweather.com/v7/air/5d?'
+export async function GET(request) {
+  //if (useStoredData()) {return Response.json(air);}
+  
+  let url = '';
   try {
     url = moveSearchParams(request.url, baseUrl);
     const data = await doFetchBack(url);
-    await console.log(data);
     return Response.json(data);
   }
-  catch (e){
+  catch(e) {
     return handleErrBack(request.url, url, e);
   }
 }
-

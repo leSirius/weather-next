@@ -16,7 +16,7 @@ const defaultColorList = [
 // only need to change typeList, unit, colors.
 // also easier to inject data from another fetch.
 
-export default function  BarGraphContainer({dataMatrix, column, setDataType, typeInfoList}){
+export default function  BarGraphContainer({dataMatrix, column, setDataType, typeInfoList, witchFetch}){
   const colorJson = sessionStorage.getItem("storedColorList")
   const userColorList = colorJson?JSON.parse(colorJson):null;
   const [colorList, setColorList] = useState(userColorList||defaultColorList);
@@ -31,13 +31,15 @@ export default function  BarGraphContainer({dataMatrix, column, setDataType, typ
         setColorList={setColorList}
       ></ControlTools>
 
-      <div className="flex scroll-smooth md:scroll-auto overflow-x-scroll scrollbar" >
+      <div className="flex w-full scroll-smooth md:scroll-auto overflow-x-scroll scrollbar">
         <MapBattens
           dataMatrix={dataMatrix}
           column={column}
           colors={colorList[typeInfoList.findIndex(ob => ob.type === column)]}
+          witchFetch={witchFetch}
         ></MapBattens>
       </div>
+
 
     </div>
   )

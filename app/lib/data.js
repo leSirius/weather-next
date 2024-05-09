@@ -2,7 +2,7 @@
 export async function fetchNowById(id){
   const url = `/api/now?location=${id}`;
   try{
-    paramUndefined(id);
+    checkUndefined(id);
     const data = await doFetch(url);
     await addUnit(data);
     return data;
@@ -16,7 +16,7 @@ export async function fetchNowById(id){
 export async function fetchCityByLoc(location) {
   const url = `/api/city?location=${location}`;
   try {
-    paramUndefined(location);
+    checkUndefined(location);
     const data = await doFetch(url);
     return data[0];
   } catch (e){
@@ -28,7 +28,7 @@ export async function fetchForecastById(id) {
   const url =  `/api/forecast?location=${id}`;
 
   try {
-    paramUndefined(id);
+    checkUndefined(id);
     const data = await doFetch(url);
     return Array.isArray(data)? data:[];
   }
@@ -37,10 +37,20 @@ export async function fetchForecastById(id) {
   }
 }
 
-export async function fetchAirById(id) {
-  const url = `/api/air?location=${id}`;
+export async function fetchNowAirById(id) {
+  const url = `/api/air/now?location=${id}`;
   try {
-    paramUndefined(id);
+    checkUndefined(id);
+    return await doFetch(url);
+  } catch (e){
+    return handleErr(url, e);
+  }
+}
+
+export async function fetch5dAirById(id) {
+  const url = `/api/air/5d?location=${id}`;
+  try {
+    checkUndefined(id);
     return await doFetch(url);
   } catch (e){
     return handleErr(url, e);
@@ -51,14 +61,25 @@ export async function fetchIndicesById(id, type=0) {
   if (Array.isArray(type)) {type = type.join(',')}
   const url = `/api/indices?location=${id}&type=${type}`;
   try {
-    paramUndefined(id, type);
+    checkUndefined(id, type);
     return await doFetch(url);
   } catch (e){
     return handleErr(url, e);
   }
 }
 
-function paramUndefined(...params){
+export async function fetchDailyById(id, ) {
+  const url = `/api/daily?location=${id}`;
+  try {
+    checkUndefined(id);
+    return await doFetch(url);
+  } catch (e){
+    return handleErr(url, e);
+  }
+}
+
+
+function checkUndefined(...params){
   if (params.some(p=>p===void 0)) {
     throw Error("Undefined Parameter")
   }

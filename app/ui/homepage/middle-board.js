@@ -1,12 +1,13 @@
 import {useEffect, useRef, useState} from "react";
-import {fetchForecastById, fetchIndicesById} from "@/app/lib/data";
+import {fetchDailyById, fetchForecastById, fetchIndicesById} from "@/app/lib/data";
 import BarGraphContainer from "@/app/ui/homepage/middle-borad-widges/bar-graph-container";
 import {Panel} from "@/app/ui/homepage/middle-borad-widges/panel";
 import {ForecastIcon, IndicesIcon} from "@/app/lib/icons";
+import {CalendarDaysIcon} from "@heroicons/react/24/outline";
 
-const fetchList = [fetchForecastById, fetchIndicesById];
-const buttonList = ['dataList', 'indices'];
-const iconList = [ForecastIcon, IndicesIcon];
+const fetchList = [fetchForecastById, fetchIndicesById, fetchDailyById];
+const buttonList = ['Forecast next 24 hours', 'Weather indices', '7-day forecast'];
+const iconList = [ForecastIcon, IndicesIcon, CalendarDaysIcon];
 // typeList stores more info than merely type names, or it can be calculated by dataList.
 const typeInfoTable = [
   [
@@ -20,7 +21,17 @@ const typeInfoTable = [
     {type: "dew", text: "DewPoint", unit:"°C"}
   ], [
     {type: "level", text: 'Indices', unit: 'Level'}
+  ], [
+    {type: 'tempMax', text: 'MaxTemp', unit: '°C'},
+    {type: 'tempMin', text: 'MinTemp', unit: '°C'},
+    {type: 'humidity', text: 'Humidity', unit: "%"},
+    {type: 'uvIndex', text: 'UVIndex', unit: 'unit'},
+    {type: 'pressure', text: 'Pressure', unit: "hPa"},
+    {type: 'vis', text: 'Visibility', unit: 'km'},
+    {type: 'cloud', text: 'Cloud', unit: '%'},
+    {type: "precip", text: "Precipitation", unit: "mm"}
   ]
+
 ]
 
 // 4 states under this component, dataList, dataType, colorList and colorSetter.
@@ -44,7 +55,9 @@ export default function MiddleBoard({id}){
   if (dataMatrix.length===0 && id!==void 0){ asyncSetTwoStates(beginFromFetch); }
   if (dataMatrix?.length===0) { return <p>Loading in longBoard</p>; }
 
-  const typeInfoList = getTypeList(dataMatrix, typeInfoTable);
+  const witchFetch = getWitchFetch(dataMatrix, typeInfoTable);
+  const typeInfoList = typeInfoTable[witchFetch];
+
   return (
     <div className='flex  pt-4 gap-4'>
       <BarGraphContainer
@@ -52,16 +65,26 @@ export default function MiddleBoard({id}){
         column={column}
         setDataType={setColumn}
         typeInfoList={typeInfoList}
+        witchFetch={witchFetch}
       > </BarGraphContainer>
-      <Panel setter={asyncSetTwoStates} buttonList={buttonList} iconList={iconList}></Panel>
+
+      <Panel
+        setter={asyncSetTwoStates}
+        buttonList={buttonList}
+        iconList={iconList}
+        typeInfoList={typeInfoList}
+        column={column}
+        setColumn={setColumn}
+      ></Panel>
     </div>
   );
 }
 
-function getTypeList(dataMatrix, typeLists){
+function getWitchFetch(dataMatrix, typeTable){
   if (dataMatrix===void 0||dataMatrix.length===0) {return -1;}
-  return typeLists.find((types)=>{return types.every(ob=>dataMatrix[0][ob.type] !== void 0)});
+  return typeTable.findIndex((types)=>{return types.every(ob=>dataMatrix[0][ob.type] !== void 0)});
 }
+
 
 /*
 

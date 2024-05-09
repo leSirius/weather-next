@@ -15,36 +15,19 @@ export default function ControlTools({typeInfoList, column, setColumn, colorList
     setShowColorSetter(!showColorSetter);
   }
 
-  function selectHandler(e) {
-    const value = e.target.value;
-    if (value!==column){
-      setColumn(value);
-    }
-  }
-
   function clickToNext() {
     const  tempInd = typeInfoList.findIndex(ob => ob.type === column);
     const newInd = (tempInd+1)%typeInfoList.length;
     if (tempInd!==newInd){
       setColumn(typeInfoList[newInd].type)
     }
-
     //const opList = selector.current.options;
     //opList.selectedIndex = (opList.selectedIndex+1)%opList.length;
     //selectHandler({'target':selector.current});
   }
 
   return (<>
-    <select
-      //ref={selector}
-      onChange={selectHandler}
-      value={column}
-      className='absolute top-1.5 left-1.5 w-1/5 rounded border-none text-sm bg-cyan-700 opacity-30 hover:opacity-60 '
-    >
-      {typeInfoList.map(({type, text}) => <option key={`select${type}`} value={type}>{text} </option>)}
-    </select>
-
-    <p className='absolute top-7 left-2 md:top-1 md:left-1/4 opacity-50'>{`Unit: ${unit}`}</p>
+    <p className='absolute top-2 left-3 opacity-50'>{`Unit: ${unit}`}</p>
 
     <div className={clsx('absolute top-1.5 right-1.5',{hidden: !showColorSetter})} /*id='edit-color'*/ >
       <ColorSetter

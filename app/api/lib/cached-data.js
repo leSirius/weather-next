@@ -766,7 +766,7 @@ export const indices = [
   }
 ]
 
-export const air = {
+export const airNow = {
   "code": "200",
   "updateTime": "2024-05-05T20:58+08:00",
   "fxLink": "https://www.qweather.com/air/beijing-101010100.html",
