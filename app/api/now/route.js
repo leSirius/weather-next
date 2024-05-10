@@ -1,6 +1,5 @@
 import {moveSearchParams, doFetchBack, handleErrBack, useStoredData} from "@/app/api/lib/manipulator";
 
-
 const baseUrl = "https://devapi.qweather.com/v7/weather/now"
 let cached = {
   "obsTime": "2024-05-03T02:37+08:00",

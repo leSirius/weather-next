@@ -1,10 +1,10 @@
 import {useRef, useState} from "react";
 import clsx from "clsx";
-import ColorSetter from "@/app/ui/homepage/middle-borad-widges/color-setter";
+import ColorSetter from "@/app/ui/home/middle-borad-widgets/color-setter";
 import {ArrowPathIcon, PencilSquareIcon} from "@heroicons/react/24/outline";
-import Clock from "@/app/ui/Clock";
+import Clock from "@/app/ui/home/head-board-widget/Clock";
 
-export default function ControlTools({typeInfoList, column, setColumn, colorList, setColorList}){
+export default function ToolKits({typeInfoList, column, setColumn, colorList, setColorList}){
   //const selector = useRef();
   const [showColorSetter, setShowColorSetter] = useState(false);
   const index = typeInfoList.findIndex(ob => ob.type === column);

@@ -1,9 +1,9 @@
 'use client'
 import {useState} from "react";
 import { fetchCityByLoc} from "@/app/lib/data";
-import HeadBoard from "@/app/ui/homepage/head-board";
-import MiddleBoard from "@/app/ui/homepage/middle-board";
-
+import HeadBoard from "@/app/ui/home/head-board";
+import MiddleBoard from "@/app/ui/home/middle-board";
+import TailBoard from "@/app/ui/home/tail-board";
 const beijing = ['Beijing', '101010100'];
 export default function Page (){
   let [[cityName, cityId], setCity] = useState(['','']);
@@ -29,8 +29,9 @@ export default function Page (){
 
   return (
     <div className='w-full md:w-10/12 text-center p-2'>
-      {<HeadBoard cityName={cityName} cityId={cityId}></HeadBoard>}
-      {<MiddleBoard id={cityId}></MiddleBoard>}
+      <HeadBoard cityName={cityName} cityId={cityId}></HeadBoard>
+      <MiddleBoard id={cityId}></MiddleBoard>
+      <TailBoard id={cityId}></TailBoard>
     </div>
   )
 }

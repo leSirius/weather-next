@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from "react";
 import {fetchDailyById, fetchForecastById, fetchIndicesById} from "@/app/lib/data";
-import BarGraphContainer from "@/app/ui/homepage/middle-borad-widges/bar-graph-container";
-import {Panel} from "@/app/ui/homepage/middle-borad-widges/panel";
+import BarGraphContainer from "@/app/ui/home/middle-borad-widgets/bar-graph-container";
+import {Panel} from "@/app/ui/home/middle-borad-widgets/panel";
 import {ForecastIcon, IndicesIcon} from "@/app/lib/icons";
 import {CalendarDaysIcon} from "@heroicons/react/24/outline";
 

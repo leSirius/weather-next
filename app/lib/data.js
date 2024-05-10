@@ -129,7 +129,7 @@ function addUnit(ob){
       }
       case "obsTime":{
         const date = new Date(ob[key]);
-        ob[key] = date.toLocaleTimeString([],{ hour12: false });
+        ob[key] = date.toLocaleTimeString([],{hour: '2-digit', minute:'2-digit',hour12:false});
         break;
       }
     }

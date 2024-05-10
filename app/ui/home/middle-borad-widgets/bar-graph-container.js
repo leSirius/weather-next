@@ -1,7 +1,7 @@
 import {useState} from "react";
-import ControlTools from "@/app/ui/homepage/middle-borad-widges/control-tools";
-import MapBattens from "@/app/ui/homepage/middle-borad-widges/battens";
-import Clock from "@/app/ui/Clock";
+import ToolKits from "@/app/ui/home/middle-borad-widgets/tool-kits";
+import MapBattens from "@/app/ui/home/middle-borad-widgets/battens";
+import Clock from "@/app/ui/home/head-board-widget/Clock";
 const defaultColorList = [
   ['#fff49a', '#ffba54', '#ff9d44', '#ff6600'],
   ['#91f4ff', '#54baff', '#449dff', '#0066ff'],
@@ -24,13 +24,13 @@ export default function  BarGraphContainer({dataMatrix, column, setDataType, typ
 
   return (
     <div className=' flex h-48 w-8/12 p-1 pb-0.5 bg-blue-900 rounded-lg  relative text-card shadow-lg shadow-blue-900'>
-      <ControlTools
+      <ToolKits
         typeInfoList={typeInfoList}
         column={column}
         setColumn={setDataType}
         colorList={colorList}
         setColorList={setColorList}
-      ></ControlTools>
+      ></ToolKits>
 
       <div className="flex w-full scroll-smooth md:scroll-auto overflow-x-scroll scrollbar">
         <MapBattens
