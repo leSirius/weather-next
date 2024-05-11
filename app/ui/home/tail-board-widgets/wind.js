@@ -1,9 +1,9 @@
 import { CompassPointer, CompassPlate} from "@/app/lib/icons";
-import {fetchNowById} from "@/app/lib/data";
+import {useNowById} from "@/app/lib/data";
 
 
 export default function Wind({cityId}) {
-  const  {nowData,error,isLoading} = fetchNowById(cityId);
+  const  {nowData,error,isLoading} = useNowById(cityId);
   if (error) {console.error("error in tail-board", error.message);return <p>check console</p>}
   //if (isLoading){return <p>Loading in tailboard</p>}
 

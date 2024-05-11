@@ -3,13 +3,13 @@ import useSWR from "swr";
 
 const fetcher = (url)=>fetch(url).then(res=> res.json());
 
-export function fetchNowById(id){
+export function useNowById(id){
   const url = `/api/now?location=${id}`;
   const {data,error,isLoading} = useSWR(url, fetcher);
   return {nowData:addUnit(data), error, isLoading};
 }
 
-export function fetchAirNowById(id) {
+export function useAirNowById(id) {
   const url = `/api/air/now?location=${id}`;
   return useSWR(url, fetcher);
 }

@@ -1,4 +1,5 @@
-import {fetchAirNowById} from "@/app/lib/data";
+import {useAirNowById} from "@/app/lib/data";
+import {compileNonPath} from "next/dist/shared/lib/router/utils/prepare-destination";
 const airAttList = [
   ['AQI', 'aqi'],
   ['Primary', 'primary'],
@@ -17,9 +18,8 @@ function getAirColors(aqiStr) {
   return airColors[colorInd];
 }
 export default function AirNow({id}){
-
-  const {data, error, isLoading} = fetchAirNowById(id);
-  if (error) {return <p>failed</p>}
+  const {data, error, isLoading} = useAirNowById(id);
+  if (error) { return <p>failed</p>}
   if (isLoading) {return <p>Loading</p>}
   const color = getAirColors(data.aqi);
 
