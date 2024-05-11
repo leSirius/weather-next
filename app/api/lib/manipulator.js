@@ -1,7 +1,7 @@
 
 // to save api usage
 export function useStoredData(){
-  return false;
+  return true;
 }
 export async function doFetchBack(url){
   const res = await fetch(url)

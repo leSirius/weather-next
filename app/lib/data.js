@@ -1,15 +1,17 @@
 //based on the city id, return temporary weather info of the city.
-export async function fetchNowById(id){
+import useSWR from "swr";
+
+const fetcher = (url)=>fetch(url).then(res=> res.json());
+
+export function fetchNowById(id){
   const url = `/api/now?location=${id}`;
-  try{
-    checkUndefined(id);
-    const data = await doFetch(url);
-    await addUnit(data);
-    return data;
-  }
-  catch (e){
-    return handleErr(url, e);
-  }
+  const {data,error,isLoading} = useSWR(url, fetcher);
+  return {nowData:addUnit(data), error, isLoading};
+}
+
+export function fetchAirNowById(id) {
+  const url = `/api/air/now?location=${id}`;
+  return useSWR(url, fetcher);
 }
 
 //based on geolocation, return one city info
@@ -26,7 +28,6 @@ export async function fetchCityByLoc(location) {
 
 export async function fetchForecastById(id) {
   const url =  `/api/forecast?location=${id}`;
-
   try {
     checkUndefined(id);
     const data = await doFetch(url);
@@ -35,16 +36,8 @@ export async function fetchForecastById(id) {
   catch (e) {
     return handleErr(url, e);
   }
-}
 
-export async function fetchNowAirById(id) {
-  const url = `/api/air/now?location=${id}`;
-  try {
-    checkUndefined(id);
-    return await doFetch(url);
-  } catch (e){
-    return handleErr(url, e);
-  }
+
 }
 
 export async function fetch5dAirById(id) {
@@ -81,7 +74,7 @@ export async function fetchDailyById(id) {
 
 function checkUndefined(...params){
   if (params.some(p=>p===void 0)) {
-    throw Error("Undefined Parameter")
+    throw Error(`invalid Parameter`)
   }
 }
 
@@ -95,8 +88,9 @@ function handleErr(url, e){
   return void 0;
 }
 
-function addUnit(ob){
-  if (ob===void 0||ob===null){return ob;}
+function addUnit(data){
+  if (data===void 0||data===null){return data;}
+  const ob = {...data};
   for (const key of Object.keys(ob)){
     switch (key) {
       case "temp":{
@@ -120,7 +114,7 @@ function addUnit(ob){
         break;
       }
       case "windSpeed":{
-        ob[key] = `${ob[key]}Km/h`;
+        ob[key] = `${ob[key]}km/h`;
         break;
       }
       case "pressure":{
@@ -134,4 +128,5 @@ function addUnit(ob){
       }
     }
   }
+  return ob;
 }

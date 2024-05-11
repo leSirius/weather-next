@@ -4,6 +4,7 @@ import BarGraphContainer from "@/app/ui/home/middle-borad-widgets/bar-graph-cont
 import {Panel} from "@/app/ui/home/middle-borad-widgets/panel";
 import {ForecastIcon, IndicesIcon} from "@/app/lib/icons";
 import {CalendarDaysIcon} from "@heroicons/react/24/outline";
+import MiddleLoading from "@/app/ui/home/middle-borad-widgets/middle-loading";
 
 const fetchList = [fetchForecastById, fetchIndicesById, fetchDailyById];
 const buttonList = ['Forecast next 24 hours', 'Weather indices', '7-day forecast'];
@@ -48,18 +49,22 @@ export default function MiddleBoard({id}){
 
   async function asyncSetTwoStates(ind=0){
     const data = await fetchList[ind](id);
-    await setDataMatrix(data);
-    setColumn(typeInfoTable[ind][0].type);
+    if (data!==void 0){
+      setDataMatrix(data);
+      setColumn(typeInfoTable[ind][0].type);
+    }
   }
 
-  if (dataMatrix.length===0 && id){asyncSetTwoStates(beginFromFetch); }
-  if (dataMatrix?.length===0) { return <p>Loading in longBoard</p>; }
+  useEffect(() => {
+    asyncSetTwoStates(beginFromFetch);
+  }, []);
 
+  if (dataMatrix===void 0||dataMatrix.length===0) { return <MiddleLoading></MiddleLoading>; }
   const witchFetch = getWitchFetch(dataMatrix, typeInfoTable);
   const typeInfoList = typeInfoTable[witchFetch];
 
   return (
-    <div className='flex  pt-4 gap-4'>
+    <div className='flex pt-4 gap-4'>
       <BarGraphContainer
         dataMatrix={dataMatrix}
         column={column}

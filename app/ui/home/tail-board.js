@@ -1,12 +1,12 @@
-import {AirNow} from "@/app/ui/home/tail-board-widgets/cube-menu";
-
+import AirNow from "@/app/ui/home/tail-board-widgets/air-now";
+import Wind from "@/app/ui/home/tail-board-widgets/wind";
 
 export default function TailBoard({id}) {
 
   return (
     <div className='flex justify-between mt-2 w-full h-52 max-sm:flex-wrap text-card'>
       <Cube><AirNow id={id}></AirNow></Cube>
-      <Cube></Cube>
+      <Cube><Wind cityId={id}></Wind></Cube>
       <Cube></Cube>
       <Cube></Cube>
     </div>

@@ -29,6 +29,24 @@ export const city ={
   }
 }
 
+
+export const now = {
+  "obsTime": "2024-05-03T02:37+08:00",
+  "temp": "16",
+  "feelsLike": "12",
+  "icon": "150",
+  "text": "Clear",
+  "wind360": "23",
+  "windDir": "NE",
+  "windScale": "4",
+  "windSpeed": "24",
+  "humidity": "70",
+  "precip": "0.0",
+  "pressure": "1016",
+  "vis": "11",
+  "cloud": "10",
+  "dew": "11"
+}
 export const daily = {
   "code": "200",
   "updateTime": "2024-05-05T20:51+08:00",

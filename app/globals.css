@@ -33,6 +33,28 @@
         background: #c0a0b9;
     }
 
+    @keyframes shake {
+        0%, 50%, 100%{
+            transform: rotate(0deg);
+        }
+        25% {
+            transform: rotate(4deg);
+        }
+        75% {
+            transform: rotate(-3deg);
+        }
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: .5;
+        }
+    }
+
+
 }
 /*
 :root {

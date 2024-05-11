@@ -1,37 +1,47 @@
 'use client'
-import {useState} from "react";
+import {Suspense, useEffect, useState} from "react";
 import { fetchCityByLoc} from "@/app/lib/data";
 import HeadBoard from "@/app/ui/home/head-board";
 import MiddleBoard from "@/app/ui/home/middle-board";
 import TailBoard from "@/app/ui/home/tail-board";
+import MiddleLoading from "@/app/ui/home/middle-borad-widgets/middle-loading";
 const beijing = ['Beijing', '101010100'];
 export default function Page (){
   let [[cityName, cityId], setCity] = useState(['','']);
-
-  const success = async (pos)=>{
-    const [lat, lon] = [pos.coords.latitude.toFixed(2), pos.coords.longitude.toFixed(2)];
-    if (lat === void 0) { throw Error("can't get location"); }
-    const location = lon.toString() + ',' + lat.toString();
-    const cityInfo = await fetchCityByLoc(location);
-    setCity([cityInfo.name, cityInfo.id]);
-  }
-  const error = (e)=> {throw Error(e);}
-
-  try {
-    if (cityId.length===0){
-      navigator.geolocation.getCurrentPosition(success, error);
+  useEffect(() => {
+    const success = async (pos)=>{
+      const [lat, lon] = [pos.coords.latitude.toFixed(2), pos.coords.longitude.toFixed(2)];
+      if (lat === void 0) { throw Error("can't get location"); }
+      const location = lon.toString() + ',' + lat.toString();
+      const cityInfo = await fetchCityByLoc(location);
+      setCity([cityInfo.name, cityInfo.id]);
     }
-  }
-  catch (e) {
-    console.error('getting location failed, use Beijing. Message:', e.message);
-    setCity(beijing);
-  }
+    const error = (e)=> {throw Error(e);}
 
+    try {
+      if (cityId.length===0){
+        navigator.geolocation.getCurrentPosition(success, error);
+      }
+    }
+    catch (e) {
+      console.error('getting location failed, use Beijing. Message:', e.message);
+      setCity(beijing);
+    }
+  }, []);
+  //if (cityId==='') {return <p>loading overall</p>}
   return (
     <div className='w-full md:w-10/12 text-center p-2'>
-      <HeadBoard cityName={cityName} cityId={cityId}></HeadBoard>
-      <MiddleBoard id={cityId}></MiddleBoard>
-      <TailBoard id={cityId}></TailBoard>
+      <Suspense fallback={()=><p>fallback</p>}>
+        <HeadBoard cityName={cityName} cityId={cityId}></HeadBoard>
+      </Suspense>
+      <div className='h-52'>
+        <Suspense fallback={MiddleLoading}>
+          {cityId.length===0?<MiddleLoading></MiddleLoading>:<MiddleBoard id={cityId}></MiddleBoard>}
+        </Suspense>
+      </div>
+      <Suspense fallback={()=><p>fallback</p>}>
+        <TailBoard id={cityId}></TailBoard>
+      </Suspense>
     </div>
   )
 }
