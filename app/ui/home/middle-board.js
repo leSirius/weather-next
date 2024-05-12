@@ -48,11 +48,14 @@ export default function MiddleBoard({id}){
   const [column, setColumn] = useState(typeInfoTable[beginFromFetch][0].type);
 
   async function asyncSetTwoStates(ind=0){
-    const data = await fetchList[ind](id);
-    if (data!==void 0){
-      setDataMatrix(data);
-      setColumn(typeInfoTable[ind][0].type);
+    if (id!==void 0&& id!==''){
+      const data = await fetchList[ind](id);
+      if (data!==void 0){
+        setDataMatrix(data);
+        setColumn(typeInfoTable[ind][0].type);
+      }
     }
+
   }
 
   useEffect(() => {

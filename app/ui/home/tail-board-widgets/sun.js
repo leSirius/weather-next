@@ -1,7 +1,7 @@
 import {useSumById} from "@/app/lib/data";
 import {useEffect, useRef} from "react";
 import { FiSunrise, FiSunset  } from "react-icons/fi";
-import Canvas from "@/app/ui/home/tail-board-widgets/Canvas";
+import Canvas from "@/app/ui/home/tail-board-widgets/canvas";
 export default function Sun({id}) {
   const {data, error, isLoading} = useSumById(id, new Date());
 

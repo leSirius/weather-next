@@ -28,7 +28,7 @@ export default function Canvas({riseOb, setOb}){
       (()=>{
         let fading = true;
         let count = 0, round = 0;
-        let scale = 0.9;
+        let scale = 0.905;
         const curveList = getPointsOnCurve()
         if (!unMounted) {
           winkId = requestAnimationFrame(wink);
@@ -38,7 +38,7 @@ export default function Canvas({riseOb, setOb}){
           count = fading? count+1: count-1;
           fading = count===30? false: count===0? true : fading;
           round = count===0? round+1:round;
-          if (count%6===0){
+          if (count%5===0){
             const imgInfo = context.getImageData(imgX-size/2, calY(imgX)-size/2, size, size);
             imgInfo.data.forEach((val, ind)=>{
               if (round===6) {val=savedImgData[ind];}
@@ -79,12 +79,16 @@ export default function Canvas({riseOb, setOb}){
     (()=>{
       let startTime;
       let prevX = 0;
-      const duration = 1000;
+      const duration = 1500;
+      let colorBegin = 55;
+      let pace = 4;
       let reachTop = false;
-      let colorBegin = 65;
-      drawId = requestAnimationFrame(frameDraw);
+      if (!unMounted){
+        drawId = requestAnimationFrame(frameDraw);
+      }
 
       function frameDraw(current) {
+        console.log(colorBegin)
         startTime = startTime||current;
         const progress = Math.min(1, (current-startTime)/duration);
 
@@ -98,8 +102,8 @@ export default function Canvas({riseOb, setOb}){
         prevX = x;
         reachTop = reachTop ? reachTop : x >= middleX;
         colorBegin = !reachTop ?
-          Math.min(255, colorBegin + 6) :
-          Math.max(0, colorBegin - 6);
+          Math.min(255, colorBegin + pace) :
+          Math.max(0, colorBegin - pace);
 
         if (progress<1) {drawId = requestAnimationFrame(frameDraw);}
       }
