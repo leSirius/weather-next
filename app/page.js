@@ -5,10 +5,11 @@ import HeadBoard from "@/app/ui/home/head-board";
 import MiddleBoard from "@/app/ui/home/middle-board";
 import TailBoard from "@/app/ui/home/tail-board";
 import MiddleLoading from "@/app/ui/home/middle-borad-widgets/middle-loading";
+import Loading from "@/app/ui/home/loading";
 const beijing = ['Beijing', '101010100'];
 export default function Page (){
   let [[cityName, cityId], setCity] = useState(['','']);
-
+  console.log('rend page from page')
   useEffect(() => {
     const success = async (pos)=>{
       const [lat, lon] = [pos.coords.latitude.toFixed(2), pos.coords.longitude.toFixed(2)];
@@ -29,20 +30,12 @@ export default function Page (){
       setCity(beijing);
     }
   }, []);
-  //if (cityId==='') {return <p>loading overall</p>}
+  if (cityId==='') {return <Loading></Loading>}
   return (
     <div className='w-full md:w-10/12 text-center p-2'>
-      <Suspense fallback={<p>fallback</p>}>
-        <HeadBoard cityName={cityName} cityId={cityId}></HeadBoard>
-      </Suspense>
-      <div className='h-52'>
-        <Suspense fallback={MiddleLoading}>
-          {cityId.length===0?<MiddleLoading></MiddleLoading>:<MiddleBoard id={cityId}></MiddleBoard>}
-        </Suspense>
-      </div>
-      <Suspense fallback={<p>fallback</p>}>
-        <TailBoard id={cityId}></TailBoard>
-      </Suspense>
+      <HeadBoard cityName={cityName} cityId={cityId}></HeadBoard>
+      <MiddleBoard id={cityId}></MiddleBoard>
+      <TailBoard id={cityId}></TailBoard>
     </div>
   )
 }

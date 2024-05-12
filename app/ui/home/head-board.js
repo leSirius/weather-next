@@ -3,7 +3,7 @@ import {useNowById} from "@/app/lib/data";
 import Clock from "@/app/ui/home/head-board-widget/Clock";
 export default function HeadBoard({cityName, cityId}){
   const {nowData,error,isLoading} = useNowById(cityId);
-
+  console.log('rend head from head of head board', cityId)
   if (error) {console.error("error in head-board", error.message);return <p>check console</p>}
   //if (isLoading){return <p>Loading in headboard</p>}
 

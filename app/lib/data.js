@@ -1,7 +1,7 @@
 //based on the city id, return temporary weather info of the city.
 import useSWR from "swr";
 
-const fetcher = (url)=>fetch(url).then(res=> res.json());
+const fetcher = url=> fetch(url).then(res =>res.json());
 
 export function useSumById(id, date, genre='sun') {
   const month = date.getMonth()+1;
