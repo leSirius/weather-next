@@ -3,14 +3,21 @@ import useSWR from "swr";
 
 const fetcher = (url)=>fetch(url).then(res=> res.json());
 
+export function useSumById(id, date, genre='sun') {
+  const month = date.getMonth()+1;
+  const dateStr = `${date.getFullYear()}${month<10?`0${month}`:month}${date.getDate()}`;
+  const url = `/api/sun-moon?location=${id}&date=${dateStr}`;
+  return useSWR(url, fetcher);
+}
+
 export function useNowById(id){
   const url = `/api/now?location=${id}`;
   const {data,error,isLoading} = useSWR(url, fetcher);
   return {nowData:addUnit(data), error, isLoading};
 }
 
-export function useAirNowById(id) {
-  const url = `/api/air/now?location=${id}`;
+export function useAirNowById(id, lang='zh') {
+  const url = `/api/air/now?location=${id}&lang=${lang}`;
   return useSWR(url, fetcher);
 }
 
@@ -26,8 +33,8 @@ export async function fetchCityByLoc(location) {
   }
 }
 
-export async function fetchForecastById(id) {
-  const url =  `/api/forecast?location=${id}`;
+export async function fetchHourlyById(id) {
+  const url =  `/api/hourly?location=${id}`;
   try {
     checkUndefined(id);
     const data = await doFetch(url);
@@ -50,9 +57,9 @@ export async function fetch5dAirById(id) {
   }
 }
 
-export async function fetchIndicesById(id, type=0) {
+export async function fetchIndicesById(id, type=0, lang='zh') {
   if (Array.isArray(type)) {type = type.join(',')}
-  const url = `/api/indices?location=${id}&type=${type}`;
+  const url = `/api/indices?location=${id}&type=${type}&lang=${lang}`;
   try {
     checkUndefined(id, type);
     return await doFetch(url);
@@ -70,6 +77,8 @@ export async function fetchDailyById(id) {
     return handleErr(url, e);
   }
 }
+
+
 
 
 function checkUndefined(...params){

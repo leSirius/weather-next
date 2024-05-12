@@ -24,7 +24,7 @@ export default function AirNow({id}){
   const color = getAirColors(data.aqi);
 
   return (
-    <div className='px-2 ' >
+    <div className='px-4 ' >
       <div className='relative'>
         <p className='text-2xl text-left opacity-85' style={{color:color}}>{data.category}</p>
         <p className='absolute top-1 right-0.5 text-sm opacity-30'>At {new Date(data.pubTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit',hour12:false})}</p>

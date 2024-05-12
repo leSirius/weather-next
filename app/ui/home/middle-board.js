@@ -1,13 +1,13 @@
 import {useEffect, useRef, useState} from "react";
-import {fetchDailyById, fetchForecastById, fetchIndicesById} from "@/app/lib/data";
+import {fetchDailyById, fetchHourlyById, fetchIndicesById} from "@/app/lib/data";
 import BarGraphContainer from "@/app/ui/home/middle-borad-widgets/bar-graph-container";
 import {Panel} from "@/app/ui/home/middle-borad-widgets/panel";
 import {ForecastIcon, IndicesIcon} from "@/app/lib/icons";
 import {CalendarDaysIcon} from "@heroicons/react/24/outline";
 import MiddleLoading from "@/app/ui/home/middle-borad-widgets/middle-loading";
 
-const fetchList = [fetchForecastById, fetchIndicesById, fetchDailyById];
-const buttonList = ['Forecast next 24 hours', 'Weather indices', '7-day forecast'];
+const fetchList = [fetchHourlyById, fetchIndicesById, fetchDailyById];
+const buttonList = ['Forecast next 24 hours', 'Weather indices', '7-day hourly'];
 const iconList = [ForecastIcon, IndicesIcon, CalendarDaysIcon];
 // typeList stores more info than merely type names, or it can be calculated by dataList.
 const typeInfoTable = [

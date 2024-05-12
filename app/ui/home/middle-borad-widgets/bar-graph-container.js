@@ -19,8 +19,8 @@ const defaultColorList = [
 
 export default function  BarGraphContainer({dataMatrix, column, setDataType, typeInfoList, witchFetch}){
   const colorJson = sessionStorage.getItem("storedColorList")
-  const userColorList = colorJson?JSON.parse(colorJson):null;
-  const [colorList, setColorList] = useState(userColorList||defaultColorList);
+  const storedColorList = null;//colorJson?JSON.parse(colorJson):null;
+  const [colorList, setColorList] = useState(storedColorList||defaultColorList);
 
   return (
     <div className=' flex h-48 w-8/12 p-1 pb-0.5 bg-blue-900 rounded-lg  relative text-card shadow-lg shadow-blue-900'>

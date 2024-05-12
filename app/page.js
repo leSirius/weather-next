@@ -8,6 +8,7 @@ import MiddleLoading from "@/app/ui/home/middle-borad-widgets/middle-loading";
 const beijing = ['Beijing', '101010100'];
 export default function Page (){
   let [[cityName, cityId], setCity] = useState(['','']);
+
   useEffect(() => {
     const success = async (pos)=>{
       const [lat, lon] = [pos.coords.latitude.toFixed(2), pos.coords.longitude.toFixed(2)];
@@ -31,7 +32,7 @@ export default function Page (){
   //if (cityId==='') {return <p>loading overall</p>}
   return (
     <div className='w-full md:w-10/12 text-center p-2'>
-      <Suspense fallback={()=><p>fallback</p>}>
+      <Suspense fallback={<p>fallback</p>}>
         <HeadBoard cityName={cityName} cityId={cityId}></HeadBoard>
       </Suspense>
       <div className='h-52'>
@@ -39,7 +40,7 @@ export default function Page (){
           {cityId.length===0?<MiddleLoading></MiddleLoading>:<MiddleBoard id={cityId}></MiddleBoard>}
         </Suspense>
       </div>
-      <Suspense fallback={()=><p>fallback</p>}>
+      <Suspense fallback={<p>fallback</p>}>
         <TailBoard id={cityId}></TailBoard>
       </Suspense>
     </div>

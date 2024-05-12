@@ -2,13 +2,13 @@ import { CompassPointer, CompassPlate} from "@/app/lib/icons";
 import {useNowById} from "@/app/lib/data";
 
 
-export default function Wind({cityId}) {
-  const  {nowData,error,isLoading} = useNowById(cityId);
+export default function Wind({id}) {
+  const  {nowData,error,isLoading} = useNowById(id);
   if (error) {console.error("error in tail-board", error.message);return <p>check console</p>}
   //if (isLoading){return <p>Loading in tailboard</p>}
 
   return (
-    <div className=' text-card'>
+    <div className=' text-card px-3'>
       <div className=" flex justify-center relative opacity-65 w-full mb-1.5">
         <p className='absolute top-[10%] text-sm max-sm:top-[7.5%]'>N</p>
           <CompassPlate width='66.67%' ></CompassPlate>

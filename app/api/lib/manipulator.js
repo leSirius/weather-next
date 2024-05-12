@@ -3,6 +3,20 @@
 export function useStoredData(){
   return true;
 }
+
+export async function routeFetcher(comingUrl, baseUrl) {
+  let formedUrl = '';
+  try {
+    formedUrl = moveSearchParams(comingUrl, baseUrl);
+    console.log("in fetcher", formedUrl);
+    return await doFetchBack(formedUrl);
+  }
+  catch(e) {
+    return handleErrBack(comingUrl, formedUrl, e);
+  }
+}
+
+
 export async function doFetchBack(url){
   const res = await fetch(url)
   return res.json();
@@ -22,21 +36,18 @@ export function handleErrBack(requestUrl, url, e){
 
 // Make request for data, and check whether parameters are valid(defined).
 // Both parameters and return values of URLs should be string.
-export function moveSearchParams(requestUrl, baseUrl, lang='en') {
+export function moveSearchParams(requestUrl, baseUrl) {
   if (typeof requestUrl!=="string") {requestUrl = requestUrl?.url;}
   const paramsComing = new URL(requestUrl).searchParams;
   const url = new URL(baseUrl);
-  let paramsValid = false;
 
   defaultLangKey(url);
   for (const [key, value] of paramsComing){
-    if (value!=='undefined') {
-      paramsValid = true;
-      url.searchParams.set(key, value);
+    if ((key==='location' && value==='')||value==='undefined'){
+      throw Error('Invalid params in client request!');
     }
+    url.searchParams.set(key, value);
   }
-  if (!paramsValid) {throw Error('Only found undefined in client request!');}
-  url.searchParams.set('lang', lang)
   return url.href;
 }
 

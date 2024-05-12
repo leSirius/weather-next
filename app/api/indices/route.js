@@ -7,7 +7,7 @@ export async function GET(request) {
 
   let url = '';
   try {
-    url = moveSearchParams(request.url, baseUrl, 'zh');
+    url = moveSearchParams(request.url, baseUrl);
     const data = await doFetchBack(url);
     return Response.json(data.daily);
   }

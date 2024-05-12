@@ -1142,3 +1142,19 @@ export const airNow = {
     ]
   }
 }
+
+export const sun = {
+  "code": "200",
+  "updateTime": "2024-05-12T16:00+08:00",
+  "fxLink": "https://www.qweather.com/en/weather/xinyi-township-B82B7.html",
+  "sunrise": "2024-05-12T05:16+08:00",
+  "sunset": "2024-05-12T18:30+08:00",
+  "refer": {
+    "sources": [
+      "QWeather"
+    ],
+    "license": [
+      "CC BY-SA 4.0"
+    ]
+  }
+}
