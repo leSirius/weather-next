@@ -1,12 +1,16 @@
-//based on the city id, return temporary weather info of the city.
 import useSWR from "swr";
 
 const fetcher = url=> fetch(url).then(res =>res.json());
 
-export function useSumById(id, date, genre='sun') {
-  const month = date.getMonth()+1;
-  const dateStr = `${date.getFullYear()}${month<10?`0${month}`:month}${date.getDate()}`;
-  const url = `/api/sun-moon?location=${id}&date=${dateStr}`;
+export function useAstroInfoById(id, date, genre, lang='zh') {
+  const dateStr = getDateStr(date);
+  const url = `/api/astronomy/${genre}?location=${id}&date=${dateStr}&lang=${lang}`;
+  return useSWR(url, fetcher)
+}
+
+export function useSunInfoById(id, date) {
+  const dateStr = getDateStr(date);
+  const url = `/api/sun?location=${id}&date=${dateStr}`;
   return useSWR(url, fetcher);
 }
 
@@ -78,9 +82,6 @@ export async function fetchDailyById(id) {
   }
 }
 
-
-
-
 function checkUndefined(...params){
   if (params.some(p=>p===void 0)) {
     throw Error(`invalid Parameter`)
@@ -97,45 +98,53 @@ function handleErr(url, e){
   return void 0;
 }
 
+function getDateStr(date) {
+  const month = date.getMonth()+1;
+  return `${date.getFullYear()}${month<10?`0${month}`:month}${date.getDate()}`;
+}
+
 function addUnit(data){
-  if (data===void 0||data===null){return data;}
-  const ob = {...data};
-  for (const key of Object.keys(ob)){
+  if (data===void 0||data===null) {return data;}
+  const ob = {};
+  Object.keys(data).forEach(key=>{
     switch (key) {
       case "temp":{
-        ob[key] = `${ob[key]}°C`;
+        ob[key] = `${data[key]}°C`;
         break;
       }
       case "humidity":{
-        ob[key] = `${ob[key]}%`;
+        ob[key] = `${data[key]}%`;
         break;
       }
       case "vis":{
-        ob[key] = `${ob[key]}km`;
+        ob[key] = `${data[key]}km`;
         break;
       }
       case "feelsLike":{
-        ob[key] = `${ob[key]}°C`;
+        ob[key] = `${data[key]}°C`;
         break;
       }
       case "precip":{
-        ob[key] = `${ob[key]}mm`;
+        ob[key] = `${data[key]}mm`;
         break;
       }
       case "windSpeed":{
-        ob[key] = `${ob[key]}km/h`;
+        ob[key] = `${data[key]}km/h`;
         break;
       }
       case "pressure":{
-        ob[key] = `${ob[key]}hPa`;
+        ob[key] = `${data[key]}hPa`;
         break;
       }
       case "obsTime":{
-        const date = new Date(ob[key]);
+        const date = new Date(data[key]);
         ob[key] = date.toLocaleTimeString([],{hour: '2-digit', minute:'2-digit',hour12:false});
         break;
       }
+      default :{
+        ob[key] = data[key];
+      }
     }
-  }
+  })
   return ob;
 }

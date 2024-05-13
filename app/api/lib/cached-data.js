@@ -655,132 +655,132 @@ export const forecast =  [
 
 export const indices = [
   {
-    "date": "2024-05-05",
+    "date": "2024-05-06",
     "type": "1",
-    "name": "Sport",
+    "name": "运动指数",
     "level": "2",
-    "category": "Good",
-    "text": "The weather is good, more suitable for various sports, but considering the high temperature and humidity, please reduce the intensity of sports, and timely replenishment of water."
+    "category": "较适宜",
+    "text": "天气较好，较适宜进行各种运动，但考虑气温较高且湿度较大，请适当降低运动强度，并及时补充水分。"
   },
   {
-    "date": "2024-05-05",
+    "date": "2024-05-06",
     "type": "2",
-    "name": "Car Wash",
+    "name": "洗车指数",
     "level": "3",
-    "category": "Not Bad",
-    "text": "If you insist on scrubbing your car, you should be prepared to get muddy water."
+    "category": "较不宜",
+    "text": "较不宜洗车，路面少量积水，如果执意擦洗汽车，要做好溅上泥水的心理准备。"
   },
   {
-    "date": "2024-05-05",
+    "date": "2024-05-06",
     "type": "3",
-    "name": "Dressing",
+    "name": "穿衣指数",
     "level": "6",
-    "category": "Hot",
-    "text": "In hot weather, it is recommended to wear summer clothes such as short skirts, shorts, short thin jackets and T-shirts."
+    "category": "热",
+    "text": "天气热，建议着短裙、短裤、短薄外套、T恤等夏季服装。"
   },
   {
-    "date": "2024-05-05",
+    "date": "2024-05-06",
     "type": "4",
-    "name": "Fishing",
+    "name": "钓鱼指数",
     "level": "2",
-    "category": "Good",
-    "text": "More suitable for fishing, but the weather is a bit hot, which will have some effect on fishing."
+    "category": "较适宜",
+    "text": "较适合垂钓，但天气稍热，会对垂钓产生一定的影响。"
   },
   {
-    "date": "2024-05-05",
+    "date": "2024-05-06",
     "type": "5",
-    "name": "UV Index",
-    "level": "3",
-    "category": "High",
-    "text": "For moderate UV radiation, it is recommended to wear sunscreen with SPF above 15 and PA+, hats and sunglasses when going out."
+    "name": "紫外线指数",
+    "level": "5",
+    "category": "很强",
+    "text": "紫外线辐射极强，建议涂擦SPF20以上、PA++的防晒护肤品，尽量避免暴露于日光下。"
   },
   {
-    "date": "2024-05-05",
+    "date": "2024-05-06",
     "type": "6",
-    "name": "Travel",
+    "name": "旅游指数",
     "level": "1",
-    "category": "Excellent",
-    "text": "The weather is good. Breeze, although the weather is a little hot, but still suitable for travel, do not miss the opportunity yo!"
+    "category": "适宜",
+    "text": "天气较好，微风，虽天气稍热，却仍适宜旅游，不要错过机会呦！"
   },
   {
-    "date": "2024-05-05",
+    "date": "2024-05-06",
     "type": "7",
-    "name": "Allergy",
+    "name": "过敏指数",
     "level": "1",
-    "category": "Beneficial",
-    "text": "The weather conditions are extremely unlikely to induce allergies, so you can go out and enjoy your life without worry."
+    "category": "极不易发",
+    "text": "天气条件极不易诱发过敏，可放心外出，享受生活。"
   },
   {
-    "date": "2024-05-05",
+    "date": "2024-05-06",
     "type": "8",
-    "name": "Comfort",
+    "name": "舒适度指数",
     "level": "6",
-    "category": "Worse",
-    "text": "Cloudy weather during the day and high air humidity will make you feel a little muggy and uncomfortable in these weather conditions."
+    "category": "不舒适",
+    "text": "白天天气多云，并且空气湿度偏大，在这种天气条件下，您会感到有些闷热，不舒适。"
   },
   {
-    "date": "2024-05-05",
+    "date": "2024-05-06",
     "type": "9",
-    "name": "Flu",
+    "name": "感冒指数",
     "level": "1",
-    "category": "Healthy",
-    "text": "The weather conditions are suitable and the chance of catching a cold is low. However, please avoid staying in air-conditioned rooms for a long time to prevent colds."
+    "category": "少发",
+    "text": "各项气象条件适宜，发生感冒机率较低。但请避免长期处于空调房间中，以防感冒。"
   },
   {
-    "date": "2024-05-05",
+    "date": "2024-05-06",
     "type": "10",
-    "name": "Air Pollution",
+    "name": "空气污染扩散条件指数",
     "level": "4",
-    "category": "Bad",
-    "text": "Weather conditions are unfavorable to the dilution, dispersion and removal of air pollutants, please reduce the time of outdoor activities as appropriate."
+    "category": "较差",
+    "text": "气象条件较不利于空气污染物稀释、扩散和清除，请适当减少室外活动时间。"
   },
   {
-    "date": "2024-05-05",
+    "date": "2024-05-06",
     "type": "11",
-    "name": "Air-Conditioner",
+    "name": "空调开启指数",
     "level": "2",
-    "category": "Advise",
-    "text": "The weather is hot and at the same time the humidity is high, you will feel a little stuffy, so it is recommended to turn on the cooling air conditioner in the hotter afternoons."
+    "category": "部分时间开启",
+    "text": "天气热，同时湿度很大，您将会感到有些闷热，因此建议在午后较热的时候开启制冷空调。"
   },
   {
-    "date": "2024-05-05",
+    "date": "2024-05-06",
     "type": "12",
-    "name": "Sun Glasses",
+    "name": "太阳镜指数",
     "level": "3",
-    "category": "Advise",
-    "text": "Daytime solar radiation is strong, it is recommended to wear light-colored sunglasses with a transmission ratio of 1 and marked UV380-UV400"
+    "category": "必要",
+    "text": "白天太阳辐射较强，建议佩戴透射比1级且标注UV380-UV400的浅色太阳镜"
   },
   {
-    "date": "2024-05-05",
+    "date": "2024-05-06",
     "type": "13",
-    "name": "Make Up",
+    "name": "化妆指数",
     "level": "3",
-    "category": "Oil control and sun protection",
-    "text": "We recommend using a foundation with a honey SPF 15 or higher and a water-based oil-free foundation."
+    "category": "去油防晒",
+    "text": "建议用蜜质SPF15以上面霜打底，水质无油粉底霜。"
   },
   {
-    "date": "2024-05-05",
+    "date": "2024-05-06",
     "type": "14",
-    "name": "Air-Cure",
+    "name": "晾晒指数",
     "level": "2",
-    "category": "Good",
-    "text": "The weather is good, more suitable for drying, hurry to move the long-unseen sun clothes out to absorb the taste of the sun!"
+    "category": "适宜",
+    "text": "天气不错，较适宜晾晒,赶紧把久未见阳光的衣物搬出来吸收一下太阳的味道吧！"
   },
   {
-    "date": "2024-05-05",
+    "date": "2024-05-06",
     "type": "15",
-    "name": "Traffic",
+    "name": "交通指数",
     "level": "1",
-    "category": "Excellent",
-    "text": "The weather is better, the road is dry, traffic and weather conditions are good, vehicles can drive normally."
+    "category": "良好",
+    "text": "天气较好，路面干燥，交通气象条件良好，车辆可以正常行驶。"
   },
   {
-    "date": "2024-05-05",
+    "date": "2024-05-06",
     "type": "16",
-    "name": "SPF",
+    "name": "防晒指数",
     "level": "3",
-    "category": "Moderate",
-    "text": "It is medium intensity UV radiation weather, you should pay attention to protection when you go out, it is recommended to wear sunscreen skin care products with SPF index higher than 15 and PA+."
+    "category": "中等",
+    "text": "属中等强度紫外辐射天气，外出时应注意防护，建议涂擦SPF指数高于15，PA+的防晒护肤品。"
   }
 ]
 
@@ -1143,18 +1143,205 @@ export const airNow = {
   }
 }
 
-export const sun = {
-  "code": "200",
-  "updateTime": "2024-05-12T16:00+08:00",
-  "fxLink": "https://www.qweather.com/en/weather/xinyi-township-B82B7.html",
-  "sunrise": "2024-05-12T05:16+08:00",
-  "sunset": "2024-05-12T18:30+08:00",
-  "refer": {
-    "sources": [
-      "QWeather"
+export const astonomy = {
+  sun: {
+    "code": "200",
+    "updateTime": "2024-05-12T16:00+08:00",
+    "fxLink": "https://www.qweather.com/en/weather/xinyi-township-B82B7.html",
+    "sunrise": "2024-05-12T05:16+08:00",
+    "sunset": "2024-05-12T18:30+08:00",
+    "refer": {
+      "sources": [
+        "QWeather"
+      ],
+      "license": [
+        "CC BY-SA 4.0"
+      ]
+    }
+  },
+  moon: {
+    "code": "200",
+    "updateTime": "2024-05-13T17:00+08:00",
+    "fxLink": "https://www.qweather.com/weather/hong-kong-101320101.html",
+    "moonrise": "2024-05-13T10:05+08:00",
+    "moonset": "",
+    "moonPhase": [
+      {
+        "fxTime": "2024-05-13T00:00+08:00",
+        "value": "0.16",
+        "name": "峨眉月",
+        "illumination": "0",
+        "icon": "800"
+      },
+      {
+        "fxTime": "2024-05-13T01:00+08:00",
+        "value": "0.16",
+        "name": "峨眉月",
+        "illumination": "24",
+        "icon": "801"
+      },
+      {
+        "fxTime": "2024-05-13T02:00+08:00",
+        "value": "0.16",
+        "name": "峨眉月",
+        "illumination": "25",
+        "icon": "801"
+      },
+      {
+        "fxTime": "2024-05-13T03:00+08:00",
+        "value": "0.17",
+        "name": "峨眉月",
+        "illumination": "25",
+        "icon": "801"
+      },
+      {
+        "fxTime": "2024-05-13T04:00+08:00",
+        "value": "0.17",
+        "name": "峨眉月",
+        "illumination": "4",
+        "icon": "801"
+      },
+      {
+        "fxTime": "2024-05-13T05:00+08:00",
+        "value": "0.17",
+        "name": "峨眉月",
+        "illumination": "26",
+        "icon": "801"
+      },
+      {
+        "fxTime": "2024-05-13T06:00+08:00",
+        "value": "0.17",
+        "name": "峨眉月",
+        "illumination": "26",
+        "icon": "801"
+      },
+      {
+        "fxTime": "2024-05-13T07:00+08:00",
+        "value": "0.17",
+        "name": "峨眉月",
+        "illumination": "26",
+        "icon": "801"
+      },
+      {
+        "fxTime": "2024-05-13T08:00+08:00",
+        "value": "0.17",
+        "name": "峨眉月",
+        "illumination": "8",
+        "icon": "802"
+      },
+      {
+        "fxTime": "2024-05-13T09:00+08:00",
+        "value": "0.17",
+        "name": "峨眉月",
+        "illumination": "27",
+        "icon": "801"
+      },
+      {
+        "fxTime": "2024-05-13T10:00+08:00",
+        "value": "0.18",
+        "name": "峨眉月",
+        "illumination": "28",
+        "icon": "801"
+      },
+      {
+        "fxTime": "2024-05-13T11:00+08:00",
+        "value": "0.18",
+        "name": "峨眉月",
+        "illumination": "28",
+        "icon": "801"
+      },
+      {
+        "fxTime": "2024-05-13T12:00+08:00",
+        "value": "0.18",
+        "name": "峨眉月",
+        "illumination": "12",
+        "icon": "803"
+      },
+      {
+        "fxTime": "2024-05-13T13:00+08:00",
+        "value": "0.18",
+        "name": "峨眉月",
+        "illumination": "29",
+        "icon": "801"
+      },
+      {
+        "fxTime": "2024-05-13T14:00+08:00",
+        "value": "0.18",
+        "name": "峨眉月",
+        "illumination": "29",
+        "icon": "801"
+      },
+      {
+        "fxTime": "2024-05-13T15:00+08:00",
+        "value": "0.18",
+        "name": "峨眉月",
+        "illumination": "29",
+        "icon": "801"
+      },
+      {
+        "fxTime": "2024-05-13T16:00+08:00",
+        "value": "0.18",
+        "name": "峨眉月",
+        "illumination": "16",
+        "icon": "804"
+      },
+      {
+        "fxTime": "2024-05-13T17:00+08:00",
+        "value": "0.18",
+        "name": "峨眉月",
+        "illumination": "30",
+        "icon": "801"
+      },
+      {
+        "fxTime": "2024-05-13T18:00+08:00",
+        "value": "0.19",
+        "name": "峨眉月",
+        "illumination": "31",
+        "icon": "801"
+      },
+      {
+        "fxTime": "2024-05-13T19:00+08:00",
+        "value": "0.19",
+        "name": "峨眉月",
+        "illumination": "31",
+        "icon": "801"
+      },
+      {
+        "fxTime": "2024-05-13T20:00+08:00",
+        "value": "0.19",
+        "name": "峨眉月",
+        "illumination": "20",
+        "icon": "805"
+      },
+      {
+        "fxTime": "2024-05-13T21:00+08:00",
+        "value": "0.19",
+        "name": "峨眉月",
+        "illumination": "32",
+        "icon": "801"
+      },
+      {
+        "fxTime": "2024-05-13T22:00+08:00",
+        "value": "0.19",
+        "name": "峨眉月",
+        "illumination": "32",
+        "icon": "801"
+      },
+      {
+        "fxTime": "2024-05-13T23:00+08:00",
+        "value": "0.19",
+        "name": "峨眉月",
+        "illumination": "33",
+        "icon": "801"
+      }
     ],
-    "license": [
-      "CC BY-SA 4.0"
-    ]
+    "refer": {
+      "sources": [
+        "QWeather"
+      ],
+      "license": [
+        "CC BY-SA 4.0"
+      ]
+    }
   }
 }

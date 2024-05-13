@@ -55,7 +55,6 @@ export default function MiddleBoard({id}){
         setColumn(typeInfoTable[ind][0].type);
       }
     }
-
   }
 
   useEffect(() => {

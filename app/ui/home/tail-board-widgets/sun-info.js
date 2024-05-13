@@ -1,10 +1,10 @@
-import {useSumById} from "@/app/lib/data";
+import {useAstroInfoById, useSunInfoById} from "@/app/lib/data";
 import {useEffect, useRef} from "react";
 import { FiSunrise, FiSunset  } from "react-icons/fi";
 import Canvas from "@/app/ui/home/tail-board-widgets/canvas";
-export default function Sun({id}) {
-  const {data, error, isLoading} = useSumById(id, new Date());
-
+export default function SunInfo({id}) {
+  //const {data, error, isLoading} = useSunInfoById(id, new Date());
+  const {data, error, isLoading} = useAstroInfoById(id, new Date(), 'sun')
 
   if (error) {return <p>error</p>}
   if (isLoading) {return <p></p>}

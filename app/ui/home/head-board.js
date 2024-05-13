@@ -45,47 +45,6 @@ export default function HeadBoard({cityName, cityId}){
 }
 
 
-function addUnit(ob){
-  if (ob===void 0||ob===null){return ob;}
-  for (const key of Object.keys(ob)){
-    switch (key) {
-      case "temp":{
-        ob[key] = `${ob[key]}°C`;
-        break;
-      }
-      case "humidity":{
-        ob[key] = `${ob[key]}%`;
-        break;
-      }
-      case "vis":{
-        ob[key] = `${ob[key]}km`;
-        break;
-      }
-      case "feelsLike":{
-        ob[key] = `${ob[key]}°C`;
-        break;
-      }
-      case "precip":{
-        ob[key] = `${ob[key]}mm`;
-        break;
-      }
-      case "windSpeed":{
-        ob[key] = `${ob[key]}Km/h`;
-        break;
-      }
-      case "pressure":{
-        ob[key] = `${ob[key]}hPa`;
-        break;
-      }
-      case "obsTime":{
-        const date = new Date(ob[key]);
-        ob[key] = date.toLocaleTimeString([],{hour: '2-digit', minute:'2-digit',hour12:false});
-        break;
-      }
-    }
-  }
-}
-
 
 /*
 
