@@ -1,15 +1,15 @@
 import Image from "next/image";
 import {useNowById} from "@/app/lib/data";
 import Clock from "@/app/ui/home/head-board-widget/Clock";
+import {HeadLoading} from "@/app/ui/home/loading";
 export default function HeadBoard({cityName, cityId}){
   const {nowData,error,isLoading} = useNowById(cityId);
-  console.log('rend head from head of head board', cityId)
+
   if (error) {console.error("error in head-board", error.message);return <p>check console</p>}
-  //if (isLoading){return <p>Loading in headboard</p>}
+  if (isLoading){return <HeadLoading></HeadLoading>}
 
   return (
     <div className='w-full p-4 bg-blue-600 rounded-lg text-card h-[168px]'>
-      {isLoading? <></>:(<>
       <div className="flex justify-center py-3 relative">
         <p className="absolute left-0 top-0 md:text-lg">{cityName}</p>
         <div className="absolute right-0 top-0 text-2xl max-sm:text-lg"><Clock ></Clock></div>
@@ -40,7 +40,6 @@ export default function HeadBoard({cityName, cityId}){
           )
         })}
       </div>
-        </>)}
     </div>
   )
 }

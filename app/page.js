@@ -4,12 +4,11 @@ import { fetchCityByLoc} from "@/app/lib/data";
 import HeadBoard from "@/app/ui/home/head-board";
 import MiddleBoard from "@/app/ui/home/middle-board";
 import TailBoard from "@/app/ui/home/tail-board";
-import MiddleLoading from "@/app/ui/home/middle-borad-widgets/middle-loading";
-import Loading from "@/app/ui/home/loading";
+import {Loading} from "@/app/ui/home/loading";
 const beijing = ['Beijing', '101010100'];
 export default function Page (){
   let [[cityName, cityId], setCity] = useState(['','']);
-  console.log('rend page from page')
+
   useEffect(() => {
     const success = async (pos)=>{
       const [lat, lon] = [pos.coords.latitude.toFixed(2), pos.coords.longitude.toFixed(2)];
@@ -30,6 +29,7 @@ export default function Page (){
       setCity(beijing);
     }
   }, []);
+
   if (cityId==='') {return <Loading></Loading>}
   return (
     <div className='w-full md:w-10/12 text-center p-2'>

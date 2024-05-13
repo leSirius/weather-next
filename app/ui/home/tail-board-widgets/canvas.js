@@ -6,11 +6,12 @@ export default function Canvas({riseOb, setOb}){
   const temporal = mapDateToNumber(new Date());
   const riseNum = mapDateToNumber(riseOb);
   const setNum = mapDateToNumber(setOb);
-  const imagePath = temporal>=riseNum&&temporal<=setNum?'icons/100.svg':'icons/150.svg'
+  const imagePath = riseNum<temporal&&temporal<setNum?' icons/100.svg':'icons/150.svg';
+
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d', {willReadFrequently:true});
-    context.lineWidth = 1;
+    context.lineWidth = 2;
     const [height, width] = [canvas.height, canvas.width];
     const leftZeroX=riseNum*width/range, rightZeroX=setNum*width/range;
     const middleX = (leftZeroX+rightZeroX)/2;
@@ -22,13 +23,13 @@ export default function Canvas({riseOb, setOb}){
     let winkId;
     let unMounted = false;
     img.onload = ()=>{
-      const size = 25;
+      const size = 30;
       context.drawImage(img, imgX-size/2, calY(imgX)-size/2, size, size);
       const savedImgData = context.getImageData(imgX-size/2, calY(imgX)-size/2, size, size).data;
       (()=>{
         let fading = true;
         let count = 0, round = 0;
-        let scale = 0.905;
+        let scale = 0.8;
         const curveList = getPointsOnCurve()
         if (!unMounted) {
           winkId = requestAnimationFrame(wink);
@@ -42,7 +43,7 @@ export default function Canvas({riseOb, setOb}){
             const imgInfo = context.getImageData(imgX-size/2, calY(imgX)-size/2, size, size);
             imgInfo.data.forEach((val, ind)=>{
               if (round===6) {val=savedImgData[ind];}
-              if ((ind+1)%4===0&&!curveList[ind]){
+              if ((ind+1)%4===0&&!curveList[ind]&&val>35){
                 imgInfo.data[ind] = fading? val*scale:val/scale;
               }
             })
@@ -58,8 +59,8 @@ export default function Canvas({riseOb, setOb}){
             const x = imgX-size/2+Math.floor(ind/4)%size;
             const y = calY(imgX)-size/2+Math.floor(Math.floor(ind/4)/size);
             if (
-              (y>=calY(Math.floor(x))&&y<=calY(Math.ceil(x))) ||
-              (y<=calY(Math.floor(x))&&y>=calY(Math.ceil(x)))
+              (y>=calY(Math.floor(x-1))&&y<=calY(Math.ceil(x+1))) ||
+              (y<=calY(Math.floor(x-1))&&y>=calY(Math.ceil(x+1)))
             ) {
               temp[ind] = true;
             }
@@ -72,7 +73,7 @@ export default function Canvas({riseOb, setOb}){
     }
 
     const recHeight = 5;
-    fillRecursive(context, 0, 0, width, recHeight, 0.1, height);
+    fillRecursive(context, 0, 0, width, recHeight, 0.12, height);
     drawXAxis(context, width, height)
 
     let drawId;
@@ -81,14 +82,13 @@ export default function Canvas({riseOb, setOb}){
       let prevX = 0;
       const duration = 1500;
       let colorBegin = 55;
-      let pace = 4;
+      let pace = 5;
       let reachTop = false;
       if (!unMounted){
         drawId = requestAnimationFrame(frameDraw);
       }
 
       function frameDraw(current) {
-        console.log(colorBegin)
         startTime = startTime||current;
         const progress = Math.min(1, (current-startTime)/duration);
 
@@ -139,7 +139,7 @@ function fillRecursive(context, x, y, w, h, alpha, limit){
 function mapDateToNumber(date) {
   const hour = Number(date.getHours());
   const minute = Number(date.getMinutes())/60;
-  return (hour+minute).toFixed(2);
+  return Number((hour+minute).toFixed(2));
 }
 
 /*

@@ -19,8 +19,10 @@ function getAirColors(aqiStr) {
 }
 export default function AirNow({id}){
   const {data, error, isLoading} = useAirNowById(id);
+
   if (error) { return <p>failed</p>}
-  if (isLoading) {return <p>Loading</p>}
+  if (isLoading) {return <></>}
+
   const color = getAirColors(data.aqi);
 
   return (

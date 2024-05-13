@@ -4,7 +4,7 @@ import BarGraphContainer from "@/app/ui/home/middle-borad-widgets/bar-graph-cont
 import {Panel} from "@/app/ui/home/middle-borad-widgets/panel";
 import {ForecastIcon, IndicesIcon} from "@/app/lib/icons";
 import {CalendarDaysIcon} from "@heroicons/react/24/outline";
-import MiddleLoading from "@/app/ui/home/middle-borad-widgets/middle-loading";
+import {MiddleLoading} from "@/app/ui/home/loading";
 
 const fetchList = [fetchHourlyById, fetchIndicesById, fetchDailyById];
 const buttonList = ['Forecast next 24 hours', 'Weather indices', '7-day hourly'];
@@ -63,6 +63,7 @@ export default function MiddleBoard({id}){
   }, []);
 
   if (dataMatrix===void 0||dataMatrix.length===0) { return <MiddleLoading></MiddleLoading>; }
+
   const witchFetch = getWitchFetch(dataMatrix, typeInfoTable);
   const typeInfoList = typeInfoTable[witchFetch];
 
