@@ -1,15 +1,15 @@
-
+import {unstable_noStore as no_store} from "next/cache";
 // to save api usage
 export function useStoredData(){
   return true;
 }
 
 export async function routeFetcher(comingUrl, baseUrl) {
+  //no_store();
   let formedUrl = '';
   try {
     formedUrl = moveSearchParams(comingUrl, baseUrl);
-    console.log("in fetcher", formedUrl);
-    return await doFetchBack(formedUrl);
+    return doFetchBack(formedUrl);
   }
   catch(e) {
     return handleErrBack(comingUrl, formedUrl, e);
@@ -31,6 +31,7 @@ export function handleErrBack(requestUrl, url, e){
      Formed request: ${url};
      Error message: ${e.message};`;
   console.error(info);
+  console.log(e);
   return Response.json(e);
 }
 

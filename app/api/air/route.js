@@ -1,11 +1,10 @@
-import {daily} from "@/app/api/lib/cached-data";
 import {doFetchBack, handleErrBack, moveSearchParams, routeFetcher, useStoredData} from "@/app/api/lib/manipulator";
+import {airNow} from "@/app/api/lib/cached-data";
 
-const baseUrl = 'https://devapi.qweather.com/v7/weather/7d?';
+const baseUrl = 'https://devapi.qweather.com/v7/air/now?'
 
-export async function GET(request){
-  if (useStoredData()) {return Response.json(daily);}
+export async function GET(request) {
+  if (useStoredData()) {return Response.json(airNow);}
   const data = await routeFetcher(request.url, baseUrl);
   return Response.json(data);
 }
-

@@ -3,7 +3,8 @@ import Image from "next/image";
 export default function MapBattens({dataMatrix, column, colors, witchFetch}){
   const values = dataMatrix.map(o=>Number(o[`${column}`]));
   const lowest = Math.min(...values);
-  const range = Math.max(...values)-lowest;
+  let range = (Math.max(...values)-lowest);
+
   let key = 0;
   return (<>{
     dataMatrix.map((item) => {
@@ -67,9 +68,11 @@ function ColoredBatten({height, color, value}){
 }
 
 function calColorInd(value, lowest, range) {
+  if (range===0) {range+=1;}
   return Math.floor(((value-lowest)/range/3 + 0.33)*10)-3;
 }
 function calHeight(value, lowest, range) {
+  if (range===0) {range+=1;}
   return Math.sqrt(0.2+(value-lowest)/range)*50;
 }
 

@@ -3,13 +3,26 @@ import {useEffect, useRef, useState} from "react";
 import {ChevronLeftIcon, ChevronRightIcon} from "@heroicons/react/16/solid";
 import clsx from "clsx";
 
+// The point of carousel is to make viewport move between 2 positions.
+
+// slideOn=true -> viewport from 1 to 2 with animation(300ms) -> 350ms  ->
+// itemList left shifts, slideOn=false -> viewport from 2 to 1 without animation->
+// 1500ms -> slideOn=true...
+
+// toLeft=true, slideOn=true -> viewport from 1 to 0 with animation(300ms) ->350ms->
+//  itemList right shifts, toLeft set false, slideOn=false -> viewport 0 to 1 no animation->
+// 350ms -> slidOn=true -> ...
+
+// Pac-man has a slightly different control process, so it has its own state.
+// mouseOnImage=true stops the alternation of slideOn, while mouseOnImage=false restarts it.
+
 // ! Declaring a function in useEffect, whose dependency is [], might make a closure.
-// As codes in useEffect only run in the first render, the function is declared only once,
+// As codes in useEffect only run in the first render, the function is actually declared only once,
 // and context will never change. Be careful about how many times a function is declared,
-// and when the called function is declared
+// and when the called function is declared.
 
 const viewNormal = 1, viewLeft = viewNormal-1, viewRight = viewNormal+1;
-const clickInterval = 350;              // time to shift an image is 300, pac-man is 175*2
+const clickInterval = 350;              // time to shift an image is 350, animation of pac-man is 175*2
 export default function MoonInfoCarousel({data, today}) {
   const indList = getIndList(0, 4);
   const [slideOn, setSlideOn] = useState(false);
@@ -20,16 +33,16 @@ export default function MoonInfoCarousel({data, today}) {
 
   useEffect(() => {
     let timerId;
-    const loopBegin = function () {
+    if (!mouseOnImage) {timerId = setAlternation();}
+    return ()=> {clearTimeout(timerId);}
+
+    function setAlternation () {
       return setTimeout(()=>{
         if (slideOn) {!toLeft.current? setItemList(leftShift(itemList)): setItemList(rightShift(itemList));}
         toLeft.current = false;
         setSlideOn(!slideOn);
       }, slideOn? clickInterval:1500);
     }
-
-    if (!mouseOnImage) {timerId = loopBegin();}
-    return ()=> {clearTimeout(timerId);}
   }, [slideOn, mouseOnImage]);
 
   return (
@@ -39,27 +52,16 @@ export default function MoonInfoCarousel({data, today}) {
         <p>{toTimeString(new Date(itemList[!slideOn?viewNormal:!toLeft.current?viewRight:viewLeft].fxTime))}</p>
       </div>
 
-      <div className='overflow-hidden w-full'>
-        <div
-          style={{transform: `translateX(${!slideOn?'-100%':!toLeft.current?'-200%':'0%'})`}}
-          className={clsx('flex transition-transform ease-in-out ',
-            {'duration-300':slideOn,'duration-0':!slideOn})}                                //Duration
-        >
-          {itemList.map((item)=>{
-            return (
-              <div key={item.fxTime} className='shrink-0 bg-sky-700 w-full text-center'>
-                <div className='my-0 mx-auto w-7/12'
-                     onMouseEnter={()=> {setMouseOnImage(true);}}
-                     onMouseLeave={()=> {setMouseOnImage(false);}}
-                >
-                  {moonIcons(item.icon, '100%', 'white')}
-                </div>
-                <p className='text-sm opacity-70'>{`Illumination: ${item.illumination}%`}</p>
-              </div>
-            )
-          })}
-        </div>
-      </div>
+      <Carousel
+        itemList={itemList}
+        slideOn={slideOn}
+        toLeft={toLeft}
+        setMouseOnImage={setMouseOnImage}
+      ></Carousel>
+
+      <p className='text-sm opacity-70 '>
+        {`Illumination: ${itemList[!slideOn ? viewNormal : !toLeft.current ? viewRight : viewLeft].illumination}%`}
+      </p>
 
       <ToolKits
         toLeft={toLeft}
@@ -74,18 +76,56 @@ export default function MoonInfoCarousel({data, today}) {
   )
 }
 
+function Carousel({itemList, slideOn, toLeft, setMouseOnImage}) {
+  const lowest = itemList.reduce((acc, item)=>{
+    const val = Number(item.illumination)
+    return val<acc? val:acc;
+  }, Infinity);
+  const range = itemList.reduce((record, item) =>{
+    const val = Number(item.illumination)
+    return val-lowest>record? val-lowest:record;
+  }, 0);
 
+  return (
+    <div className='overflow-x-hidden w-full'>
+      <div
+        style={{transform: `translateX(${!slideOn?'-100%': !toLeft.current?'-200%':'0%'})`}}
+        className={clsx('flex transition-transform ease-in-out',
+          {'duration-300':slideOn,'duration-0':!slideOn})}                                //Duration
+      >
+        {itemList.map((item)=> { return (
+          <div key={item.fxTime} className='shrink-0  w-full'>
+            <div className='my-0 mx-auto w-7/12'
+              style={{opacity: `${10+(Number(item.illumination)-lowest)/range*90}%`}}
+              onMouseEnter={()=> {setMouseOnImage(true);}}
+              onMouseLeave={()=> {setMouseOnImage(false);}}
+            >
+              {moonIcons(item.icon, '100%', 'white')}
+            </div>
+          </div>
+        )})}
+      </div>
+    </div>
+  )
+}
+
+// When controlled by pac-man, carouse animation won't show up, but pac-man should still eat,
+// which means it will set slideOn false, shift itemList, but just use its own animation.
+// Moreover, when pac-man move to a left image, it sets toLeft true and slideOn false at exactly same time,
+// not an issue, if carousel is controlled by timer next time, but if click right arrow, the viewport will move left,
+// as toLeft is set true, but not clean up yet.
 function ToolKits({toLeft, setSlideOn, slideOn, dotList, itemList, setItemList, setMouseOnImage}) {
-  const [clickedOnDot, setClickedOnDot] = useState(false);
-  const goEat = clickedOnDot||slideOn
-  const eatLeft = toLeft.current;
-  const eatRight = !toLeft.current;
+  const [clickedOnDot, setClickedOnDot] = useState(0);
+  // 0: no click; 1: click at left; 2: click at right.
+  const goEat = clickedOnDot!==0||slideOn
+  const eatLeft = toLeft.current||clickedOnDot===1;
+  const eatRight = !eatLeft;
   const tempImgTime = !slideOn? itemList[viewNormal].fxTime :
     eatLeft? itemList[viewLeft].fxTime : itemList[viewRight].fxTime;
 
   useEffect(()=>{
-    const timerId = clickedOnDot?
-      setTimeout(()=>{setClickedOnDot(false)}, clickInterval): void 0;
+    const timerId = clickedOnDot!==0?
+      setTimeout(()=>{setClickedOnDot(0)}, clickInterval): void 0;
     return ()=>{clearTimeout(timerId)}
   }, [clickedOnDot])
 
@@ -93,52 +133,49 @@ function ToolKits({toLeft, setSlideOn, slideOn, dotList, itemList, setItemList, 
     const tempInd = dotList.findIndex(ft=>ft===tempImgTime);
     const targetInd = dotList.findIndex(ft=>ft===e.target.value);
     if (targetInd===tempInd) {return ;}
-    toLeft.current = targetInd<tempInd;
     const newItemList = targetInd<tempInd?
       rShitUtilFt1Is(itemList, dotList[targetInd]):
       lShitTillFt1Is(itemList, dotList[targetInd]);
     setSlideOn(false);
     setItemList(newItemList);
-    setClickedOnDot(true);
+    setClickedOnDot(targetInd<tempInd? 1:2);
   }
 
   return (<>
-    <div className='absolute flex justify-evenly  w-3/4 top-[91.5%] max-sm:left-1.5'>
-      {dotList.map((fxTime)=>{
-        return (
-          <button
-            key={fxTime}
-            value={fxTime}
-            onMouseEnter={()=> {setMouseOnImage(true);}}
-            onMouseLeave={()=> {setMouseOnImage(false);}}
-            onClick={clickToImage}
-            className={clsx(
-              'hover:opacity-50',
-              {'w-2 h-2 mx-1 mt-1 bg-cyan-600 rounded': tempImgTime!==fxTime}
-            )}
-          >
-            <PacMan
-              fxTime={fxTime}
-              tempImgTime={tempImgTime}
-              goEat={goEat}
-              eatLeft={eatLeft}
-              eatRight={eatRight}
-            ></PacMan>
-          </button>
-        )
-      })}
-    </div>
-
-    <div className='absolute right-4 top-[83%] max-sm:top-[85%] text-card hover:opacity-30 hover:scale-125'>
+    <div className='absolute left-0 top-[83%] max-sm:top-[85%] text-card hover:opacity-30 hover:scale-125'>
       <button onClick={()=>{toLeft.current=true;setSlideOn(true);}} className='border-none'><ChevronLeftIcon width={24}></ChevronLeftIcon></button>
     </div>
     <div className='absolute right-0 top-[83%] max-sm:top-[85%] text-card hover:opacity-30 hover:scale-125'>
       <button onClick={()=>{setSlideOn(true)}} className='border-none'><ChevronRightIcon width={24}></ChevronRightIcon></button>
     </div>
+
+    <div className='absolute flex justify-evenly  w-3/4 left-[12.5%] top-[91.5%] '>
+      {dotList.map((fxTime)=> { return (
+        <button
+          key={fxTime}
+          value={fxTime}
+          onMouseEnter={()=> {setMouseOnImage(true);}}
+          onMouseLeave={()=> {setMouseOnImage(false);}}
+          onClick={clickToImage}
+          className={clsx(
+            'hover:opacity-50',
+            {'w-2 h-2 mx-1 mt-1 bg-cyan-600 rounded': tempImgTime!==fxTime}
+          )}
+        >
+          <PacManDot
+            fxTime={fxTime}
+            tempImgTime={tempImgTime}
+            goEat={goEat}
+            eatLeft={eatLeft}
+            eatRight={eatRight}
+          ></PacManDot>
+        </button>
+      )})}
+    </div>
   </>)
 }
 
-function PacMan({fxTime, tempImgTime, goEat, eatLeft, eatRight}) {
+function PacManDot({fxTime, tempImgTime, goEat, eatLeft, eatRight}) {
   return (
     <>
       <div className={clsx(

@@ -5,7 +5,7 @@ import {HeadLoading} from "@/app/ui/home/loading";
 export default function HeadBoard({cityName, cityId}){
   const {nowData,error,isLoading} = useNowById(cityId);
 
-  if (error) {console.error("error in head-board", error.message);return <p>check console</p>}
+  if (error) {console.error("error in head-board", error.message);return <HeadBoard>check console</HeadBoard>}
   if (isLoading){return <HeadLoading></HeadLoading>}
 
   return (

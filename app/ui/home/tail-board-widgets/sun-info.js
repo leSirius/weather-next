@@ -1,4 +1,4 @@
-import {useAstroInfoById, useSunInfoById} from "@/app/lib/data";
+import {useAstroInfoById} from "@/app/lib/data";
 import {useEffect, useRef} from "react";
 import { FiSunrise, FiSunset  } from "react-icons/fi";
 import Canvas from "@/app/ui/home/tail-board-widgets/canvas";

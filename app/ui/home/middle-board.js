@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {fetchDailyById, fetchHourlyById, fetchIndicesById} from "@/app/lib/data";
 import BarGraphContainer from "@/app/ui/home/middle-borad-widgets/bar-graph-container";
 import {Panel} from "@/app/ui/home/middle-borad-widgets/panel";
@@ -48,7 +48,7 @@ export default function MiddleBoard({id}){
   const [column, setColumn] = useState(typeInfoTable[beginFromFetch][0].type);
 
   async function asyncSetTwoStates(ind=0){
-    if (id!==void 0&& id!==''){
+    if (id!==void 0 && id!==''){
       const data = await fetchList[ind](id);
       if (data!==void 0){
         setDataMatrix(data);
@@ -64,6 +64,9 @@ export default function MiddleBoard({id}){
   if (dataMatrix===void 0||dataMatrix.length===0) { return <MiddleLoading></MiddleLoading>; }
 
   const witchFetch = getWitchFetch(dataMatrix, typeInfoTable);
+  if (witchFetch===-1){
+    return <MiddleLoading></MiddleLoading>
+  }
   const typeInfoList = typeInfoTable[witchFetch];
 
   return (
@@ -89,7 +92,7 @@ export default function MiddleBoard({id}){
 }
 
 function getWitchFetch(dataMatrix, typeTable){
-  if (dataMatrix===void 0||dataMatrix.length===0) {return -1;}
+  if (dataMatrix===void 0||dataMatrix.length===0 || dataMatrix[0]===void 0) {return -1;}
   return typeTable.findIndex((types)=>{return types.every(ob=>dataMatrix[0][ob.type] !== void 0)});
 }
 

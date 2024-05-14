@@ -19,7 +19,7 @@ const defaultColorList = [
 
 export default function  BarGraphContainer({dataMatrix, column, setDataType, typeInfoList, witchFetch}){
   const colorJson = sessionStorage.getItem("storedColorList")
-  const storedColorList = null;//colorJson?JSON.parse(colorJson):null;
+  const storedColorList = colorJson?JSON.parse(colorJson):null;
   const [colorList, setColorList] = useState(storedColorList||defaultColorList);
 
   return (
@@ -40,8 +40,6 @@ export default function  BarGraphContainer({dataMatrix, column, setDataType, typ
           witchFetch={witchFetch}
         ></MapBattens>
       </div>
-
-
     </div>
   )
 }
