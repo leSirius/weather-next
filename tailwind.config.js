@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const {rotate} = require("next/dist/server/lib/squoosh/impl");
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -16,6 +17,20 @@ module.exports = {
         "card": "#fcf9e8",
         "ground": "#015697",
         "side": "#f37021",
+      },
+      keyframes: {
+        clockwise: {
+          '0%, 100%': { transform: 'rotate(0deg)'},
+          '50%': { transform: 'rotate(30deg)'}
+        },
+        counterclockwise: {
+          '0%, 100%': { transform: 'rotate(0deg)'},
+          '50%': { transform: 'rotate(-30deg)'},
+        }
+      },
+      animation: {
+        'rotate-clockwise': 'clockwise 175ms linear 2',
+        'rotate-counterclockwise': 'counterclockwise 175ms linear 2',
       },
     },
   },
