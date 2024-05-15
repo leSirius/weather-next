@@ -21,16 +21,16 @@ module.exports = {
       keyframes: {
         clockwise: {
           '0%, 100%': { transform: 'rotate(0deg)'},
-          '50%': { transform: 'rotate(30deg)'}
+          '50%': { transform: 'rotate(32deg)'}
         },
         counterclockwise: {
           '0%, 100%': { transform: 'rotate(0deg)'},
-          '50%': { transform: 'rotate(-30deg)'},
+          '50%': { transform: 'rotate(-32deg)'},
         }
       },
       animation: {
-        'rotate-clockwise': 'clockwise 175ms linear 2',
-        'rotate-counterclockwise': 'counterclockwise 175ms linear 2',
+        'rotate-clockwise': 'clockwise 250ms ease-in-out 2',
+        'rotate-counterclockwise': 'counterclockwise 250ms ease-in-out 2',
       },
     },
   },
