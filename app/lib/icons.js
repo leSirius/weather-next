@@ -42,10 +42,10 @@ export function CompassPointer({width}) {
   )
 }
 
-export function moonIcons(name, width, color='white', className) {
+export function moonIcons(name, width, color='white') {
   const obList = {
     '800':  (
-      <svg xmlns="http://www.w3.org/2000/svg" width={width} height={width} fill={color} className='qi-800'  viewBox="0 0 16 16">
+      <svg xmlns="http://www.w3.org/2000/svg" width={width} height={width} fill={color} className='qi-800 ' viewBox="0 0 16 16">
         <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16Z"/>
       </svg>
     ),

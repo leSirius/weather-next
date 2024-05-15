@@ -64,9 +64,6 @@ export default function MiddleBoard({id}){
   if (dataMatrix===void 0||dataMatrix.length===0) { return <MiddleLoading></MiddleLoading>; }
 
   const witchFetch = getWitchFetch(dataMatrix, typeInfoTable);
-  if (witchFetch===-1){
-    return <MiddleLoading></MiddleLoading>
-  }
   const typeInfoList = typeInfoTable[witchFetch];
 
   return (

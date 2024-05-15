@@ -46,7 +46,7 @@ export default function MoonInfoCarousel({data, today}) {
   }, [slideOn, mouseOnImage]);
 
   return (
-    <div className='relative h-full w-full'>
+    <div className='relative h-full w-full '>
       <div className='flex justify-between px-1 '>
         <p className=''>{`${today.getMonth()+1}月${today.getDate()}日`}</p>
         <p>{toTimeString(new Date(itemList[!slideOn?viewNormal:!toLeft.current?viewRight:viewLeft].fxTime))}</p>
@@ -87,20 +87,20 @@ function Carousel({itemList, slideOn, toLeft, setMouseOnImage}) {
   }, 0);
 
   return (
-    <div className='overflow-x-hidden w-full'>
+    <div className='overflow-x-hidden w-full '>
       <div
         style={{transform: `translateX(${!slideOn?'-100%': !toLeft.current?'-200%':'0%'})`}}
         className={clsx('flex transition-transform ease-in-out',
           {'duration-300':slideOn,'duration-0':!slideOn})}                                //Duration
       >
         {itemList.map((item)=> { return (
-          <div key={item.fxTime} className='shrink-0  w-full'>
-            <div className='my-0 mx-auto w-7/12'
-              style={{opacity: `${10+(Number(item.illumination)-lowest)/range*90}%`}}
+          <div key={item.fxTime} className='shrink-0  w-full '>
+            <div className='my-0 mx-auto w-7/12 rounded-full shadow-[0px_0px_36px_3px_rgba(200,200,200,1)]'
+              style={{opacity: `${20+(Number(item.illumination)-lowest)/range*80}%`}}
               onMouseEnter={()=> {setMouseOnImage(true);}}
               onMouseLeave={()=> {setMouseOnImage(false);}}
             >
-              {moonIcons(item.icon, '100%', 'white')}
+              {moonIcons(item.icon, '100%', 'white', )}
             </div>
           </div>
         )})}

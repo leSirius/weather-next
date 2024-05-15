@@ -35,11 +35,11 @@ export default function Canvas({riseOb, setOb}){
           winkId = requestAnimationFrame(wink);
         }
 
-        function wink(current) {
+        function wink() {
           count = fading? count+1: count-1;
           fading = count===30? false: count===0? true : fading;
           round = count===0? round+1:round;
-          if (count%5===0){
+          if (count%6===0){
             const imgInfo = context.getImageData(imgX-size/2, calY(imgX)-size/2, size, size);
             imgInfo.data.forEach((val, ind)=>{
               if (round===6) {val=savedImgData[ind];}
@@ -80,32 +80,30 @@ export default function Canvas({riseOb, setOb}){
     (()=>{
       let startTime;
       let prevX = 0;
-      const duration = 1500;
-      let colorBegin = 55;
-      let pace = 5;
-      let reachTop = false;
+      const duration = 1800;
+      const baseColor = 20;
+      const topColor = 255;
+
       if (!unMounted){
-        drawId = requestAnimationFrame(frameDraw);
+        drawId = requestAnimationFrame(drawCurve);
       }
 
-      function frameDraw(current) {
+      function drawCurve(current) {
         startTime = startTime||current;
         const progress = Math.min(1, (current-startTime)/duration);
+        const tempOffset = progress<0.5?
+          (progress/0.5)*(topColor-baseColor) :
+          ((1-progress)/0.5)*(topColor-baseColor)
+        const color =  baseColor+tempOffset
 
         context.beginPath();
-        context.strokeStyle = `rgba(${colorBegin},${colorBegin},${colorBegin}, 1)`;
+        context.strokeStyle = `rgba(${color},${color},${color}, 1)`;
         const x = width * progress;
         context.moveTo(prevX, calY(prevX));
         context.lineTo(x, calY(x));
         context.stroke();
-
         prevX = x;
-        reachTop = reachTop ? reachTop : x >= middleX;
-        colorBegin = !reachTop ?
-          Math.min(255, colorBegin + pace) :
-          Math.max(0, colorBegin - pace);
-
-        if (progress<1) {drawId = requestAnimationFrame(frameDraw);}
+        if (progress<1) {drawId = requestAnimationFrame(drawCurve);}
       }
     })();
 
