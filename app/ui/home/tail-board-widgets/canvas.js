@@ -115,7 +115,7 @@ export default function Canvas({riseOb, setOb}){
   }, []);
 
   return (
-    <canvas ref={canvasRef} height='275' className='w-full'></canvas>
+    <canvas ref={canvasRef} height='300' className='w-full'></canvas>
   )
 }
 

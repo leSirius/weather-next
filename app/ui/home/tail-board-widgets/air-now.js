@@ -27,8 +27,8 @@ export default function AirNow({id}){
   return (
     <div className='px-4 ' >
       <div className='relative'>
-        <p className='text-2xl text-left opacity-85' style={{color:color}}>{data.category}</p>
-        <p className='absolute top-1 right-0.5 text-sm opacity-30'>At {new Date(data.pubTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit',hour12:false})}</p>
+        <p className='text-xl text-left opacity-85 max-sm:text-lg' style={{color:color}}>{data.category.slice(0,2)}</p>
+        <p className='absolute top-1 right-0 text-sm opacity-30'>At {new Date(data.pubTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit',hour12:false})}</p>
       </div>
       <div className='flex'>
         <div className='w-1/2 text-left opacity-75'>

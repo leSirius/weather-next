@@ -18,7 +18,7 @@ export default function SunInfo({id}) {
     <div className='flex'>
       <div className='w-full rounded-lg overflow-hidden relative'>
         <div className='absolute px-4 flex justify-between w-full max-sm:px-1'>
-          <div className='opacity-70 pt-1'>
+          <div className='flex opacity-70 pt-1'>
             <FiSunrise className='inline mt-0.5 align-top text-orange-300'></FiSunrise>
             <p className='inline align-top whitespace-pre-wrap text-sm' >{` Sunrise`}</p>
           </div>

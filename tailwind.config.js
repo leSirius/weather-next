@@ -29,8 +29,8 @@ module.exports = {
         }
       },
       animation: {
-        'rotate-clockwise': 'clockwise 250ms ease-in-out 2',
-        'rotate-counterclockwise': 'counterclockwise 250ms ease-in-out 2',
+        'rotate-clockwise': 'clockwise 200ms ease-in-out 2',
+        'rotate-counterclockwise': 'counterclockwise 200ms ease-in-out 2',
       },
     },
   },

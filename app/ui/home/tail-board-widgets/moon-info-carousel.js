@@ -21,8 +21,12 @@ import clsx from "clsx";
 // and context will never change. Be careful about how many times a function is declared,
 // and when the called function is declared.
 
+// Set SlideOn false got to be careful, as when slideOn is true, itemList is not shifted yet.
+// setting it true might be fine, if there is no more state set at the same time, or needs a check.
+
 const viewNormal = 1, viewLeft = viewNormal-1, viewRight = viewNormal+1;
-const clickInterval = 510;              // time to shift an image is 400, animation of pac-man is 250*2
+const phaseTrue = 400;              // time to shift an image is 300, animation of pac-man is 400
+const phaseFalse = 1200;
 export default function MoonInfoCarousel({data, today}) {
   const indList = getIndList(0, 4);
   const [slideOn, setSlideOn] = useState(false);
@@ -33,34 +37,35 @@ export default function MoonInfoCarousel({data, today}) {
   const timerRef = useRef(void 0);
 
   useEffect(() => {
-    if (!mouseOnImage)  {
-      timerRef.current = setAlternation();
-    }
+    timerRef.current = setAlternation();
     return ()=> { clearTimeout(timerRef.current); }
-  }, [slideOn, mouseOnImage]);
+  }, [slideOn]);
 
-  function handleMouseEnter (){
-    //console.log('enter')
-    if (slideOn) {
-      !toLeft? setItemList(leftShift(itemList)): setItemList(rightShift(itemList));
-      //console.log('rare condition')
-    }
-    setToLeft(false);
-    setSlideOn(false);
-
-    setMouseOnImage(true);
-  }
-
-  function handleMouseLeave() {
-    setMouseOnImage(false);
-  }
+  useEffect(() => {
+    if (mouseOnImage)  { clearTimeout(timerRef.current); }
+    else { timerRef.current = setAlternation(); }
+    return ()=> { clearTimeout(timerRef.current); }
+  }, [mouseOnImage]);
 
   function setAlternation () {
     return setTimeout(()=>{
-      if (slideOn) {!toLeft? setItemList(leftShift(itemList)): setItemList(rightShift(itemList));}
-      setToLeft(false);
+      cleanForFalse();
       setSlideOn(!slideOn);
-    }, slideOn? clickInterval:1500);
+    }, slideOn? phaseTrue:phaseFalse);
+  }
+
+  function cleanForFalse() {
+    if (slideOn) {
+      setToLeft(false);
+      !toLeft? setItemList(leftShift(itemList)): setItemList(rightShift(itemList));
+    }
+  }
+
+  function handleMouseLeave() { setMouseOnImage(false); }
+  function handleMouseEnter (){
+    cleanForFalse()
+    setSlideOn(false);
+    setMouseOnImage(true);
   }
 
   return (
@@ -112,7 +117,7 @@ function Carousel({itemList, slideOn, toLeft, handleMouseEnter, handleMouseLeave
       <div
         style={{transform: `translateX(${!slideOn?'-100%': !toLeft?'-200%':'0%'})`}}
         className={clsx('flex transition-transform ease-in-out',
-          {'duration-[400ms]':slideOn,'duration-0':!slideOn})}                                //Duration
+          {'duration-300':slideOn,'duration-0':!slideOn})}                                //Duration
       >
         {itemList.map((item)=> { return (
           <div key={item.fxTime} className='shrink-0  w-full '>
@@ -144,13 +149,15 @@ function ToolKits({toLeft, setToLeft, setSlideOn, slideOn, dotList, itemList, se
   const tempImgTime = !slideOn? itemList[viewNormal].fxTime :
     eatLeft? itemList[viewLeft].fxTime : itemList[viewRight].fxTime;
 
+
   useEffect(()=>{
     let timerId;
     if (clickedOnDot!==0) {
-      timerId = setTimeout(()=>{setClickedOnDot(0)},clickInterval);
+      timerId = setTimeout(()=>{setClickedOnDot(0)}, phaseTrue);
     }
     return ()=>{clearTimeout(timerId)}
   }, [clickedOnDot])
+
 
   function clickToImage(e) {
     if (e.target.value===void 0) {return ;}
@@ -164,8 +171,15 @@ function ToolKits({toLeft, setToLeft, setSlideOn, slideOn, dotList, itemList, se
     setClickedOnDot(targetInd<tempInd? 1:2);
   }
 
+  function clickArrow(direction) {
+    if (slideOn) { return ; }
+    if (direction==='left'){ setToLeft(true); }
+    setSlideOn(true);
+  }
+
   return (<>
-    <div className='absolute flex justify-evenly  w-3/4 left-[12.5%] top-[91.5%] bg-sky-800 rounded-lg' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div className='absolute flex justify-evenly  w-3/4 left-[12.5%] top-[91.5%] bg-sky-800 rounded-lg'
+         onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       {dotList.map((fxTime)=> { return (
         <PacManDot
           key={fxTime}
@@ -180,13 +194,13 @@ function ToolKits({toLeft, setToLeft, setSlideOn, slideOn, dotList, itemList, se
     </div>
 
     <div className='absolute left-0 top-[83%] max-sm:top-[85%] text-card hover:opacity-30 hover:scale-125'>
-      <button onClick={()=>{setToLeft(true);setSlideOn(true);}} className='border-none'>
+      <button onClick={()=>{clickArrow('left')}} className='border-none' >
         <ChevronLeftIcon width={24}></ChevronLeftIcon>
       </button>
     </div>
 
     <div className='absolute right-0 top-[83%] max-sm:top-[85%] text-card hover:opacity-30 hover:scale-125'>
-      <button onClick={()=>{setSlideOn(true)}} className='border-none'>
+      <button onClick={()=>{clickArrow('right')}} className='border-none' >
         <ChevronRightIcon width={24}></ChevronRightIcon>
       </button>
     </div>
@@ -195,21 +209,20 @@ function ToolKits({toLeft, setToLeft, setSlideOn, slideOn, dotList, itemList, se
 }
 
 function PacManDot({fxTime, tempImgTime, clickToImage, goEat, eatLeft, eatRight}) {
-  return (<>
+  return (
       <button value={fxTime} onClick={clickToImage} className={clsx('hover:opacity-50',{'w-2 h-2 mx-1 mt-1 bg-cyan-600 rounded': tempImgTime!==fxTime})}>
         <div className={clsx('w-4 rounded-t-lg bg-cyan-500', {
           'h-2 ': tempImgTime === fxTime,
-          'animate-rotate-counterclockwise': eatRight&&goEat&&tempImgTime === fxTime,
-          'animate-rotate-clockwise': eatLeft&&goEat&&tempImgTime === fxTime
+          'animate-rotate-counterclockwise': eatRight && tempImgTime===fxTime && goEat,
+          'animate-rotate-clockwise': eatLeft && tempImgTime===fxTime && goEat
         })}></div>
 
         <div className={clsx('w-4 rounded-b-lg bg-cyan-500',{
           'h-2': tempImgTime === fxTime,
-          'animate-rotate-clockwise': eatRight&&goEat&&tempImgTime === fxTime,
-          'animate-rotate-counterclockwise': eatLeft&&goEat&&tempImgTime === fxTime
+          'animate-rotate-clockwise': eatRight && tempImgTime===fxTime && goEat,
+          'animate-rotate-counterclockwise': eatLeft && tempImgTime===fxTime && goEat
         })}></div>
       </button>
-    </>
   )
 }
 
