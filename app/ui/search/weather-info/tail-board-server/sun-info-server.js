@@ -1,13 +1,6 @@
-import {useAstroInfoById} from "@/app/lib/data-home";
 import { FiSunrise, FiSunset  } from "react-icons/fi";
 import Canvas from "@/app/ui/home/tail-board-widgets/canvas";
-export default function SunInfo({id}) {
-  //const {data, error, isLoading} = useSunInfoById(id, new Date());
-  const {data, error, isLoading} = useAstroInfoById(id, new Date(), 'sun')
-
-  if (error) {return <p>error</p>}
-  if (isLoading) {return <p></p>}
-
+export default function SunInfoServer({data}) {
   const riseOb = new Date(data.sunrise);
   const setOb = new Date(data.sunset);
   const riseStr = riseOb.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12:false});
@@ -29,10 +22,10 @@ export default function SunInfo({id}) {
           setOb={setOb}
         ></Canvas>
 
-        <div className='absolute top-2/3 max-sm:top-[60%] w-full flex-col items-center'>
+        <div className='absolute top-2/3 max-sm:top-[60%] w-full flex-col items-center text-center'>
           <FiSunset  className='inline-block mt-0.5 align-top text-orange-300 opacity-80'></FiSunset >
           <p className='inline-block align-top whitespace-pre-wrap text-sm opacity-80' >{` Sunset`}</p>
-          <p className='text-lg opacity-95 '>{setStr}</p>
+          <p className='text-lg opacity-95'>{setStr}</p>
         </div>
       </div>
     </div>

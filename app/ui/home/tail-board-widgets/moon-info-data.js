@@ -1,4 +1,4 @@
-import {useAstroInfoById} from "@/app/lib/data";
+import {useAstroInfoById} from "@/app/lib/data-home";
 import MoonInfoCarousel from "@/app/ui/home/tail-board-widgets/moon-info-carousel";
 
 

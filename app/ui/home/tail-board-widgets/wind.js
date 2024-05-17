@@ -1,5 +1,5 @@
 import { CompassPointer, CompassPlate} from "@/app/lib/icons";
-import {useNowById} from "@/app/lib/data";
+import {useNowById} from "@/app/lib/data-home";
 
 
 export default function Wind({id}) {

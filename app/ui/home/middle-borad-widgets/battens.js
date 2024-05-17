@@ -14,7 +14,7 @@ export default function MapBattens({dataMatrix, column, colors, witchFetch}){
       return (
         <div
           style={{width:'11%'}}
-          className='flex flex-col-reverse shrink-0 items-center text-sm text-white h-44 mx-2 pb-1'
+          className='flex flex-col-reverse shrink-0 items-center text-sm text-white  mx-2 pb-1'
           key = {key++}
         >
           <CustomisedPart item={item} witchFetch={witchFetch}></CustomisedPart>
@@ -32,8 +32,8 @@ function CustomisedPart({item, witchFetch}){
       const iconPath = `/icons/${item.icon}.svg`
       return (
         < >
-          <p>{time.getHours()}<span className='max-sm:hidden'>:00</span></p>
-          <Image width={30} height={30} src={iconPath} alt={"Whoops"}></Image>
+          <p>{time.getHours()}<span className=' max-sm:hidden'>:00</span></p>
+          <Image width={20} height={20} src={iconPath} alt={"Whoops"}></Image>
         </>
       )
     }
@@ -50,7 +50,7 @@ function CustomisedPart({item, witchFetch}){
       return (
         < >
           <p>{`${time.getMonth()+1}.${time.getDate()}`}</p>
-          <Image width={30} height={30} src={iconPath} alt={"Whoops"}></Image>
+          <Image width={20} height={20} src={iconPath} alt={"Whoops"}></Image>
         </>
       )
     }
@@ -73,7 +73,7 @@ function calColorInd(value, lowest, range) {
 }
 function calHeight(value, lowest, range) {
   if (range===0) {range+=1;}
-  return Math.sqrt(0.2+(value-lowest)/range)*50;
+  return Math.sqrt(0.8+(value-lowest)/range)*40-10;
 }
 
 /*

@@ -1,7 +1,7 @@
 import {unstable_noStore as no_store} from "next/cache";
 // to save api usage
 export function useStoredData(){
-  return true;
+  return false;
 }
 
 export async function routeFetcher(comingUrl, baseUrl) {

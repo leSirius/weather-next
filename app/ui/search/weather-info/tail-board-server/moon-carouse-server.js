@@ -1,3 +1,4 @@
+'use client'
 import {moonIcons} from "@/app/lib/icons";
 import {useEffect, useRef, useState} from "react";
 import {ChevronLeftIcon, ChevronRightIcon} from "@heroicons/react/16/solid";
@@ -27,7 +28,7 @@ import clsx from "clsx";
 const viewNormal = 1, viewLeft = viewNormal-1, viewRight = viewNormal+1;
 const phaseTrue = 400;              // time to shift an image is 300, animation of pac-man is 400
 const phaseFalse = 1200;
-export default function MoonInfoCarousel({data, today}) {
+export default function MoonCarouselServer({data, today}) {
   const indList = getIndList(0, 4);
   const [slideOn, setSlideOn] = useState(false);
   const [itemList, setItemList] = useState(rightShift(indList.map(ind=>data.moonPhase[ind])));
@@ -68,11 +69,12 @@ export default function MoonInfoCarousel({data, today}) {
     setMouseOnImage(true);
   }
 
+  const indOfWindow = !slideOn?viewNormal:!toLeft?viewRight:viewLeft;
   return (
     <div className='relative h-full w-full '>
       <div className='flex justify-between px-1 '>
         <p className=''>{`${today.getMonth()+1}月${today.getDate()}日`}</p>
-        <p>{toTimeString(new Date(itemList[!slideOn?viewNormal:!toLeft?viewRight:viewLeft].fxTime))}</p>
+        <p>{toTimeString(new Date(itemList[indOfWindow].fxTime))}</p>
       </div>
 
       <Carousel
@@ -83,8 +85,8 @@ export default function MoonInfoCarousel({data, today}) {
         handleMouseLeave={handleMouseLeave}
       ></Carousel>
 
-      <p className='text-sm opacity-70 '>
-        {`Illumination: ${itemList[!slideOn ? viewNormal : !toLeft ? viewRight : viewLeft].illumination}%`}
+      <p className='text-sm opacity-70 text-center'>
+        {`${itemList[indOfWindow].name}: ${itemList[indOfWindow].illumination}%`}
       </p>
 
       <ToolKits
@@ -122,9 +124,9 @@ function Carousel({itemList, slideOn, toLeft, handleMouseEnter, handleMouseLeave
         {itemList.map((item)=> { return (
           <div key={item.fxTime} className='shrink-0  w-full '>
             <div className='my-0 mx-auto w-7/12 rounded-full shadow-[0px_0px_36px_3px_rgba(200,200,200,1)]'
-              style={{opacity: `${20+(Number(item.illumination)-lowest)/range*80}%`}}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
+                 style={{opacity: `${20+(Number(item.illumination)-lowest)/range*80}%`}}
+                 onMouseEnter={handleMouseEnter}
+                 onMouseLeave={handleMouseLeave}
             >
               {moonIcons(item.icon, '100%', 'white', )}
             </div>
@@ -178,7 +180,7 @@ function ToolKits({toLeft, setToLeft, setSlideOn, slideOn, dotList, itemList, se
   }
 
   return (<>
-    <div className='absolute flex justify-evenly  w-3/4  left-[12.5%] top-[91.5%] bg-sky-800 rounded-lg'
+    <div className='absolute flex justify-evenly  w-3/4  left-[12.5%] top-[90%] bg-sky-800 rounded-lg'
          onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       {dotList.map((fxTime)=> { return (
         <PacManDot
@@ -193,13 +195,13 @@ function ToolKits({toLeft, setToLeft, setSlideOn, slideOn, dotList, itemList, se
       )})}
     </div>
 
-    <div className='absolute left-0 top-[83%] max-sm:top-[85%] text-card hover:opacity-30 hover:scale-125'>
+    <div className='absolute left-0 top-[71%] max-sm:top-[85%] text-card hover:opacity-30 hover:scale-125'>
       <button onClick={()=>{clickArrow('left')}} className='border-none' >
         <ChevronLeftIcon width={24}></ChevronLeftIcon>
       </button>
     </div>
 
-    <div className='absolute right-0 top-[83%] max-sm:top-[85%] text-card hover:opacity-30 hover:scale-125'>
+    <div className='absolute right-0 top-[71%] max-sm:top-[85%] text-card hover:opacity-30 hover:scale-125'>
       <button onClick={()=>{clickArrow('right')}} className='border-none' >
         <ChevronRightIcon width={24}></ChevronRightIcon>
       </button>
@@ -210,19 +212,19 @@ function ToolKits({toLeft, setToLeft, setSlideOn, slideOn, dotList, itemList, se
 
 function PacManDot({fxTime, tempImgTime, clickToImage, goEat, eatLeft, eatRight}) {
   return (
-      <button value={fxTime} onClick={clickToImage} className={clsx('hover:opacity-50',{'w-2 h-2 mx-1 mt-1 bg-cyan-600 rounded': tempImgTime!==fxTime})}>
-        <div className={clsx('w-4 rounded-t-lg bg-cyan-500', {
-          'h-2 ': tempImgTime === fxTime,
-          'animate-rotate-counterclockwise': eatRight && tempImgTime===fxTime && goEat,
-          'animate-rotate-clockwise': eatLeft && tempImgTime===fxTime && goEat
-        })}></div>
+    <button value={fxTime} onClick={clickToImage} className={clsx('hover:opacity-50',{'w-2 h-2 mx-1 mt-1 bg-cyan-600 rounded': tempImgTime!==fxTime})}>
+      <div className={clsx('w-4 rounded-t-lg bg-cyan-500', {
+        'h-2 ': tempImgTime === fxTime,
+        'animate-rotate-counterclockwise': eatRight && tempImgTime===fxTime && goEat,
+        'animate-rotate-clockwise': eatLeft && tempImgTime===fxTime && goEat
+      })}></div>
 
-        <div className={clsx('w-4 rounded-b-lg bg-cyan-500',{
-          'h-2': tempImgTime === fxTime,
-          'animate-rotate-clockwise': eatRight && tempImgTime===fxTime && goEat,
-          'animate-rotate-counterclockwise': eatLeft && tempImgTime===fxTime && goEat
-        })}></div>
-      </button>
+      <div className={clsx('w-4 rounded-b-lg bg-cyan-500',{
+        'h-2': tempImgTime === fxTime,
+        'animate-rotate-clockwise': eatRight && tempImgTime===fxTime && goEat,
+        'animate-rotate-counterclockwise': eatLeft && tempImgTime===fxTime && goEat
+      })}></div>
+    </button>
   )
 }
 

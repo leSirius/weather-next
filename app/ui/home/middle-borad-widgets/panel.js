@@ -20,8 +20,8 @@ export function Panel({setter, buttonList, iconList, typeInfoList, column, setCo
   }
 
   return (
-    <div className='flex-col flex-grow bg-cyan-800 opacity-95 rounded-lg shadow-lg shadow-cyan-900' onWheel={handleWheel}>
-      <div className='flex-grow flex justify-evenly h-32 md:pt-10
+    <div className='col-span-1 bg-cyan-800 opacity-95 rounded-lg shadow-lg shadow-cyan-900' onWheel={handleWheel}>
+      <div className='flex-grow flex justify-evenly h-24 md:pt-4
       max-sm:flex-col max-sm:pt-4 max-sm:pl-4 max-sm:h-36'
       >
         {buttonList.map((choice, ind) =>{
@@ -45,7 +45,7 @@ export function Panel({setter, buttonList, iconList, typeInfoList, column, setCo
           //ref={selector}
           onChange={selectHandler}
           value={column}
-          className='w-1/2 h-5 rounded border-none text-sm bg-cyan-600 opacity-70 hover:opacity-95 max-sm:w-3/4'
+          className='w-1/2 h-5 block mx-auto rounded border-none text-sm bg-cyan-600 opacity-70 hover:opacity-95 max-sm:w-3/4'
         >
           {typeInfoList.map(({type, text}) => <option key={`select${type}`} value={type}>{text} </option>)}
         </select>

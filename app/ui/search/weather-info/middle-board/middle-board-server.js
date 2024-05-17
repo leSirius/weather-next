@@ -1,4 +1,5 @@
-import {useEffect, useState} from "react";
+'use client'
+import {useState} from "react";
 import {fetchDailyById, fetchHourlyById, fetchIndicesById} from "@/app/lib/data-home";
 import BarGraphContainer from "@/app/ui/home/middle-borad-widgets/bar-graph-container";
 import {Panel} from "@/app/ui/home/middle-borad-widgets/panel";
@@ -32,7 +33,6 @@ const typeInfoTable = [
     {type: 'cloud', text: 'Cloud', unit: '%'},
     {type: "precip", text: "Precipitation", unit: "mm"}
   ]
-
 ]
 
 // 4 states under this component, dataList, dataType, colorList and colorSetter.
@@ -42,10 +42,9 @@ const typeInfoTable = [
 // There is a dependency, whenever dataMatrix updates according fetch, column needs to follow.
 // witchToShow can be calculated by dataList, so it's redundant.
 //
-export default function MiddleBoard({id}){
-  const beginFromFetch = 0;
-  const [dataMatrix, setDataMatrix] = useState([]);
-  const [column, setColumn] = useState(typeInfoTable[beginFromFetch][0].type);
+export default function MiddleBoardServer({id, data}){
+  const [dataMatrix, setDataMatrix] = useState(data);
+  const [column, setColumn] = useState(typeInfoTable[getWitchFetch(data)][0].type);
 
   async function asyncSetTwoStates(ind=0){
     if (id!==void 0 && id!==''){
@@ -57,17 +56,12 @@ export default function MiddleBoard({id}){
     }
   }
 
-  useEffect(() => {
-    asyncSetTwoStates(beginFromFetch);
-  }, []);
-
   if (dataMatrix===void 0||dataMatrix.length===0) { return <MiddleLoading></MiddleLoading>; }
-
-  const witchFetch = getWitchFetch(dataMatrix, typeInfoTable);
+  const witchFetch = getWitchFetch(dataMatrix);
   const typeInfoList = typeInfoTable[witchFetch];
 
   return (
-    <div className='grid grid-cols-3 pt-4 gap-4 h-48'>
+    <div className='grid grid-cols-3 gap-4 h-full'>
       <BarGraphContainer
         dataMatrix={dataMatrix}
         column={column}
@@ -88,9 +82,9 @@ export default function MiddleBoard({id}){
   );
 }
 
-function getWitchFetch(dataMatrix, typeTable){
+function getWitchFetch(dataMatrix){
   if (dataMatrix===void 0||dataMatrix.length===0 || dataMatrix[0]===void 0) {return -1;}
-  return typeTable.findIndex((types)=>{return types.every(ob=>dataMatrix[0][ob.type] !== void 0)});
+  return typeInfoTable.findIndex((types)=>{return types.every(ob=>dataMatrix[0][ob.type] !== void 0)});
 }
 
 

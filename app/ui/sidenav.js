@@ -22,7 +22,7 @@ export default function SideNav(){
     {links.map(link=>{
       const LinkIcon = link.icon;
       return(
-        <Link href={link.href} key={link.name+link.href}
+        <Link href={link.href} key={link.name}
               className="flex max-sm:justify-center w-full md:rounded-lg bg-amber-500 hover:bg-amber-600 md:gap-2 md:p-3 md:my-3">
           <LinkIcon className="w-6"/>
           <p className="hidden md:block">{link.name}</p>

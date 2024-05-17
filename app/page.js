@@ -1,6 +1,6 @@
 'use client'
 import {Suspense, useEffect, useState} from "react";
-import { fetchCityByLoc} from "@/app/lib/data";
+import { fetchCityByLoc} from "@/app/lib/data-home";
 import HeadBoard from "@/app/ui/home/head-board";
 import MiddleBoard from "@/app/ui/home/middle-board";
 import TailBoard from "@/app/ui/home/tail-board";
@@ -10,24 +10,33 @@ export default function Page (){
   let [[cityName, cityId], setCity] = useState(['','']);
 
   useEffect(() => {
-    const success = async (pos)=>{
-      const [lat, lon] = [pos.coords.latitude.toFixed(2), pos.coords.longitude.toFixed(2)];
-      if (lat === void 0) { throw Error("can't get location"); }
-      const location = lon.toString() + ',' + lat.toString();
-      const cityInfo = await fetchCityByLoc(location);
-      setCity([cityInfo.name, cityInfo.id]);
-    }
-    const error = (e)=> {throw Error(e);}
-
     try {
       if (cityId.length===0){
-        navigator.geolocation.getCurrentPosition(success, error);
+        let location = sessionStorage.getItem('location');
+        if (!location) { navigator.geolocation.getCurrentPosition(success, error); }
+        else {
+          (async ()=>{
+            const cityInfo = await fetchCityByLoc(location);
+            setCity([cityInfo.name, cityInfo.id]);
+          })();
+        }
       }
     }
     catch (e) {
       console.error('getting location failed, use Beijing. Message:', e.message);
       setCity(beijing);
     }
+
+    async function success (pos){
+      const [lat, lon] = [pos.coords.latitude.toFixed(2), pos.coords.longitude.toFixed(2)];
+      if (lat === void 0) { throw Error("can't get location"); }
+      const location = lon.toString() + ',' + lat.toString();
+      sessionStorage.setItem('location', location);
+      const cityInfo = await fetchCityByLoc(location);
+      setCity([cityInfo.name, cityInfo.id]);
+    }
+    function error(e) {throw Error(e);}
+
   }, []);
 
   if (cityId==='') {return <Loading></Loading>}

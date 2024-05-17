@@ -1,4 +1,4 @@
-import {useAirById} from "@/app/lib/data";
+import {useAirById} from "@/app/lib/data-home";
 import {compileNonPath} from "next/dist/shared/lib/router/utils/prepare-destination";
 const airAttList = [
   ['AQI', 'aqi'],

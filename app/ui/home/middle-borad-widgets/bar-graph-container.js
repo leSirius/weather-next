@@ -23,7 +23,7 @@ export default function  BarGraphContainer({dataMatrix, column, setDataType, typ
   const [colorList, setColorList] = useState(storedColorList||defaultColorList);
 
   return (
-    <div className=' flex h-48 w-8/12 p-1 pb-0.5 bg-blue-900 rounded-lg  relative text-card shadow-lg shadow-blue-900'>
+    <div className='col-span-2 flex  p-1 pb-0.5 bg-blue-900 rounded-lg  relative text-card shadow-lg shadow-blue-900'>
       <ToolKits
         typeInfoList={typeInfoList}
         column={column}
