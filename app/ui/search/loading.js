@@ -12,9 +12,9 @@ export function MiddleLoadingServer() {
 export function TailLoadingServer() {
   return (
     <div className='grid grid-cols-3 gap-4 h-full text-card'>
-      <div className='bg-sky-500 rounded-xl shadow-[inset_-1px_-1px_6px_0px_rgba(50,50,50,0.5)]'></div>
-      <div className='bg-sky-500 rounded-xl shadow-[inset_-1px_-1px_6px_0px_rgba(50,50,50,0.5)]'></div>
-      <div className='bg-sky-500 rounded-xl shadow-[inset_-1px_-1px_6px_0px_rgba(50,50,50,0.5)]'></div>
+      <div className='bg-sky-500 rounded-xl shadow-[inset_-1px_-1px_6px_0px_rgba(50,50,150,0.7)]'></div>
+      <div className='bg-sky-500 rounded-xl shadow-[inset_-1px_-1px_6px_0px_rgba(50,50,150,0.7)]'></div>
+      <div className='bg-sky-500 rounded-xl shadow-[inset_-1px_-1px_6px_0px_rgba(50,50,150,0.7)]'></div>
     </div>
   )
 }

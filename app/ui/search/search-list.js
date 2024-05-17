@@ -7,7 +7,7 @@ export default function SearchList({query}) {
     <div className='w-full'>
       <SearchBox></SearchBox>
       <div className='h-4'></div>
-      <div className='h-[30rem] w-full rounded-xl bg-sky-600 overflow-scroll no-scroll'>
+      <div className='h-[30rem] w-full rounded-xl bg-sky-600 overflow-y-scroll no-scrollbar'>
         <Suspense fallback={<></>}>
           <CityList query={query}></CityList>
         </Suspense>

@@ -32,7 +32,7 @@ export async function fetchNow(id) {
 }
 
 export async function fetchMiddle(id, genre, type=0) {
-
+  no_store();
   const data = genre!=='indices'?
     await proxyFetcher(baseUrls[genre], {location: id}):
     await proxyFetcher(baseUrls[genre], {location: id, type: type, lang: 'zh'});

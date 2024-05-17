@@ -5,5 +5,6 @@ import MiddleBoardServer from "@/app/ui/search/weather-info/middle-board/middle-
 export default async function MiddleDataLayer({id}) {
   const beginFrom = 'hourly';
   const data = await fetchMiddle(id, beginFrom);
+
   return <MiddleBoardServer id={id} data={data}></MiddleBoardServer>
 }

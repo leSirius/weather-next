@@ -96,7 +96,6 @@ export default function Canvas({riseOb, setOb}){
           (progress/0.5)*(topColor-baseColor) :
           ((1-progress)/0.5)*(topColor-baseColor)
         const color =  baseColor+tempOffset
-        console.log(color);
 
         context.beginPath();
         context.strokeStyle = `rgba(${color},${color},${color}, 1)`;

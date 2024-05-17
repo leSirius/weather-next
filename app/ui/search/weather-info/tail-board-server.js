@@ -18,7 +18,7 @@ export default async function TailBoardServer({id}) {
 
 function Cube({children}) {
   return (
-    <div className='bg-sky-500 rounded-xl shadow-[inset_-1px_-1px_6px_0px_rgba(50,50,50,0.6)]'>
+    <div className='bg-sky-500 rounded-xl shadow-[inset_-1px_-1px_6px_0px_rgba(50,50,150,0.7)]'>
       {children}
     </div>
   )
