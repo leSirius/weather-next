@@ -45,6 +45,7 @@ export async function fetchAstronomy(id, genre, date, lang='zh') {
 }
 
 async function proxyFetcher(baseUrl, paramsOb) {
+  //no_store();
   let url = '';
   try {
     url = makeUrl(baseUrl, paramsOb);

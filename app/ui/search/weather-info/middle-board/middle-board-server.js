@@ -45,6 +45,14 @@ const typeInfoTable = [
 export default function MiddleBoardServer({id, data}){
   const [dataMatrix, setDataMatrix] = useState(data);
   const [column, setColumn] = useState(typeInfoTable[getWitchFetch(data)][0].type);
+  const [prevId, setPrevId] = useState(id);
+  const witchFetch = getWitchFetch(dataMatrix);
+  const typeInfoList = typeInfoTable[witchFetch];
+
+  if (id!==prevId) {
+    setPrevId(id);
+    asyncSetTwoStates(witchFetch)
+  }
 
   async function asyncSetTwoStates(ind=0){
     if (id!==void 0 && id!==''){
@@ -57,8 +65,7 @@ export default function MiddleBoardServer({id, data}){
   }
 
   if (dataMatrix===void 0||dataMatrix.length===0) { return <MiddleLoading></MiddleLoading>; }
-  const witchFetch = getWitchFetch(dataMatrix);
-  const typeInfoList = typeInfoTable[witchFetch];
+
 
   return (
     <div className='grid grid-cols-3 gap-4 h-full'>

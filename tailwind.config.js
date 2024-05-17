@@ -21,16 +21,26 @@ module.exports = {
       keyframes: {
         clockwise: {
           '0%, 100%': { transform: 'rotate(0deg)'},
-          '50%': { transform: 'rotate(32deg)'}
+          '50%': { transform: 'rotate(32deg)'},
         },
         counterclockwise: {
           '0%, 100%': { transform: 'rotate(0deg)'},
           '50%': { transform: 'rotate(-32deg)'},
+        },
+        rotation: {
+          'from': { transform: 'rotate(0deg)'},
+          'to': { transform: 'rotate(360deg)'},
+        },
+        shake: {
+          '0%, 50%, 100%': {transform: 'rotate(0deg)'},
+          '25%': { transform: 'rotate(4deg)' },
+          '75%': { transform: 'rotate(-3deg)' },
         }
       },
       animation: {
         'rotate-clockwise': 'clockwise 200ms ease-in-out 2',
         'rotate-counterclockwise': 'counterclockwise 200ms ease-in-out 2',
+        'compass': 'shake 1800ms .1s ease-in infinite',
       },
     },
   },
