@@ -1,6 +1,8 @@
-import Clock from "@/app/ui/home/head-board-widget/Clock";
 import Image from "next/image";
 import {fetchNow} from "@/app/lib/data-search";
+import dynamic from "next/dynamic";
+
+const Clock = dynamic(()=>import("@/app/ui/home/head-board-widget/Clock"), {ssr:false})
 
 export default async function HeadBoardServer({id}){
   const nowData = await fetchNow(id);
@@ -19,7 +21,7 @@ export default async function HeadBoardServer({id}){
 
 function BasicInfo ({obsTime}) {
   return (<>
-    <div className="absolute right-0 top-0 text-2xl max-sm:text-lg "><Clock ></Clock></div>
+    <div className="absolute right-0 top-0 text-2xl max-sm:text-lg "><Clock> </Clock></div>
     <p className="absolute right-0 top-7 text-sm opacity-40 text-right max-sm:top-6" style={{whiteSpace: 'pre-wrap'}}>
       {`Observed at\n${obsTime}`}
     </p>
@@ -28,7 +30,7 @@ function BasicInfo ({obsTime}) {
 
 function CentralInfo({temp, text, icon}) {
   return (<>
-    <Image width={60} height={60} src={`/icons/${icon}.svg`} alt="falied"
+    <Image width={60} height={60} src={`/icons/${icon}.svg`} alt="falied" priority={true}
            className='w-9 max-sm:pt-1.5 md:w-16'
     ></Image>
     <div className="md:px-3 max-sm:pt-4">

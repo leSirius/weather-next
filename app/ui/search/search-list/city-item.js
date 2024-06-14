@@ -6,6 +6,7 @@ export default function CityItem({city}) {
   const {replace} = useRouter();
   const searchParam = useSearchParams();
   const tempId = searchParam.get('id');
+
   function clickCity(e) {
     const id = e.currentTarget.value;
     const newSearchParam = new URLSearchParams({id:id})

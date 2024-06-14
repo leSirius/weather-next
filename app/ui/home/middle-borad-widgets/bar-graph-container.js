@@ -18,7 +18,10 @@ const defaultColorList = [
 // also easier to inject data from another fetch.
 
 export default function  BarGraphContainer({dataMatrix, column, setDataType, typeInfoList, witchFetch}){
-  const colorJson = sessionStorage.getItem("storedColorList")
+  let colorJson
+  if (typeof window !== 'undefined' ) {
+    colorJson = sessionStorage.getItem("storedColorList")
+  }
   const storedColorList = colorJson?JSON.parse(colorJson):null;
   const [colorList, setColorList] = useState(storedColorList||defaultColorList);
 

@@ -5,14 +5,14 @@ import MoonInfoCarousel from "@/app/ui/home/tail-board-widgets/moon-info-carouse
 import MoonInfoData from "@/app/ui/home/tail-board-widgets/moon-info-data";
 
 export default function TailBoard({id}) {
-  return (
+  return (<>
     <div className='flex justify-between mt-2 w-full h-52 max-sm:flex-wrap text-card'>
       <Cube><AirNow id={id}></AirNow></Cube>
       <Cube><Wind id={id}></Wind></Cube>
       <Cube><SunInfo id={id}></SunInfo></Cube>
       <Cube><MoonInfoData id={id}></MoonInfoData></Cube>
     </div>
-  )
+  </>)
 }
 
 function Cube({children}) {

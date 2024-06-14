@@ -1,7 +1,6 @@
 'use client'
 import {useSearchParams, usePathname, useRouter} from "next/navigation";
 
-
 export default function SearchBox() {
   const pathName = usePathname();
   const searchParams = useSearchParams();

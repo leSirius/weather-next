@@ -32,7 +32,7 @@ function BasicInfo ({cityName, obsTime}) {
 
 function CentralInfo({temp, text, icon}) {
   return (<>
-    <Image width={60} height={60} src={`/icons/${icon}.svg`} alt="falied"
+    <Image width={60} height={60} src={`/icons/${icon}.svg`} alt="falied" priority={true}
            className='w-9 max-sm:pt-1.5 md:w-16'
     ></Image>
     <div className="md:px-3 max-sm:pt-4">

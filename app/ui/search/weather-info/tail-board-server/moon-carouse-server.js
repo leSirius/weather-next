@@ -234,7 +234,7 @@ function getIndList(temp=0, pace=4) {
 }
 
 function toTimeString(date) {
-  return date.toLocaleTimeString([],{hour: '2-digit', minute:'2-digit',hour12:false});
+  return date.toLocaleTimeString([],{hour: '2-digit', minute:'2-digit',hourCycle: "h23"});
 }
 
 function leftShift(list) {

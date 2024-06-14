@@ -6,7 +6,7 @@ import {
 import Image from "next/image";
 const links = [
   { 'name':'Home', 'href': '/', 'icon': HomeIcon, },
-  { 'name':'Search', href: '/search', 'icon': DocumentMagnifyingGlassIcon }
+  { 'name':'Search', href: '/search?id=101010100', 'icon': DocumentMagnifyingGlassIcon }
 ]
 
 export default function SideNav(){

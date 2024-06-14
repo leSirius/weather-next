@@ -15,7 +15,6 @@ export default function Page (){
         let location = sessionStorage.getItem('location');
         if (!location) { navigator.geolocation.getCurrentPosition(success, error); }
         else {
-          console.log('location', location);
           (async ()=>{
             const cityInfo = await fetchCityByLoc(location);
             setCity([cityInfo.name, cityInfo.id]);
