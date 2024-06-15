@@ -8,6 +8,7 @@ export default function ToolKits({typeInfoList, column, setColumn, colorList, se
   //const selector = useRef();
   const [showColorSetter, setShowColorSetter] = useState(false);
   const index = typeInfoList.findIndex(ob => ob.type === column);
+  // console.log("try to find ", column, index)
   const unit = typeInfoList[index].unit;
 
   function clickToColorSetter() {

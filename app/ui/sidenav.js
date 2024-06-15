@@ -5,7 +5,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Image from "next/image";
 const links = [
-  { 'name':'Home', 'href': '/', 'icon': HomeIcon, },
+  { 'name':'Home', 'href': '/home', 'icon': HomeIcon, },
   { 'name':'Search', href: '/search?id=101010100', 'icon': DocumentMagnifyingGlassIcon }
 ]
 

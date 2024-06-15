@@ -9,19 +9,19 @@ export default function WeatherInfo({id}) {
     <div className='h-full grid grid-cols-3 grid-rows-3 gap-4'>
       <div className='col-span-3 rounded-xl bg-blue-600'>
         <Suspense fallback={<></>}>
-          {id!==''&&<HeadBoardServer id={id}></HeadBoardServer>}
+          {id!==""&&<HeadBoardServer id={id}></HeadBoardServer>}
         </Suspense>
       </div>
 
       <div className='col-span-3'>
         <Suspense fallback={<MiddleLoadingServer></MiddleLoadingServer>}>
-          {id!==''?<MiddleDataLayer id={id}></MiddleDataLayer>:<MiddleLoadingServer></MiddleLoadingServer>}
+          {id!==""?<MiddleDataLayer id={id}></MiddleDataLayer>:<MiddleLoadingServer></MiddleLoadingServer>}
         </Suspense>
       </div>
 
       <div className='col-span-3 '>
         <Suspense fallback={<TailLoadingServer></TailLoadingServer>}>
-          {id!==''?<TailBoardServer id={id}></TailBoardServer>:<TailLoadingServer></TailLoadingServer>}
+          {id!==""?<TailBoardServer id={id}></TailBoardServer>:<TailLoadingServer></TailLoadingServer>}
         </Suspense>
       </div>
     </div>

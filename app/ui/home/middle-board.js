@@ -1,39 +1,8 @@
 import {useEffect, useState} from "react";
-import {fetchDailyById, fetchHourlyById, fetchIndicesById} from "@/app/lib/data-home";
 import BarGraphContainer from "@/app/ui/home/middle-borad-widgets/bar-graph-container";
 import {Panel} from "@/app/ui/home/middle-borad-widgets/panel";
-import {ForecastIcon, IndicesIcon} from "@/app/lib/icons";
-import {CalendarDaysIcon} from "@heroicons/react/24/outline";
 import {MiddleLoading} from "@/app/ui/home/loading";
-
-const fetchList = [fetchHourlyById, fetchIndicesById, fetchDailyById];
-const buttonList = ['Forecast next 24 hours', 'Weather indices', '7-day hourly'];
-const iconList = [ForecastIcon, IndicesIcon, CalendarDaysIcon];
-// typeList stores more info than merely type names, or it can be calculated by dataList.
-const typeInfoTable = [
-  [
-    {type: "temp", text: 'Temperature', unit: '°C'},
-    {type: "windSpeed", text: 'WindSpeed', unit: 'km/h'},
-    {type: "humidity", text: "Humidity", unit: "%"},
-    {type: "pop", text: 'ProbOfPrecip', unit: "%"},
-    {type: "precip", text: "Precipitation", unit: "mm"},
-    {type: "pressure", text: "Pressure", unit: "hPa"},
-    {type: "cloud", text: "Cloud", unit:"%"},
-    {type: "dew", text: "DewPoint", unit:"°C"}
-  ], [
-    {type: "level", text: 'Indices', unit: 'Level'}
-  ], [
-    {type: 'tempMax', text: 'MaxTemp', unit: '°C'},
-    {type: 'tempMin', text: 'MinTemp', unit: '°C'},
-    {type: 'humidity', text: 'Humidity', unit: "%"},
-    {type: 'uvIndex', text: 'UVIndex', unit: 'unit'},
-    {type: 'pressure', text: 'Pressure', unit: "hPa"},
-    {type: 'vis', text: 'Visibility', unit: 'km'},
-    {type: 'cloud', text: 'Cloud', unit: '%'},
-    {type: "precip", text: "Precipitation", unit: "mm"}
-  ]
-
-]
+import {fetchList, iconList, buttonList, typeInfoTable} from "@/app/lib/middleInfo";
 
 // 4 states under this component, dataList, dataType, colorList and colorSetter.
 // separately for storing rows of data(Matrix), to control which column of data shown on the graph,

@@ -2,7 +2,7 @@ import {cities} from "@/app/lib/cached-data-search";
 import {astronomy, now} from "@/app/api/lib/cached-data";
 import {unstable_noStore as no_store} from "next/cache";
 
-const saveApi = false;
+const saveApi = true;
 
 const baseUrls = {
   cities: 'https://geoapi.qweather.com/v2/city/top',
