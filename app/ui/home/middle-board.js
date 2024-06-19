@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import BarGraphContainer from "@/app/ui/home/middle-borad-widgets/bar-graph-container";
 import {Panel} from "@/app/ui/home/middle-borad-widgets/panel";
 import {MiddleLoading} from "@/app/ui/home/loading";
-import {fetchList, iconList, buttonList, typeInfoTable} from "@/app/lib/middleInfo";
+import {fetchList, iconList, buttonList, typeInfoTable, calWitchFetch} from "@/app/lib/middleInfo";
 
 // 4 states under this component, dataList, dataType, colorList and colorSetter.
 // separately for storing rows of data(Matrix), to control which column of data shown on the graph,
@@ -32,17 +32,18 @@ export default function MiddleBoard({id}){
 
   if (dataMatrix===void 0||dataMatrix.length===0) { return <MiddleLoading></MiddleLoading>; }
 
-  const witchFetch = getWitchFetch(dataMatrix, typeInfoTable);
+  const witchFetch = calWitchFetch(dataMatrix);
   const typeInfoList = typeInfoTable[witchFetch];
 
   return (
-    <div className='grid grid-cols-3 pt-4 gap-4 h-48'>
+    <div className='grid grid-cols-3 pt-4 gap-4 h-52'>
       <BarGraphContainer
         dataMatrix={dataMatrix}
         column={column}
         setDataType={setColumn}
         typeInfoList={typeInfoList}
         witchFetch={witchFetch}
+        calWitchFetch={calWitchFetch}
       > </BarGraphContainer>
 
       <Panel
@@ -57,10 +58,7 @@ export default function MiddleBoard({id}){
   );
 }
 
-function getWitchFetch(dataMatrix, typeTable){
-  if (dataMatrix===void 0||dataMatrix.length===0 || dataMatrix[0]===void 0) {return -1;}
-  return typeTable.findIndex((types)=>{return types.every(ob=>dataMatrix[0][ob.type] !== void 0)});
-}
+
 
 
 /*

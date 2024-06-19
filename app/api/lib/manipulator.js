@@ -1,11 +1,10 @@
-import {unstable_noStore as no_store} from "next/cache";
 // to save api usage
 export function useStoredData(){
   return false;
 }
 
+
 export async function routeFetcher(comingUrl, baseUrl) {
-  //no_store();
   let formedUrl = '';
   try {
     formedUrl = moveSearchParams(comingUrl, baseUrl);
@@ -18,7 +17,7 @@ export async function routeFetcher(comingUrl, baseUrl) {
 
 
 export async function doFetchBack(url){
-  const res = await fetch(url)
+  const res = await fetch(url, {next: { revalidate: 3600 }})
   return res.json();
 }
 
@@ -31,7 +30,6 @@ export function handleErrBack(requestUrl, url, e){
      Formed request: ${url};
      Error message: ${e.message};`;
   console.error(info);
-  console.log(e);
   return Response.json(e);
 }
 

@@ -1,10 +1,11 @@
 'use client'
 import {useSearchParams, usePathname, useRouter} from "next/navigation";
-
+import {useContext} from "react";
+import {WitchFetchContext} from "@/app/lib/witch-context";
 export default function SearchBox() {
   const pathName = usePathname();
   const searchParams = useSearchParams();
-  const {replace} = useRouter()
+  const {replace} = useRouter();
 
   function debounce(callback, count=400) {
     let timer;

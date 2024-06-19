@@ -1,5 +1,5 @@
 'use client'
-import {Suspense, useEffect, useState} from "react";
+import { useLayoutEffect, useState} from "react";
 import { fetchCityByLoc} from "@/app/lib/data-home";
 import HeadBoard from "@/app/ui/home/head-board";
 import MiddleBoard from "@/app/ui/home/middle-board";
@@ -9,7 +9,7 @@ const beijing = ['Beijing', '101010100'];
 export default function Page (){
   let [[cityName, cityId], setCity] = useState(['','']);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     try {
       if (cityId.length===0){
         let location = sessionStorage.getItem('location');

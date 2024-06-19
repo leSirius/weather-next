@@ -1,15 +1,20 @@
 'use client'
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import clsx from "clsx";
+import {WitchFetchContext} from "@/app/lib/witch-context";
+import {useContext} from "react";
+
 export default function CityItem({city}) {
   const pathName = usePathname();
   const {replace} = useRouter();
   const searchParam = useSearchParams();
   const tempId = searchParam.get('id');
+  const witch = useContext(WitchFetchContext);
 
   function clickCity(e) {
     const id = e.currentTarget.value;
-    const newSearchParam = new URLSearchParams({id:id})
+    const newSearchParam = new URLSearchParams({id:id, witch:witch});
+
     if (searchParam.get('query')) {newSearchParam.set('query', searchParam.get('query'));}
     replace(`${pathName}?${newSearchParam}`)
   }

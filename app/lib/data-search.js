@@ -1,8 +1,5 @@
-import {cities} from "@/app/lib/cached-data-search";
-import {astronomy, now} from "@/app/api/lib/cached-data";
-import {unstable_noStore as no_store} from "next/cache";
-
-const saveApi = true;
+import {astronomy, hourly, now, cities, indices, daily} from "@/app/api/lib/cached-data";
+import {witchList} from "@/app/lib/middleInfo";
 
 const baseUrls = {
   cities: 'https://geoapi.qweather.com/v2/city/top',
@@ -10,8 +7,43 @@ const baseUrls = {
   now: "https://devapi.qweather.com/v7/weather/now",
   astronomy: "https://devapi.qweather.com/v7/astronomy",
   hourly: "https://devapi.qweather.com/v7/weather/24h",
-  daily: 'https://devapi.qweather.com/v7/weather/7d?',
-  indices: 'https://devapi.qweather.com/v7/indices/1d?'
+  daily: 'https://devapi.qweather.com/v7/weather/7d',
+  indices: 'https://devapi.qweather.com/v7/indices/1d'
+}
+
+const saveApi = false;
+
+export async function fetchMiddleServer(id, genre, type='0') {
+  if (saveApi) {
+    const target = genre==='hourly'? hourly : genre==='daily'? daily : indices;
+    return {
+      info:genre==='hourly'? target.hourly: target.daily,
+      time:target.updateTime
+    }
+  }
+  const data = genre!=='indices'?
+    await proxyFetcher(baseUrls[genre], {location: id}):
+    await proxyFetcher(baseUrls[genre], {location: id, type: type, lang: 'zh'});
+  return {info:data[genre === 'hourly' ? 'hourly' : 'daily'], time:data.updateTime}
+}
+
+export async function fetchMiddleClient(id, witch, revalidate = null) {
+  const {baseUrl, genre} = witchList[witch];
+  const param = genre!=='indices'?{location:id}:{location:id,type:'0',lang:'zh'};
+  let url;
+  try {
+    url = makeUrl(baseUrl, param, false);
+    const res = revalidate?
+      await fetch(url,{headers:{'If-None-Match':revalidate}}):
+      await fetch(url);
+    if (!res.ok && res.status!==304) { throw new Error(res.status.toString()) }
+    if (res.status!==304) {
+      const data = await res.json();
+      return {info:data[genre === 'hourly' ? 'hourly' : 'daily'], time:data.updateTime};
+    }
+    return null;
+  }
+  catch (e) { return handleErr(url, e); }
 }
 
 export async function fetchCities(number=20, range='cn', lang='zh') {
@@ -31,21 +63,12 @@ export async function fetchNow(id) {
   return addUnit(data.now);
 }
 
-export async function fetchMiddle(id, genre, type=0) {
-  no_store();
-  const data = genre!=='indices'?
-    await proxyFetcher(baseUrls[genre], {location: id}):
-    await proxyFetcher(baseUrls[genre], {location: id, type: type, lang: 'zh'});
-  return data[genre==='hourly'? 'hourly': 'daily'];
-}
-
 export async function fetchAstronomy(id, genre, date, lang='zh') {
   if (saveApi) {return astronomy[genre]}
   return await proxyFetcher(`${baseUrls.astronomy}/${genre}`, {location: id, date: date, lang:lang});
 }
 
 async function proxyFetcher(baseUrl, paramsOb) {
-  //no_store();
   let url = '';
   try {
     url = makeUrl(baseUrl, paramsOb);
@@ -56,20 +79,19 @@ async function proxyFetcher(baseUrl, paramsOb) {
   }
 }
 
-function makeUrl(baseUrl, paramOb){
-  const key = process.env.KEY;
+function makeUrl(baseUrl, paramOb, needKey=true){
   const searchParams = new URLSearchParams();
-  searchParams.set('key', key);
+  needKey && searchParams.set('key', process.env.KEY);
   searchParams.set('lang', 'en');
   Object.keys(paramOb).forEach((key)=>{
     if (!paramOb[key]) {throw Error(`Invalid search param ${paramOb[key]}:${paramOb}`)}
-    searchParams.set(key, paramOb[key]);
+    searchParams.set(key, paramOb[key].toString());
   })
   return `${baseUrl}?${searchParams}`
 }
 
 async function doFetch(url){
-  const res = await fetch(url);
+  const res = await fetch(url, {next: { revalidate: 3600 } });
   if (!res.ok) {throw Error(`Unlucky code: ${res.code}`)}
   return res.json();
 }

@@ -17,7 +17,7 @@ export default function PanelServer({buttonList, iconList, typeInfoList, column,
       setColumn(value);
     }
   }
-  console.log(witchFetch)
+
   return (
     <div className='col-span-1 bg-cyan-800 opacity-95 rounded-lg shadow-lg shadow-cyan-900' onWheel={handleWheel}>
       <div className='flex-grow flex justify-evenly h-24 md:pt-4
@@ -25,7 +25,6 @@ export default function PanelServer({buttonList, iconList, typeInfoList, column,
       >
         {buttonList.map((choice, ind) =>{
           const ButtonIcon = iconList[ind];
-          console.log(ind===witchFetch)
           return (
             <div className='md:w-1/4 h-12 text-white' key = {`panel${choice}`}>
               <button

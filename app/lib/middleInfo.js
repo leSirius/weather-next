@@ -29,3 +29,14 @@ export const typeInfoTable = [
     {type: "precip", text: "Precipitation", unit: "mm"}
   ]
 ]
+
+export const witchList = [
+  {baseUrl:'/api/hourly', genre:'hourly'},
+  {baseUrl:'/api/indices', genre:'indices'},
+  {baseUrl:'/api/daily', genre:'daily'}
+];
+
+export function calWitchFetch(dataMatrix){
+  if (dataMatrix===void 0||dataMatrix.length===0 || dataMatrix[0]===void 0) {return -1;}
+  return typeInfoTable.findIndex((types)=>{return types.every(ob=>dataMatrix[0][ob.type] !== void 0)});
+}
