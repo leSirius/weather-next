@@ -40,3 +40,7 @@ export function calWitchFetch(dataMatrix){
   if (dataMatrix===void 0||dataMatrix.length===0 || dataMatrix[0]===void 0) {return -1;}
   return typeInfoTable.findIndex((types)=>{return types.every(ob=>dataMatrix[0][ob.type] !== void 0)});
 }
+
+export function calColumn(witch, ind = 0) {
+  return witch === -1 ? void 0 : typeInfoTable[witch][ind]?.type
+}

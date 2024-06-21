@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-export default function PanelServer({buttonList, iconList, typeInfoList, column, setColumn, witchFetch, sWitch}) {
+export default function PanelServer({buttonList, iconList, typeInfoList, column, setColumn, witchFetch, onWitchChange}) {
   function handleWheel(e){
     const  tempInd = typeInfoList.findIndex(ob => ob.type === column);
     const  newInd = e.deltaY>0?
@@ -32,7 +32,7 @@ export default function PanelServer({buttonList, iconList, typeInfoList, column,
                   clsx('flex justify-center w-full outline-none outline-1 h-12 pt-3 bg-teal-600 hover:opacity-75 rounded-2xl border-none overflow-hidden max-sm:rounded-lg max-sm:w-3/4 max-sm:h-8 max-sm:pt-1',
                   {'opacity-55': ind===witchFetch})
                 }
-                onClick={()=>{sWitch(ind);}}
+                onClick={()=>{ind!==witchFetch && onWitchChange(ind);}}
                 title = {choice}
               >
                 <ButtonIcon width='25' ></ButtonIcon>

@@ -1,22 +1,22 @@
 import {useEffect, useRef, useState, useContext } from "react";
 import {fetchMiddleClient} from "@/app/lib/data-search";
 import {SetWitchFetchContext} from "@/app/lib/witch-context";
-import {calWitchFetch, witchList} from "@/app/lib/middleInfo";
+import {calWitchFetch, witchList, calColumn} from "@/app/lib/middleInfo";
 
 const cached = new Map();
 
-export default function useSWRFetch(id, data, calColumn) {
+export default function useSWRFetch(id, data) {
   const [showData, setShowData] = useState(data.info);
   const witchFetch = calWitchFetch(showData);
   const [column, setColumn] = useState(calColumn(witchFetch));
   const isInit = useRef(true);
   const prevId = useRef(id);
-  const tempKey = enKey(id, witchFetch);
   const setWitchContext = useContext(SetWitchFetchContext);
-
+  const tempIdWitch = useRef({id,witchFetch});
 
   useEffect(() => {
-    cached.set(tempKey, {info:data.info, time:data.time})              // new id means new data
+    tempIdWitch.current.id = id;
+    cached.set(calWitchFetch(data), {info:data.info, time:data.time})              // new id means new data
     if (prevId.current !== id) {
       prevId.current = id;
     }
@@ -43,48 +43,41 @@ export default function useSWRFetch(id, data, calColumn) {
     })
   }
 
-  function handleChanged(changedVal, witch=witchFetch) {
+  function onWitchChange(witch=witchFetch) {
+    tempIdWitch.current = {id:id, witchFetch: witch};
     const key = enKey(id, witch);
     if (cached.has(key)) {
       setShowData(cached.get(key).info);
-      setPrev();
+      otherEffects();
       (async ()=> {
         const newData = await fetchMiddleClient(id, witch, cached.get(key).time);
-        newData && cached.set(key, newData);
-        newData && setShowData(newData.info)
+        if (newData && tempIdWitch.current.id===id && tempIdWitch.current.witchFetch===witch) {
+          cached.set(key, newData);
+          setShowData(newData.info);
+          otherEffects();
+        }
       })()
     }
     else {
       (async ()=>{
         const received = await fetchMiddleClient(id, witch);
-        cached.set(key, received);
-        setShowData(received);
-        setPrev();
+        if (tempIdWitch.current.id===id && tempIdWitch.current.witchFetch===witch) {
+          cached.set(key, received);
+          setShowData(received.info);
+          otherEffects();
+        }
       })()
     }
-    function setPrev() {
-      switch (changedVal) {
-        case 'id':
-          break;
-        case 'witchFetch':
-          setWitchContext(witchList[witch].genre);
-          setColumn(calColumn(witch, 0));
-          break;
-      }
+    function otherEffects() {
+      setWitchContext(witchList[witch].genre);
+      setColumn(calColumn(witch, 0));
     }
   }
 
-  function sWitch(witch) {
-    handleChanged('witchFetch', witch);
-  }
-  return [showData, witchFetch, sWitch, column, setColumn];
+  return [showData, witchFetch, onWitchChange, column, setColumn];
 }
 
 function enKey(id, ind) {
   return `${id},${ind}`
 }
 
-function deKey(str) {
-  const [id, ind] = str.split(',');
-  return [id, Number(ind)];
-}

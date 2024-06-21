@@ -11,7 +11,7 @@ const baseUrls = {
   indices: 'https://devapi.qweather.com/v7/indices/1d'
 }
 
-const saveApi = false;
+const saveApi = true;
 
 export async function fetchMiddleServer(id, genre, type='0') {
   if (saveApi) {
