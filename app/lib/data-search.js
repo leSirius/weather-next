@@ -138,7 +138,7 @@ function addUnit(data){
       }
       case "obsTime":{
         const date = new Date(data[key]);
-        ob[key] = date.toLocaleTimeString([],{hour: '2-digit', minute:'2-digit', hourCycle: 'h23', });
+        ob[key] = date.toLocaleTimeString([],{hour: '2-digit', minute:'2-digit', hourCycle: 'h23', timeZone:'Asia/Shanghai'});
         break;
       }
       default :{
