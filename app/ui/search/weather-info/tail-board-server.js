@@ -4,15 +4,34 @@ import MoonCarouselServer from "@/app/ui/search/weather-info/tail-board-server/m
 import SunInfoServer from "@/app/ui/search/weather-info/tail-board-server/sun-info-server";
 export default async function TailBoardServer({id}) {
   const today = new Date();
+  /*
   const nowData = await fetchNow(id);
   const moonData = await fetchAstronomy(id, 'moon', getDateStr(today));
-  const sunData = await fetchAstronomy(id, 'sun', getDateStr(today))
+  const sunData = await fetchAstronomy(id, 'sun', getDateStr(today));
+  */
+
+  const [nowData, moonData, sunData] = await Promise.all([
+    fetchNow(id),
+    fetchAstronomy(id, 'moon', getDateStr(today)),
+    fetchAstronomy(id, 'sun', getDateStr(today))
+  ])
+
   return (
     <div className='grid grid-cols-3 gap-4 h-full text-card'>
       <Cube><WindServer nowData={nowData}></WindServer></Cube>
       <Cube><MoonCarouselServer data={moonData} today={today}></MoonCarouselServer></Cube>
       <Cube><SunInfoServer data={sunData}></SunInfoServer></Cube>
     </div>
+  )
+}
+
+async function DataWrap({fetcher, Comp}) {
+  const data = await fetcher();
+
+  return (
+    <Cube>
+      <Comp></Comp>
+    </Cube>
   )
 }
 
