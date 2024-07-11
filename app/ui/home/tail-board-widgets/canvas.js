@@ -68,7 +68,6 @@ export default function Canvas({riseOb, setOb}){
           });
           return temp;
         }
-
       })();
 
     }

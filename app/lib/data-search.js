@@ -1,4 +1,4 @@
-import {astronomy, hourly, now, cities, indices, daily} from "@/app/api/lib/cached-data";
+//import {astronomy, hourly, now, cities, indices, daily} from "@/app/api/lib/cached-data";
 import {witchList} from "@/app/lib/middleInfo";
 
 const baseUrls = {
@@ -11,9 +11,10 @@ const baseUrls = {
   indices: 'https://devapi.qweather.com/v7/indices/1d'
 }
 
-const saveApi = true;
+// const saveApi = false;
 
 export async function fetchMiddleServer(id, genre, type='0') {
+  /*
   if (saveApi) {
     const target = genre==='hourly'? hourly : genre==='daily'? daily : indices;
     return {
@@ -21,6 +22,7 @@ export async function fetchMiddleServer(id, genre, type='0') {
       time:target.updateTime
     }
   }
+  */
   const data = genre!=='indices'?
     await proxyFetcher(baseUrls[genre], {location: id}):
     await proxyFetcher(baseUrls[genre], {location: id, type: type, lang: 'zh'});
@@ -47,7 +49,7 @@ export async function fetchMiddleClient(id, witch, revalidate = null) {
 }
 
 export async function fetchCities(number=20, range='cn', lang='zh') {
-  if (saveApi) {return cities;}
+  // if (saveApi) {return cities;}
   const data = await proxyFetcher(baseUrls.cities, {number:20, range:range, lang:lang});
   return data.topCityList;
 }
@@ -58,13 +60,13 @@ export async function fetchLookUp(location, number=20, lang='zh') {
 }
 
 export async function fetchNow(id) {
-  if (saveApi) {return addUnit(now.now);}
+  // if (saveApi) {return addUnit(now.now);}
   const data = await proxyFetcher(baseUrls.now, {location:id});
   return addUnit(data.now);
 }
 
 export async function fetchAstronomy(id, genre, date, lang='zh') {
-  if (saveApi) {return astronomy[genre]}
+  // if (saveApi) {return astronomy[genre]}
   return await proxyFetcher(`${baseUrls.astronomy}/${genre}`, {location: id, date: date, lang:lang});
 }
 
