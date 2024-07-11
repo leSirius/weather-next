@@ -1,4 +1,4 @@
-import {astronomy, hourly, now, cities, indices, daily} from "@/app/api/lib/cached-data";
+//import {astronomy, hourly, now, cities, indices, daily} from "@/app/api/lib/cached-data";
 import {witchList} from "@/app/lib/middleInfo";
 
 const baseUrls = {
@@ -68,13 +68,18 @@ export async function fetchNow(id) {
 export async function fetchAstronomy(id, genre, date, lang='zh') {
   // if (saveApi) {return astronomy[genre]}
   return await proxyFetcher(`${baseUrls.astronomy}/${genre}`, {location: id, date: date, lang:lang});
+
 }
 
 async function proxyFetcher(baseUrl, paramsOb) {
   let url = '';
   try {
     url = makeUrl(baseUrl, paramsOb);
-    return await doFetch(url);
+    const data = await doFetch(url);
+
+    console.error(`---------------------------${baseUrl}`, Reflect.ownKeys(data).join(','));
+
+    return data;
   }
   catch (e) {
     return handleErr(url, e);
