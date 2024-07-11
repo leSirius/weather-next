@@ -1,4 +1,4 @@
-//import {astronomy, hourly, now, cities, indices, daily} from "@/app/api/lib/cached-data";
+import {astronomy, hourly, now, cities, indices, daily} from "@/app/api/lib/cached-data";
 import {witchList} from "@/app/lib/middleInfo";
 
 const baseUrls = {
