@@ -22,11 +22,11 @@ export default async function TailBoardServer({id}) {
       <Cube>{
         (!!moonData.moonPhase)
         ? <MoonCarouselServer data={moonData} today={today}></MoonCarouselServer>
-        : <p>moonData</p>
+        : <p>{moonData}</p>
       }</Cube>
       <Cube>{(!!sunData.sunrise)
         ? <SunInfoServer data={sunData}></SunInfoServer>
-        : <p>Reflect.ownKeys(sunData).join(', ')</p>
+        : <p>{Reflect.ownKeys(sunData).join(', ')}</p>
       }</Cube>
     </div>
   )
