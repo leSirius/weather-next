@@ -68,7 +68,6 @@ export async function fetchNow(id) {
 export async function fetchAstronomy(id, genre, date, lang='zh') {
   // if (saveApi) {return astronomy[genre]}
   return await proxyFetcher(`${baseUrls.astronomy}/${genre}`, {location: id, date: date, lang:lang});
-
 }
 
 async function proxyFetcher(baseUrl, paramsOb) {
@@ -77,7 +76,7 @@ async function proxyFetcher(baseUrl, paramsOb) {
     url = makeUrl(baseUrl, paramsOb);
     const data = await doFetch(url);
 
-    console.error(`---------------------------${url}`, Reflect.ownKeys(data).map(key=>`${key} ${data[key]}`).join(', '));
+    //console.error(`---------------------------${url}`, Reflect.ownKeys(data).map(key=>`${key} ${data[key]}`).join(', '));
 
     return data;
   }
@@ -100,7 +99,6 @@ function makeUrl(baseUrl, paramOb, needKey=true){
 async function doFetch(url){
   const res = await fetch(url, {next: { revalidate: 3600 } });
   if (!res.ok) {throw Error(`Unlucky code: ${res.code}`)}
-
   return res.json();
 }
 
