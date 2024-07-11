@@ -20,11 +20,11 @@ export default async function TailBoardServer({id}) {
     <div className='grid grid-cols-3 gap-4 h-full text-card'>
       <Cube>{(!!nowData.windScale)&&<WindServer nowData={nowData}></WindServer>}</Cube>
       <Cube>{
-        (!!moonData.moonPhase)
+        (!moonData.moonPhase)
         ? <MoonCarouselServer data={moonData} today={today}></MoonCarouselServer>
-        : <p>{moonData}</p>
+        : <p>{Reflect.ownKeys(moonData).map(key=>`${key} ${moonData[key]}`).join(', ')}</p>
       }</Cube>
-      <Cube>{(!!sunData.sunrise)
+      <Cube>{(!sunData.sunrise)
         ? <SunInfoServer data={sunData}></SunInfoServer>
         : <p>{Reflect.ownKeys(sunData).join(', ')}</p>
       }</Cube>
