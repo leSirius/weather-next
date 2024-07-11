@@ -20,7 +20,9 @@ export default async function TailBoardServer({id}) {
   return (
     <div className='grid grid-cols-3 gap-4 h-full text-card'>
       <Cube>{nowData&&<WindServer nowData={nowData}></WindServer>}</Cube>
-      <Cube>{moonData&&<MoonCarouselServer data={moonData} today={today}></MoonCarouselServer>}</Cube>
+      <Cube>{
+        // moonData&&<MoonCarouselServer data={moonData} today={today}></MoonCarouselServer>
+      }</Cube>
       <Cube>{sunData&&<SunInfoServer data={sunData}></SunInfoServer>}</Cube>
     </div>
   )
