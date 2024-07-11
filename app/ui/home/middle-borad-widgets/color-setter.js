@@ -53,8 +53,6 @@ export default function ColorSetter({colorList, setColorList, column, setColumn,
       setColorList(newColorList);
       sessionStorage.setItem('storedColorList', JSON.stringify(newColorList));
     }
-    //const form = e.currentTarget;
-    //console.log(form.elements.namedItem('0'));
   }
 
   return (

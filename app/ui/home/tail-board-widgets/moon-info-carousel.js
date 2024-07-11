@@ -1,3 +1,4 @@
+'use client'
 import {moonIcons} from "@/app/lib/icons";
 import {useEffect, useRef, useState} from "react";
 import {ChevronLeftIcon, ChevronRightIcon} from "@heroicons/react/16/solid";

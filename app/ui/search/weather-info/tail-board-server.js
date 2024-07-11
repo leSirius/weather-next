@@ -14,7 +14,8 @@ export default async function TailBoardServer({id}) {
     fetchNow(id),
     fetchAstronomy(id, 'moon', getDateStr(today)),
     fetchAstronomy(id, 'sun', getDateStr(today))
-  ])
+  ]);
+  console.log(moonData);
 
   return (
     <div className='grid grid-cols-3 gap-4 h-full text-card'>
@@ -25,15 +26,6 @@ export default async function TailBoardServer({id}) {
   )
 }
 
-async function DataWrap({fetcher, Comp}) {
-  const data = await fetcher();
-
-  return (
-    <Cube>
-      <Comp></Comp>
-    </Cube>
-  )
-}
 
 function Cube({children}) {
   return (
