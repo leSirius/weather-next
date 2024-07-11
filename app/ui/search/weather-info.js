@@ -21,7 +21,7 @@ export default function WeatherInfo({id, witch}) {
       <div className='col-span-3 '>
         <Suspense fallback={<TailLoadingServer></TailLoadingServer>}>
           {
-            //id!==""?<TailBoardServer id={id}></TailBoardServer>:<TailLoadingServer></TailLoadingServer>
+            id!==""?<TailBoardServer id={id}></TailBoardServer>:<TailLoadingServer></TailLoadingServer>
           }
         </Suspense>
       </div>
