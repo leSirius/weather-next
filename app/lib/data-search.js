@@ -100,6 +100,7 @@ function makeUrl(baseUrl, paramOb, needKey=true){
 async function doFetch(url){
   const res = await fetch(url, {next: { revalidate: 3600 } });
   if (!res.ok) {throw Error(`Unlucky code: ${res.code}`)}
+
   return res.json();
 }
 

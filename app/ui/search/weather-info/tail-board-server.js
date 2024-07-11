@@ -18,16 +18,9 @@ export default async function TailBoardServer({id}) {
 
   return (
     <div className='grid grid-cols-3 gap-4 h-full text-card'>
-      <Cube>{(!!nowData.windScale)&&<WindServer nowData={nowData}></WindServer>}</Cube>
-      <Cube>{
-        (!moonData)
-        ? <MoonCarouselServer data={moonData} today={today}></MoonCarouselServer>
-        : <p>{Reflect.ownKeys(moonData).map(key=>`${key} ${moonData[key]}`).join(', ')}</p>
-      }</Cube>
-      <Cube>{(!sunData)
-        ? <SunInfoServer data={sunData}></SunInfoServer>
-        : <p>{Reflect.ownKeys(sunData).join(', ')}</p>
-      }</Cube>
+      <Cube> <WindServer nowData={nowData}></WindServer> </Cube>
+      <Cube> <MoonCarouselServer data={moonData} today={today}></MoonCarouselServer> </Cube>
+      <Cube> <SunInfoServer data={sunData}></SunInfoServer> </Cube>
     </div>
   )
 }
@@ -42,6 +35,10 @@ function Cube({children}) {
 }
 
 function getDateStr(date) {
-  const month = date.getMonth()+1;
-  return `${date.getFullYear()}${month<10?`0${month}`:month}${date.getDate()}`;
+  const timeString = date.toLocaleDateString(void 0,
+    { year: '2-digit', month: '2-digit', day: '2-digit', timeZone: 'Asia/Shanghai'}
+  )
+  let [m, d, y] = timeString.split('/');
+  y = '20'+y;
+  return `${y}${m}${d}`;
 }
