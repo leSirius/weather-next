@@ -77,7 +77,7 @@ async function proxyFetcher(baseUrl, paramsOb) {
     url = makeUrl(baseUrl, paramsOb);
     const data = await doFetch(url);
 
-    console.error(`---------------------------${baseUrl}`, Reflect.ownKeys(data).map(key=>`${key} ${data[key]}`).join(', '));
+    console.error(`---------------------------${url}`, Reflect.ownKeys(data).map(key=>`${key} ${data[key]}`).join(', '));
 
     return data;
   }
