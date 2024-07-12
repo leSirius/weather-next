@@ -17,7 +17,7 @@ export async function routeFetcher(comingUrl, baseUrl) {
 
 
 export async function doFetchBack(url){
-  const res = await fetch(url, {next: { revalidate: 3600 }})
+  const res = await fetch(url, {next: { revalidate: 1800 }})
   return res.json();
 }
 
