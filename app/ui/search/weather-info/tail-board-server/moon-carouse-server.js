@@ -151,7 +151,6 @@ function ToolKits({toLeft, setToLeft, setSlideOn, slideOn, dotList, itemList, se
   const tempImgTime = !slideOn? itemList[viewNormal].fxTime :
     eatLeft? itemList[viewLeft].fxTime : itemList[viewRight].fxTime;
 
-
   useEffect(()=>{
     let timerId;
     if (clickedOnDot!==0) {
@@ -175,7 +174,7 @@ function ToolKits({toLeft, setToLeft, setSlideOn, slideOn, dotList, itemList, se
 
   function clickArrow(direction) {
     if (slideOn) { return ; }
-    if (direction==='left'){ setToLeft(true); }
+    if (direction==='left') { setToLeft(true); }
     setSlideOn(true);
   }
 
@@ -197,12 +196,12 @@ function ToolKits({toLeft, setToLeft, setSlideOn, slideOn, dotList, itemList, se
 
     <div className='absolute left-0 top-[71%] max-sm:top-[85%] text-card hover:opacity-30 hover:scale-125'>
       <button onClick={()=>{clickArrow('left')}} className='border-none' >
-        <ChevronLeftIcon width={24}></ChevronLeftIcon>
+        <ChevronLeftIcon width={24}  ></ChevronLeftIcon>
       </button>
     </div>
 
     <div className='absolute right-0 top-[71%] max-sm:top-[85%] text-card hover:opacity-30 hover:scale-125'>
-      <button onClick={()=>{clickArrow('right')}} className='border-none' >
+      <button onClick={()=>{clickArrow('right')}} className='border-none' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
         <ChevronRightIcon width={24}></ChevronRightIcon>
       </button>
     </div>
