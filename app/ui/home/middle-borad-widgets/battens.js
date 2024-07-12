@@ -28,11 +28,11 @@ export default function MapBattens({dataMatrix, column, colors, witchFetch}){
 function CustomisedPart({item, witchFetch}){
   switch (witchFetch) {
     case 0: {
-      const time = new Date(item.fxTime);
+      const time = new Date(item.fxTime).toLocaleTimeString("en-US", {hour: 'numeric',hourCycle: "h23", timeZone:'Asia/Shanghai'});
       const iconPath = `/icons/${item.icon}.svg`
       return (
         < >
-          <p>{time.getHours()}<span className=' max-sm:hidden'>:00</span></p>
+          <p>{time}<span className=' max-sm:hidden'>:00</span></p>
           <Image width={20} height={20} src={iconPath} alt={"Whoops"}></Image>
         </>
       )
@@ -76,28 +76,3 @@ function calHeight(value, lowest, range) {
   return Math.sqrt(0.8+(value-lowest)/range)*40-10;
 }
 
-/*
-export function BattenForecast({time, value, height, color, iconPath}){
-  const splitter = iconPath.indexOf('/')
-  const [ind, icon] = [Number(iconPath.slice(0,splitter)), iconPath.slice(splitter+1)];
-  // Image has Auto lazy loading, and ind can be used to close first several ones.
-  return (
-    <div className='flex flex-col-reverse w-1/12 shrink-0 items-center text-sm text-white h-44 mx-2 pb-1'>
-      <p>{new Date(time).getHours()}<span className='max-sm:hidden'>:00</span></p>
-      <Image  width={30} height={30} src={icon} alt={"Whoops"}></Image>
-      <ColoredBatten height={height} color={color} value={value}></ColoredBatten>
-    </div>
-  )
-}
-
-export function BattenIndices({name, height, color, value, text}){
-  return (
-    <div title={text} className='flex flex-col-reverse w-2/12 shrink-0 items-center text-sm text-white h-44 mx-2 pb-1'>
-      <p title={name} className='overflow-hidden h-5 mb-1'>{name}</p>
-      <ColoredBatten height={height} color={color} value={value}></ColoredBatten>
-    </div>
-  )
-}
-
-
- */

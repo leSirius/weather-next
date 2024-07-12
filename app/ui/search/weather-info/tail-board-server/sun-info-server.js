@@ -3,8 +3,8 @@ import Canvas from "@/app/ui/home/tail-board-widgets/canvas";
 export default function SunInfoServer({data}) {
   const riseOb = new Date(data.sunrise);
   const setOb = new Date(data.sunset);
-  const riseStr = riseOb.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12:false, timeZone:'Asia/Shanghai'});
-  const setStr = setOb.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12:false, timeZone:'Asia/Shanghai'});
+  const riseStr = riseOb.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit',hourCycle: "h23", timeZone:'Asia/Shanghai'});
+  const setStr = setOb.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit',hourCycle: "h23", timeZone:'Asia/Shanghai'});
 
   return (
     <div className='flex'>

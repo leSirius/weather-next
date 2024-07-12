@@ -21,6 +21,7 @@ export default function Clock(){
   }, [])
 
   return (<>
-    {now.toLocaleTimeString([],{ hourCycle: 'h23',})}
+    {now.toLocaleTimeString('en-US',{ hourCycle: 'h23',timeZone:'Asia/Shanghai'})}
+
   </>)
 }

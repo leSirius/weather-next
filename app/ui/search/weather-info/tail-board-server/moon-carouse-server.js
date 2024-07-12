@@ -233,7 +233,7 @@ function getIndList(temp=0, pace=4) {
 }
 
 function toTimeString(date) {
-  return date.toLocaleTimeString([],{hour: '2-digit', minute:'2-digit',hourCycle: "h23"});
+  return date.toLocaleTimeString([],{hour: '2-digit', minute:'2-digit',hourCycle: "h23", timeZone:'Asia/Shanghai'});
 }
 
 function leftShift(list) {
