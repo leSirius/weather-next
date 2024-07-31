@@ -5,11 +5,15 @@ import PanelServer from "@/app/ui/search/weather-info/middle-board/panel-server"
 import useSWRFetch from "@/app/lib/useSWRFetch";
 import {MiddleLoadingServer} from "@/app/ui/search/loading";
 
+let prev;
+
 export default function MiddleBoardServer({id, data}){
 
   const [dataMatrix, witchFetch, onWitchChange, column, setColumn] =
     useSWRFetch(id, data);
   const typeInfoList = typeInfoTable[witchFetch];
+
+  prev = dataMatrix;
 
   return (
     <div className='grid grid-cols-3 gap-4 h-full'>

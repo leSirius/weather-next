@@ -35,7 +35,7 @@ function Cube({children}) {
 }
 
 function getDateStr(date) {
-  const timeString = date.toLocaleDateString(void 0,
+  const timeString = date.toLocaleDateString('en-029',
     { year: '2-digit', month: '2-digit', day: '2-digit', timeZone: 'Asia/Shanghai'}
   )
   let [m, d, y] = timeString.split('/');

@@ -14,11 +14,14 @@ export default function useSWRFetch(id, data) {
   const setWitchContext = useContext(SetWitchFetchContext);
   const tempIdWitch = useRef({id,witchFetch});
 
+
   useEffect(() => {
     tempIdWitch.current.id = id;
-    cached.set(calWitchFetch(data), {info:data.info, time:data.time})              // new id means new data
+
+    cached.set(enKey(id, calWitchFetch(data.info)), {info:data.info, time:data.time})
     if (prevId.current !== id) {
       prevId.current = id;
+      setShowData(data.info);
     }
     if (isInit.current) { isInit.current = false; }
     else { fetchOthers(); }

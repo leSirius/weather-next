@@ -1,7 +1,6 @@
 import AirNow from "@/app/ui/home/tail-board-widgets/air-now";
 import Wind from "@/app/ui/home/tail-board-widgets/wind";
 import SunInfo from "@/app/ui/home/tail-board-widgets/sun-info";
-import MoonInfoCarousel from "@/app/ui/home/tail-board-widgets/moon-info-carousel";
 import MoonInfoData from "@/app/ui/home/tail-board-widgets/moon-info-data";
 
 export default function TailBoard({id}) {

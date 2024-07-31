@@ -84,9 +84,14 @@ function handleErr(url, e){
   return void 0;
 }
 
+
 function getDateStr(date) {
-  const month = date.getMonth()+1;
-  return `${date.getFullYear()}${month<10?`0${month}`:month}${date.getDate()}`;
+  const timeString = date.toLocaleDateString('en-029',
+    { year: '2-digit', month: '2-digit', day: '2-digit', timeZone: 'Asia/Shanghai'}
+  );
+  let [m, d, y] = timeString.split('/');
+  y = '20'+y;
+  return `${y}${m}${d}`;
 }
 
 function addUnit(data){
